@@ -315,7 +315,8 @@ SMODS.Joker {
     name = 'Coiny',
     text = {
       "Gives {C:attention}$#1#{} when a",
-      "{C:attention}playing card{} is destroyed"
+      "{C:attention}playing card{}",
+      "is destroyed"
     }
   },
   config = { extra = { is_contestant = true, given_money = 5 } },
@@ -353,7 +354,7 @@ SMODS.Joker {
     name = 'David',
     text = {
       "When {C:attention}Blind{} is selected,",
-      "{C:odds}#1# in #2#{} chance to",
+      "{C:green}#1# in #2#{} chance to",
       "gain {C:white,X:mult}X#3#{} Mult",
       "{C:inactive}(Currently {C:white,X:mult}X#4#{C:inactive} Mult)"
     }
@@ -396,7 +397,10 @@ SMODS.Joker {
   loc_txt = {
     name = 'Firey',
     text = {
-      ""
+      "If played hand has",
+      "exactly {C:attention}1{} card, and it",
+      "is a {C:attention}face{} card, destroy",
+      "it and create a {C:attention}Wild Ace{}"
     }
   },
   config = { extra = { is_contestant = true } },
@@ -406,8 +410,21 @@ SMODS.Joker {
   cost = 7,
     blueprint_compat = false,
   calculate = function(self, card, context)
-    if context.destroying_card and #context.full_hand == 1 and context.full_hand[1]:get_id() == 6 and G.GAME.current_round.hands_played == 0 then
-        
+    if context.destroying_card and #context.full_hand == 1 and context.full_hand[1]:is_face() then
+      G.E_MANAGER:add_event(Event({
+        func = function()
+          local _card = create_playing_card({front = G.P_CARDS[pseudorandom_element({'S','H','D','C'}, pseudoseed('fireysu')).."_A"], center = G.P_CENTERS.m_wild}, G.hand, nil, nil, {G.C.SECONDARY_SET.Enhanced})
+                  
+          G.GAME.blind:debuff_card(_card)
+          G.hand:sort()
+          if context.blueprint_card then
+            context.blueprint_card:juice_up()
+          else
+            card:juice_up()
+          end
+          return true
+        end}))
+      return true
     end
   end
 }
@@ -547,8 +564,8 @@ SMODS.Joker {
     name = 'Match',
     text = {
       "Gains {C:mult}+#1#{} Mult for",
-      "each played and scored",
-      "{C:attention}Wild{} card",
+      "each played and",
+      "scored {C:attention}Wild{} card",
       "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
     }
   },
@@ -558,7 +575,7 @@ SMODS.Joker {
   pos = { x = 2, y = 2 },
   cost = 7,
   loc_vars = function(self, info_queue, card)
-    return { vars = { card.ability.extra.money_loss, card.ability.extra.added_mult, card.ability.extra.current_mult } }
+    return { vars = { card.ability.extra.added_mult, card.ability.extra.current_mult } }
   end,
 	blueprint_compat = true,
   calculate = function(self, card, context)
@@ -566,7 +583,7 @@ SMODS.Joker {
       return { mult = card.ability.extra.current_mult }
     end
 
-    if context.individual and context.cardarea == G.play and context.other_card.ability.name == 'Wild Card' then
+    if context.individual and context.cardarea == G.play and not context.blueprint and context.other_card.ability.name == 'Wild Card' then
       card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.added_mult
       return {
         message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.current_mult } },
