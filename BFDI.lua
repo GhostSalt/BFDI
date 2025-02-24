@@ -10,14 +10,32 @@ SMODS.Atlas {
 }
 
 SMODS.Sound({
-	key = "fling",
-	path = "bfdi_fling.ogg",
+	key = "blocky",
+	path = "bfdi_blocky.ogg",
   replace = true
 })
 
 SMODS.Sound({
 	key = "bulleh",
 	path = "bfdi_bulleh.ogg",
+  replace = true
+})
+
+SMODS.Sound({
+	key = "david",
+	path = "bfdi_david.ogg",
+  replace = true
+})
+
+SMODS.Sound({
+	key = "fling",
+	path = "bfdi_fling.ogg",
+  replace = true
+})
+
+SMODS.Sound({
+	key = "pop",
+	path = "bfdi_pop.ogg",
   replace = true
 })
 
@@ -36,12 +54,6 @@ SMODS.Sound({
 SMODS.Sound({
 	key = "yoylecake",
 	path = "bfdi_yoylecake.ogg",
-  replace = true
-})
-
-SMODS.Sound({
-	key = "pop",
-	path = "bfdi_pop.ogg",
   replace = true
 })
 
@@ -76,7 +88,7 @@ SMODS.Joker {
       })) 
     G.E_MANAGER:add_event(Event({
       func = function()
-        play_sound("bfdi_yoylecake", 1, 0.25)
+        play_sound("bfdi_yoylecake", 1, 0.5)
         return true
       end
     }))
@@ -177,6 +189,67 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'blocky',
+  loc_txt = {
+    name = 'Blocky',
+    text = {
+      "All played {C:attention}2s{}-{C:attention}5s{} become",
+      "{C:attention}Glass{} cards when scored",
+      "Destroys all played and",
+      "scored {C:attention}Glass{} cards"
+    }
+  },
+  config = { extra = { is_contestant = true, will_play_sound = true } },
+  rarity = 2,
+  atlas = 'BFDI',
+  pos = { x = 0, y = 1 },
+  cost = 7,
+	blueprint_compat = false,
+  calculate = function(self, card, context)
+    if context.cardarea == G.jokers and context.before then
+      local wee_cards = {}
+      for i, j in ipairs(context.scoring_hand) do
+        if j:get_id() > 1  and j:get_id() < 6 then 
+          wee_cards[#wee_cards + 1] = j
+          j:set_ability(G.P_CENTERS.m_glass, nil, true)
+          G.E_MANAGER:add_event(Event({
+            func = function()
+              j:juice_up()
+              return true
+            end
+          })) 
+        end
+      end
+      if #wee_cards > 0 then
+        card.ability.extra.will_play_sound = true
+        return {
+          message = "Glass",
+          colour = G.C.FILTER,
+          card = card
+        }
+      end
+    end
+
+    if context.individual and context.cardarea == G.play and context.other_card.ability.name == "Glass Card" then
+      card.ability.extra.will_play_sound = true
+    end
+
+    if context.destroying_card and context.destroying_card.ability.name == 'Glass Card' then
+      G.E_MANAGER:add_event(Event({
+        func = function()
+          if card.ability.extra.will_play_sound then
+            play_sound("bfdi_blocky", 1, 0.75)
+            card.ability.extra.will_play_sound = false
+          end
+          return true
+        end
+      }))
+      return {remove = true}
+    end
+  end
+}
+
+SMODS.Joker {
   key = 'bubble',
   loc_txt = {
     name = 'Bubble',
@@ -204,7 +277,7 @@ SMODS.Joker {
       if card.ability.extra.rounds_remaining <= 1 then 
           G.E_MANAGER:add_event(Event({
               func = function()
-                  play_sound("bfdi_pop", 1, 0.35)
+                  play_sound("bfdi_pop", 1, 0.5)
                   card.T.r = -0.2
                   card:juice_up(0.3, 0.4)
                   card.states.drag.is = true
@@ -232,6 +305,50 @@ SMODS.Joker {
       end
   end
 
+  end
+}
+
+SMODS.Joker {
+  key = 'david',
+  loc_txt = {
+    name = 'David',
+    text = {
+      "When {C:attention}Blind{} is selected,",
+      "{C:odds}#1# in #2#{} chance to",
+      "gain {C:white,X:mult}X#3#{} Mult",
+      "{C:inactive}(Currently {C:white,X:mult}X#4#{C:inactive} Mult)"
+    }
+  },
+  config = { extra = { is_contestant = true, odds = 4, added_xmult = 0.5, current_xmult = 1 } },
+  rarity = 2,
+  atlas = 'BFDI',
+  pos = { x = 3, y = 1 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
+  end,
+	blueprint_compat = true,
+  calculate = function(self, card, context)
+    if context.joker_main and card.ability.extra.current_xmult > 1 then
+      return { xmult = card.ability.extra.current_xmult }
+    end
+
+    if context.setting_blind and not context.blueprint and not card.getting_sliced then
+      if pseudorandom('david') < G.GAME.probabilities.normal / card.ability.extra.odds then
+        card.ability.extra.current_xmult = card.ability.extra.current_xmult + card.ability.extra.added_xmult
+        card_eval_status_text(context.blueprint_card or card, "extra", nil, nil, nil, {
+          message = localize{ type='variable', key='a_xmult', vars={number_format(to_big(card.ability.extra.current_xmult))}}
+        })
+      else
+        G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+          play_sound("bfdi_david", 1, 0.5)
+        return true end }))
+        card_eval_status_text(context.blueprint_card or card, "extra", nil, nil, nil, {
+          message = "Nope!",
+          colour = G.C.FILTER
+        })
+      end
+    end
   end
 }
 
@@ -327,7 +444,7 @@ SMODS.Joker {
             G.E_MANAGER:add_event(Event({
               func = function()
                 card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = "Revenge!", colour = G.C.SECONDARY_SET.Spectral})
-                play_sound("bfdi_revenge", 1, 0.25)
+                play_sound("bfdi_revenge", 1, 0.5)
               return true
             end}))
           return true
@@ -335,6 +452,33 @@ SMODS.Joker {
       }))
     end
   end
+}
+
+SMODS.Joker {
+  key = 'leafy',
+  loc_txt = {
+    name = 'Leafy',
+    text = {
+      "Earn {C:money}$#1#{} for each",
+      "{C:blue}hand{} remaining",
+      "at the end of",
+      "the {C:attention}round{}"
+    }
+  },
+  config = { extra = { is_contestant = true, given_money = 2 } },
+  rarity = 2,
+  atlas = 'BFDI',
+  pos = { x = 1, y = 2 },
+  cost = 7,
+	blueprint_compat = true,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.given_money } }
+  end,
+  calc_dollar_bonus = function(self, card)
+		if G.GAME.current_round.hands_left > 0 then
+			return card.ability.extra.given_money * G.GAME.current_round.hands_left
+		end
+	end
 }
 
 SMODS.Joker {
@@ -448,6 +592,60 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'pin',
+  loc_txt = {
+    name = 'Pin',
+    text = {
+      "Each {C:spades}Spade{} held in",
+      "hand gives {C:mult}+#1#{} Mult,",
+      "each {C:attention}Ace{} held in",
+      "hand gives {C:white,X:mult}X#2#{} Mult"
+    }
+  },
+  config = { extra = { is_contestant = true, given_mult = 10, given_xmult = 1.25 } },
+  rarity = 2,
+  atlas = 'BFDI',
+  pos = { x = 6, y = 2 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.given_mult, card.ability.extra.given_xmult } }
+  end,
+	blueprint_compat = true,
+  calculate = function(self, card, context)
+    local return_value = {}
+    if context.individual and not context.end_of_round and context.cardarea == G.hand and context.other_card:is_suit("Spades") then
+      if context.other_card.debuff then
+        return {
+          message = localize('k_debuffed'),
+          colour = G.C.RED,
+          card = card,
+        }
+      else
+        return_value.mult = card.ability.extra.given_mult
+        return_value.card = card
+      end
+    end
+
+    if context.individual and not context.end_of_round and context.cardarea == G.hand and context.other_card:get_id() == 14 then
+      if context.other_card.debuff then
+        return {
+          message = localize('k_debuffed'),
+          colour = G.C.RED,
+          card = card,
+        }
+      else
+        return_value.xmult = card.ability.extra.given_xmult
+        return_value.card = card
+      end
+    end
+
+    if return_value.card then
+      return return_value
+    end
+  end
+}
+
+SMODS.Joker {
   key = 'rocky',
   loc_txt = {
     name = 'Rocky',
@@ -481,13 +679,13 @@ SMODS.Joker {
       if #faces > 0 then
         G.E_MANAGER:add_event(Event({
           func = function()
-            play_sound("bfdi_bulleh", 1, 0.25)
+            play_sound("bfdi_bulleh", 1, 0.5)
             return true
           end
         }))
         return {
           message = "Bulleh!",
-          colour = G.C.MONEY,
+          colour = G.C.FILTER,
           card = card
         }
       end
@@ -540,7 +738,7 @@ SMODS.Joker {
         card.ability.extra.current_mult = 0
         card.ability.extra.mult_scale = 1
         if should_play_sound then
-          play_sound("bfdi_snowball_no", 1, 0.25)
+          play_sound("bfdi_snowball_no", 1, 0.5)
           return {
             message = localize('k_reset'),
             card = card
@@ -664,7 +862,7 @@ SMODS.Joker {
 			local joker_to_destroy = #destructable_joker > 0 and pseudorandom_element(destructable_joker, pseudoseed("speakerbox")) or nil
 
 			if joker_to_destroy then
-        play_sound("bfdi_fling", 1, 0.25)
+        play_sound("bfdi_fling", 1, 0.5)
 				joker_to_destroy.getting_sliced = true
 				card.ability.extra.current_xmult = card.ability.extra.current_xmult + card.ability.extra.added_xmult
 				G.E_MANAGER:add_event(Event({
