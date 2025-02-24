@@ -267,6 +267,7 @@ SMODS.Joker {
     return { vars = { card.ability.extra.given_xmult, card.ability.extra.rounds_remaining, (function () if card.ability.extra.rounds_remaining == 1 then return "" else return "s" end end )() } }
   end,
 	blueprint_compat = true,
+	eternal_compat = false,
 	perishable_compat = false,
   calculate = function(self, card, context)
     if context.joker_main then
@@ -305,6 +306,44 @@ SMODS.Joker {
       end
   end
 
+  end
+}
+
+SMODS.Joker {
+  key = 'coiny',
+  loc_txt = {
+    name = 'Coiny',
+    text = {
+      "Gives {C:attention}$#1#{} when a",
+      "{C:attention}playing card{} is destroyed"
+    }
+  },
+  config = { extra = { is_contestant = true, given_money = 5 } },
+  rarity = 2,
+  atlas = 'BFDI',
+  pos = { x = 2, y = 1 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.given_money } }
+  end,
+	blueprint_compat = true,
+	perishable_compat = false,
+  calculate = function(self, card, context)
+	if context.cards_destroyed then
+		return
+		{
+			dollars = card.ability.extra.given_money * #context.glass_shattered,
+			card = card
+		}
+    end
+	
+	if context.remove_playing_cards and not context.blueprint then
+        return
+		{
+			dollars = card.ability.extra.given_money * #context.removed,
+			card = card
+		}
+    end
   end
 }
 
@@ -348,6 +387,27 @@ SMODS.Joker {
           colour = G.C.FILTER
         })
       end
+    end
+  end
+}
+
+SMODS.Joker {
+  key = 'firey',
+  loc_txt = {
+    name = 'Firey',
+    text = {
+      ""
+    }
+  },
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFDI',
+  pos = { x = 5, y = 1 },
+  cost = 7,
+    blueprint_compat = false,
+  calculate = function(self, card, context)
+    if context.destroying_card and #context.full_hand == 1 and context.full_hand[1]:get_id() == 6 and G.GAME.current_round.hands_played == 0 then
+        
     end
   end
 }
