@@ -331,16 +331,8 @@ SMODS.Joker {
   end,
 	blueprint_compat = true,
   calculate = function(self, card, context)
-	if context.cards_destroyed then
-		return
-		{
-			dollars = card.ability.extra.given_money * #context.glass_shattered,
-			card = card
-		}
-    end
-	
 	if context.remove_playing_cards then
-        return
+    return
 		{
 			dollars = card.ability.extra.given_money * #context.removed,
 			card = card
@@ -414,43 +406,22 @@ SMODS.Joker {
 	blueprint_compat = true,
   calculate = function(self, card, context)
 	
+    if context.remove_playing_cards and not context.blueprint then
+      local count = 0
+      for k, v in ipairs(context.removed) do
+        if v:is_suit("Diamonds") then count = count + 1 end
+      end
+      
+      if count > 0 then
+        card.ability.extra.current_xmult = card.ability.extra.current_xmult + (card.ability.extra.added_xmult * count)
+        card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.RED})
+      end
+      end
+
 	if context.joker_main and card.ability.extra.current_xmult > 1 then
 		return { xmult = card.ability.extra.current_xmult }
 	end
-  
-	if context.cards_destroyed and not context.blueprint then
-		local count = 0
-		for k, v in ipairs(context.glass_shattered) do
-			if v:is_suit("Diamonds") then count = count + 1 end
-		end
-		
-		if count > 0 then
-			card.ability.extra.current_xmult = card.ability.extra.current_xmult + (card.ability.extra.added_xmult * count)
-			return
-			{
-				message = card.ability.extra.current_xmult,
-				color = G.C.RED,
-				card = card
-			}
-		end
-    end
 	
-	if context.remove_playing_cards and not context.blueprint then
-        local count = 0
-		for k, v in ipairs(context.removed) do
-			if v:is_suit("Diamonds") then count = count + 1 end
-		end
-		
-		if count > 0 then
-			card.ability.extra.current_xmult = card.ability.extra.current_xmult + (card.ability.extra.added_xmult * count)
-			return
-			{
-				message = card.ability.extra.current_xmult,
-				color = G.C.RED,
-				card = card
-			}
-		end
-    end
   end
 }
 
@@ -1045,6 +1016,42 @@ SMODS.Joker {
 			colour = G.C.FILTER,
 			card = card
 		}
+    end
+  end
+}
+
+SMODS.Joker {
+  key = 'woody',
+  loc_txt = {
+    name = 'Woody',
+    text = {
+      "Gains {C:chips}+#1#{} Chips per",
+      "{C:attention}Stone{} card discarded",
+      "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips){}"
+    }
+  },
+  config = { extra = { is_contestant = true, added_chips = 10, current_chips = 0 } },
+  rarity = 2,
+  atlas = 'BFDI',
+  pos = { x = 4, y = 3 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.added_chips, card.ability.extra.current_chips } }
+  end,
+	blueprint_compat = true,
+  calculate = function(self, card, context)
+    if context.joker_main and card.ability.extra.current_chips > 0 then
+      return { chips = card.ability.extra.current_chips }
+    end
+
+    if context.discard and not context.blueprint and context.other_card.ability.name == 'Stone Card' then
+      card.ability.extra.current_chips = card.ability.extra.current_chips + card.ability.extra.added_chips
+                  
+      return {
+        message = localize('k_upgrade_ex'),
+        colour = G.C.CHIPS,
+        card = card
+      }
     end
   end
 }
