@@ -9,6 +9,8 @@ SMODS.Atlas {
   py = 95
 }
 
+SMODS.current_mod.optional_features = { cardareas = { unscored = true } }
+
 SMODS.Sound({
 	key = "blocky",
 	path = "bfdi_blocky.ogg",
@@ -328,7 +330,6 @@ SMODS.Joker {
     return { vars = { card.ability.extra.given_money } }
   end,
 	blueprint_compat = true,
-	perishable_compat = false,
   calculate = function(self, card, context)
 	if context.cards_destroyed then
 		return
@@ -338,7 +339,7 @@ SMODS.Joker {
 		}
     end
 	
-	if context.remove_playing_cards and not context.blueprint then
+	if context.remove_playing_cards then
         return
 		{
 			dollars = card.ability.extra.given_money * #context.removed,
@@ -388,6 +389,67 @@ SMODS.Joker {
           colour = G.C.FILTER
         })
       end
+    end
+  end
+}
+
+SMODS.Joker {
+  key = 'eraser',
+  loc_txt = {
+    name = 'Eraser',
+    text = {
+      "Gains {C:white,X:mult}X#1#{} Mult for",
+	  "every destroyed {C:diamonds}Diamond{}",
+	  "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult){}"
+    }
+  },
+  config = { extra = { is_contestant = true, added_xmult = 0.2, current_xmult = 1 } },
+  rarity = 2,
+  atlas = 'BFDI',
+  pos = { x = 4, y = 1 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
+  end,
+	blueprint_compat = true,
+  calculate = function(self, card, context)
+	
+	if context.joker_main and card.ability.extra.current_xmult > 1 then
+		return { xmult = card.ability.extra.current_xmult }
+	end
+  
+	if context.cards_destroyed and not context.blueprint then
+		local count = 0
+		for k, v in ipairs(context.glass_shattered) do
+			if v:is_suit("Diamonds") then count = count + 1 end
+		end
+		
+		if count > 0 then
+			card.ability.extra.current_xmult = card.ability.extra.current_xmult + (card.ability.extra.added_xmult * count)
+			return
+			{
+				message = card.ability.extra.current_xmult,
+				color = G.C.RED,
+				card = card
+			}
+		end
+    end
+	
+	if context.remove_playing_cards and not context.blueprint then
+        local count = 0
+		for k, v in ipairs(context.removed) do
+			if v:is_suit("Diamonds") then count = count + 1 end
+		end
+		
+		if count > 0 then
+			card.ability.extra.current_xmult = card.ability.extra.current_xmult + (card.ability.extra.added_xmult * count)
+			return
+			{
+				message = card.ability.extra.current_xmult,
+				color = G.C.RED,
+				card = card
+			}
+		end
     end
   end
 }
@@ -590,6 +652,49 @@ SMODS.Joker {
         colour = G.C.RED
       }
     end
+  end
+}
+
+SMODS.Joker {
+  key = 'needle',
+  loc_txt = {
+    name = 'Needle',
+    text = {
+      "{C:blue}+#1#{} hand if played hand",
+	  "contains an {C:attention}unscoring Ace{}",
+	  "{C:inactive}({C:attention}#2#{C:inactive} [#3#] uses each round){}"
+    }
+  },
+  config = { extra = { is_contestant = true, added_hands = 1, no_of_uses = 3, current_uses = 3, ace_detected = false } },
+  rarity = 2,
+  atlas = 'BFDI',
+  pos = { x = 3, y = 2 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.added_hands, card.ability.extra.no_of_uses, card.ability.extra.current_uses } }
+  end,
+	blueprint_compat = true,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == 'unscored' and not context.blueprint and context.other_card:get_id() == 14 then
+		card.ability.extra.ace_detected = true
+    end
+	
+	if context.joker_main and card.ability.extra.ace_detected and card.ability.extra.current_uses > 0 then
+		card.ability.extra.ace_detected = false
+		ease_hands_played(card.ability.extra.added_hands)
+		
+		card.ability.extra.current_uses = card.ability.extra.current_uses - 1
+		
+		return {
+			message = "+1 Hand",
+			colour = G.C.BLUE,
+			card = card
+		}
+	end
+	
+	if context.end_of_round and not context.blueprint and not context.repetition then
+		card.ability.extra.current_uses = card.ability.extra.no_of_uses
+	end
   end
 }
 
@@ -896,6 +1001,50 @@ SMODS.Joker {
       end
 
       return outcome
+    end
+  end
+}
+
+SMODS.Joker {
+  key = 'tennisball',
+  loc_txt = {
+    name = 'Tennis Ball',
+    text = {
+      "Each played card that",
+	  "{C:attention}doesn't score{} has a {C:green}#1# in #2#{}",
+	  "chance to become {C:attention}Steel{}"
+    }
+  },
+  config = { extra = { is_contestant = true, odds = 5 } },
+  rarity = 2,
+  atlas = 'BFDI',
+  pos = { x = 3, y = 3 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+  end,
+	blueprint_compat = true,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == 'unscored' and pseudorandom('tennisball') < G.GAME.probabilities.normal / card.ability.extra.odds then
+		local target = context.other_card
+		target:set_ability(G.P_CENTERS.m_steel, nil, true)
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				target:juice_up()
+				return true
+			end
+		})) 
+		G.E_MANAGER:add_event(Event({
+		func = function()
+			play_sound("tarot1", 1, 0.5)
+			return true
+		end
+		}))
+		return {
+			message = "Steel",
+			colour = G.C.FILTER,
+			card = card
+		}
     end
   end
 }
