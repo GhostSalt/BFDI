@@ -59,6 +59,14 @@ SMODS.Sound({
   replace = true
 })
 
+function count_enhancements()
+	local enhancement_tally = 0
+    for k, v in pairs(G.playing_cards) do
+        if v.config.center ~= G.P_CENTERS.c_base then enhancement_tally = enhancement_tally + 1 end
+    end
+	return enhancement_tally
+end
+
 SMODS.Joker {
   key = 'yoylecake',
   loc_txt = {
@@ -391,7 +399,7 @@ SMODS.Joker {
     name = 'Eraser',
     text = {
       "Gains {C:white,X:mult}X#1#{} Mult for",
-	  "every destroyed {C:diamonds}Diamond{}",
+	  "each destroyed {C:diamonds}Diamond{}",
 	  "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult){}"
     }
   },
@@ -851,53 +859,24 @@ SMODS.Joker {
   loc_txt = {
     name = 'Snowball',
     text = {
-      "Gains {C:mult}+#1#{} Mult (quadratic",
-      "scaling) for each {C:attention}consecutive{}",
-      "{C:attention}Blind{} defeated in {C:blue}1{} Hand",
-      "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
+      "{C:mult}+#1#{} Mult for each",
+	  "{C:attention}enhanced{} card in",
+	  "your full deck",
+	  "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
     }
   },
-  config = { extra = { is_contestant = true, mult_scale = 1, current_mult = 0, hands_used = 0 } },
+  config = { extra = { is_contestant = true, added_mult = 4 } },
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 0, y = 3 },
   cost = 7,
   loc_vars = function(self, info_queue, card)
-    return { vars = { card.ability.extra.mult_scale, card.ability.extra.current_mult } }
+    return { vars = { card.ability.extra.added_mult, card.ability.extra.added_mult * count_enhancements() } }
   end,
 	blueprint_compat = true,
   calculate = function(self, card, context)
-    if context.joker_main and card.ability.extra.current_mult > 0 then
-      return { mult = card.ability.extra.current_mult }
-    end
-
-    if context.end_of_round and context.main_eval then
-      if card.ability.extra.hands_used == 1 then
-      card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.mult_scale
-      card.ability.extra.mult_scale = card.ability.extra.mult_scale + 1
-      card.ability.extra.hands_used = 0
-      return {
-        message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.current_mult } },
-        colour = G.C.RED
-      }
-      end
-      card.ability.extra.hands_used = 0
-    end
-
-    if context.cardarea == G.jokers and context.before and not card.getting_sliced then
-      card.ability.extra.hands_used = card.ability.extra.hands_used + 1
-      if card.ability.extra.hands_used == 2 then
-        local should_play_sound = card.ability.extra.current_mult ~= 0
-        card.ability.extra.current_mult = 0
-        card.ability.extra.mult_scale = 1
-        if should_play_sound then
-          play_sound("bfdi_snowball_no", 1, 0.5)
-          return {
-            message = localize('k_reset'),
-            card = card
-          }
-        end
-      end
+    if context.joker_main and count_enhancements() > 0 then
+      return { mult = card.ability.extra.added_mult * count_enhancements() }
     end
   end
 }
@@ -1025,7 +1004,7 @@ SMODS.Joker {
   loc_txt = {
     name = 'Woody',
     text = {
-      "Gains {C:chips}+#1#{} Chips per",
+      "Gains {C:chips}+#1#{} Chips for each",
       "{C:attention}Stone{} card discarded",
       "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips){}"
     }
@@ -1184,7 +1163,7 @@ SMODS.Joker {
       "Gains {C:white,X:mult}X#1#{} Mult if",
       "played hand is a",
       "{C:attention}Two Pair{}",
-      "{C:inactive}(Currently {C:white,X:mult}X#2#{} Mult{}"
+      "{C:inactive}(Currently {C:white,X:mult}X#2#{} Mult{})"
     }
   },
   config = { extra = { added_xmult = 0.2, current_xmult = 1 } },
