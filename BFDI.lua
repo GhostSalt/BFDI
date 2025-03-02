@@ -86,6 +86,7 @@ SMODS.Joker {
     return { vars = { card.ability.extra.cards_left, (function () if card.ability.extra.cards_left == 1 then return "" else return "s" end end )(), (function () if card.ability.extra.cards_left == 1 then return "s" else return "" end end )() } }
   end,
 	blueprint_compat = false,
+  eternal_compat = false,
   calculate = function(self, card, context)
     if context.individual and context.cardarea == G.play and card.ability.extra.cards_left > 0 then
       local target = context.other_card
@@ -152,7 +153,7 @@ SMODS.Joker {
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.given_mult } }
   end,
-	blueprint_compat = false,
+	blueprint_compat = true,
   calculate = function(self, card, context)
     if context.individual and context.cardarea == G.play and context.other_card.ability.name == 'Lucky Card' then
       return {
@@ -278,7 +279,6 @@ SMODS.Joker {
   end,
 	blueprint_compat = true,
 	eternal_compat = false,
-	perishable_compat = false,
   calculate = function(self, card, context)
     if context.joker_main then
       return { x_mult = card.ability.extra.given_xmult }
@@ -369,6 +369,7 @@ SMODS.Joker {
     return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
   end,
 	blueprint_compat = true,
+  perishable_compat = false,
   calculate = function(self, card, context)
     if context.joker_main and card.ability.extra.current_xmult > 1 then
       return { xmult = card.ability.extra.current_xmult }
@@ -412,6 +413,7 @@ SMODS.Joker {
     return { vars = { card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
   end,
 	blueprint_compat = true,
+  eternal_compat = false,
   calculate = function(self, card, context)
 	
     if context.remove_playing_cards and not context.blueprint then
@@ -449,7 +451,7 @@ SMODS.Joker {
   atlas = 'BFDI',
   pos = { x = 5, y = 1 },
   cost = 7,
-    blueprint_compat = false,
+  blueprint_compat = false,
   calculate = function(self, card, context)
     if context.destroying_card and #context.full_hand == 1 and context.full_hand[1]:is_face() then
       G.E_MANAGER:add_event(Event({
@@ -619,6 +621,7 @@ SMODS.Joker {
     return { vars = { card.ability.extra.added_mult, card.ability.extra.current_mult } }
   end,
 	blueprint_compat = true,
+  perishable_compat = false,
   calculate = function(self, card, context)
     if context.joker_main and card.ability.extra.current_mult > 0 then
       return { mult = card.ability.extra.current_mult }
@@ -696,6 +699,7 @@ SMODS.Joker {
     return { vars = { card.ability.extra.money_loss, card.ability.extra.added_mult, card.ability.extra.current_mult } }
   end,
 	blueprint_compat = true,
+  perishable_compat = false,
   calculate = function(self, card, context)
     if context.joker_main and card.ability.extra.current_mult > 0 then
       return { mult = card.ability.extra.current_mult }
@@ -730,7 +734,7 @@ SMODS.Joker {
   atlas = 'BFDI',
   pos = { x = 5, y = 2 },
   cost = 7,
-	blueprint_compat = false,
+	blueprint_compat = true,
   calculate = function(self, card, context)
     if context.first_hand_drawn then
       G.E_MANAGER:add_event(Event({
@@ -860,9 +864,9 @@ SMODS.Joker {
     name = 'Snowball',
     text = {
       "{C:mult}+#1#{} Mult for each",
-	  "{C:attention}enhanced{} card in",
-	  "your full deck",
-	  "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
+	    "{C:attention}enhanced{} card in",
+	    "your full deck",
+	    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
     }
   },
   config = { extra = { is_contestant = true, added_mult = 4 } },
@@ -945,9 +949,7 @@ SMODS.Joker {
       
       if pseudorandom('teardrop') < G.GAME.probabilities.normal / card.ability.extra.odds then
         ease_dollars(card.ability.extra.given_money)
-        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + card.ability.extra.given_money
-        outcome.dollars = G.GAME.dollar_buffer
-        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+        outcome.dollars = card.ability.extra.given_money
       end
 
       return outcome
@@ -961,8 +963,8 @@ SMODS.Joker {
     name = 'Tennis Ball',
     text = {
       "Each played card that",
-	  "{C:attention}doesn't score{} has a {C:green}#1# in #2#{}",
-	  "chance to become {C:attention}Steel{}"
+	    "{C:attention}doesn't score{} has a {C:green}#1# in #2#{}",
+	    "chance to become {C:attention}Steel{}"
     }
   },
   config = { extra = { is_contestant = true, odds = 5 } },
@@ -1018,6 +1020,7 @@ SMODS.Joker {
     return { vars = { card.ability.extra.added_chips, card.ability.extra.current_chips } }
   end,
 	blueprint_compat = true,
+  perishable_compat = false,
   calculate = function(self, card, context)
     if context.joker_main and card.ability.extra.current_chips > 0 then
       return { chips = card.ability.extra.current_chips }
@@ -1056,6 +1059,7 @@ SMODS.Joker {
     return { vars = { card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
   end,
 	blueprint_compat = true,
+  perishable_compat = false,
   calculate = function(self, card, context)
     if context.joker_main and card.ability.extra.current_xmult > 1 then
       return {
@@ -1176,6 +1180,7 @@ SMODS.Joker {
     return { vars = { card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
   end,
 	blueprint_compat = true,
+  perishable_compat = false,
   calculate = function(self, card, context)
     if context.joker_main and card.ability.extra.current_xmult > 1 then
       return {
