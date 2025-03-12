@@ -60,9 +60,10 @@ SMODS.Sound({
 })
 
 function count_enhancements()
+  if not G.playing_cards then return 0 end
 	local enhancement_tally = 0
     for k, v in pairs(G.playing_cards) do
-        if v.config.center ~= G.P_CENTERS.c_base then enhancement_tally = enhancement_tally + 1 end
+      if next(SMODS.get_enhancements(v)) then enhancement_tally = enhancement_tally + 1 end
     end
 	return enhancement_tally
 end
@@ -493,10 +494,18 @@ SMODS.Joker {
 	blueprint_compat = true,
   calculate = function(self, card, context)
     if context.individual and (context.cardarea == G.play or (context.cardarea == G.hand and not context.end_of_round)) and context.other_card:get_id() == 12 then
-      return {
-        chips = card.ability.extra.given_chips,
-        card = card
-      }
+      if context.other_card.debuff then
+        return {
+          message = localize('k_debuffed'),
+          colour = G.C.RED,
+          card = card,
+        }
+      else
+        return {
+          chips = card.ability.extra.given_chips,
+          card = card
+        }
+      end
     end
   end
 }
