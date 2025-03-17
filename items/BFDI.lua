@@ -599,7 +599,7 @@ SMODS.Joker {
   atlas = 'BFDI',
   pos = { x = 1, y = 2 },
   cost = 7,
-	blueprint_compat = true,
+	blueprint_compat = false,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.given_money } }
   end,

@@ -1,10 +1,11 @@
 {
     "id": "GSBFDI",
     "name": "BFDI",
+    "display_name": "BFDI",
     "author": ["GhostSalt"],
     "description": "A mod pack with a bunch of BFDI-related Jokers!",
     "prefix": "bfdi",
-    "main_file": "BFDI.lua",
+    "main_file": "main.lua",
     "badge_colour": "1C75C3",
     "dependencies": [
         "Steamodded (>=1.0.0~ALPHA-1410a)"
