@@ -3,9 +3,9 @@ SMODS.Atlas {
   path = "Puffball.png",
   px = 71,
   py = 95,
-  pos = { x = 0, y = 0 },
+  pos = { x = 0, y = 0 }--[[,
   atlas_table = "ANIMATION_ATLAS",
-  frames = 19
+  frames = 19]]--
 }
 
 SMODS.Atlas {
@@ -57,7 +57,7 @@ SMODS.Joker {
   },
   config = { extra = { is_contestant = true, given_money = 2 } },
   rarity = 2,
-  atlas = 'Puffball',
+  atlas = 'BFDIA',
   cost = 7,
   blueprint_compat = false,
   loc_vars = function(self, info_queue, card)
