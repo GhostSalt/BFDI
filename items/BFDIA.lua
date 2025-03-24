@@ -41,11 +41,42 @@ SMODS.Joker {
   cost = 7,
   blueprint_compat = false,
   loc_vars = function(self, info_queue, card)
-    return { vars = { card.ability.extra.given_money } }
+    return { vars = {  } }
+  end
+}
+
+SMODS.Joker {
+  key = 'book',
+  loc_txt = {
+    name = 'Book',
+    text = {
+      "Gains {C:chips}+#1#{} Chips when",
+      "each played {C:attention}#2#{} is scored,",
+      "rank changes every round",
+      "{C:inactive}(Currently {C:chips}+#3#{C:inactive} Chips){}"
+    }
+  },
+  config = { extra = { is_contestant = true, added_chips = 6, current_chips = 0 } },
+  rarity = 2,
+  atlas = 'BFDIA',
+  pos = { x = 1, y = 0 },
+  cost = 7,
+  blueprint_compat = true,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.added_chips, localize((G.GAME.current_round.book_card.rank or 14).."", 'ranks'), card.ability.extra.current_chips } }
   end,
-  calc_dollar_bonus = function(self, card)
-    if G.GAME.current_round.hands_left > 0 then
-      return card.ability.extra.given_money * G.GAME.current_round.hands_left
+  calculate = function(self, card, context)
+    if context.joker_main and card.ability.extra.current_chips > 0 then
+      return { chips = card.ability.extra.current_chips }
+    end
+	
+	  if context.individual and context.cardarea == G.play and context.other_card:get_id() == G.GAME.current_round.train_station_card.rank and not context.blueprint then
+      card.ability.extra.current_chips = card.ability.extra.current_chips + card.ability.extra.added_chips
+      return {
+        message = localize('k_upgrade_ex'),
+        colour = G.C.FILTER,
+        card = card
+      }
     end
   end
 }
@@ -171,3 +202,24 @@ SMODS.Joker {
     end
   end
 }
+
+local igo = Game.init_game_object
+function Game:init_game_object()
+  local ret = igo(self)
+  ret.current_round.book_card = { rank = 14 }
+  return ret
+end
+
+function SMODS.current_mod.reset_game_globals(run_start)
+  G.GAME.current_round.book_card = { rank = 14 }
+  local valid_cards = {}
+  for i, j in ipairs(G.playing_cards) do
+    if not SMODS.has_no_rank(j) then
+      valid_cards[#valid_cards + 1] = j
+    end
+  end
+  if valid_cards[1] then 
+    local chosen_card = pseudorandom_element(valid_cards, pseudoseed('book'..G.GAME.round_resets.ante))
+    G.GAME.current_round.book_card.rank = chosen_card.base.rank
+  end
+end
