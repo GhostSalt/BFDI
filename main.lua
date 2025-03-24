@@ -1,3 +1,10 @@
+SMODS.Atlas {
+  key = "modicon",
+  path = "BFDIIcon.png",
+  px = 34,
+  py = 34
+}
+
 local allFolders = { "none", "items" }
 
 local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA" } }

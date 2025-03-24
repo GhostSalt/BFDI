@@ -18,6 +18,12 @@ SMODS.Atlas {
 SMODS.current_mod.optional_features = { cardareas = { unscored = true } }
 
 SMODS.Sound({
+	key = "bomby",
+	path = "bfdi_bomby.ogg",
+  replace = true
+})
+
+SMODS.Sound({
 	key = "yellow_face",
 	path = "bfdi_yellow_face.ogg",
   replace = true
@@ -40,8 +46,33 @@ SMODS.Joker {
   pos = { x = 0, y = 0 },
   cost = 7,
   blueprint_compat = false,
-  loc_vars = function(self, info_queue, card)
-    return { vars = {  } }
+  calculate = function(self, card, context)
+    if context.destroy_card and context.cardarea == G.hand and context.scoring_name == "High Card" then
+	  return { remove = true }
+	end
+	
+	if context.cardarea == G.jokers and context.after and context.scoring_name == "High Card" then
+	  G.E_MANAGER:add_event(Event({
+        func = function()
+          play_sound('bfdi_bomby', 1, 0.75)
+          card.T.r = -0.2
+          card:juice_up(0.3, 0.4)
+          card.states.drag.is = true
+          card.children.center.pinch.x = true
+          G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+            func = function()
+              G.jokers:remove_card(card)
+              card:remove()
+              card = nil
+            return true; end})) 
+          return true
+        end
+      })) 
+      return {
+        message = "Kaboom!",
+        colour = G.C.FILTER
+      }
+	end
   end
 }
 
