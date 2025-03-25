@@ -175,10 +175,10 @@ SMODS.Joker {
       "if you don't have one"
     }
   },
-  rarity = 1,
+  rarity = 2,
   atlas = 'BFDI',
   pos = { x = 7, y = 3 },
-  cost = 5,
+  cost = 6,
 	blueprint_compat = false,
   calculate = function(self, card, context)
     if context.setting_blind and not card.getting_sliced and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit and not next(SMODS.find_card("j_bfdi_bubble")) then
@@ -236,7 +236,7 @@ SMODS.Joker {
         card.ability.extra.will_play_sound = true
         return {
           message = "Glass",
-          colour = G.C.FILTER,
+          colour = G.C.RED,
           card = card
         }
       end
@@ -258,6 +258,9 @@ SMODS.Joker {
       }))
       return {remove = true}
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -315,8 +318,10 @@ SMODS.Joker {
           colour = G.C.FILTER
         }
       end
-  end
-
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -347,6 +352,9 @@ SMODS.Joker {
 			card = card
 		}
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -392,6 +400,9 @@ SMODS.Joker {
         })
       end
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -405,7 +416,7 @@ SMODS.Joker {
 	  "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult){}"
     }
   },
-  config = { extra = { is_contestant = true, added_xmult = 0.2, current_xmult = 1 } },
+  config = { extra = { is_contestant = true, added_xmult = 0.25, current_xmult = 1 } },
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 4, y = 1 },
@@ -416,7 +427,6 @@ SMODS.Joker {
 	blueprint_compat = true,
   eternal_compat = false,
   calculate = function(self, card, context)
-	
     if context.remove_playing_cards and not context.blueprint then
       local count = 0
       for k, v in ipairs(context.removed) do
@@ -427,12 +437,14 @@ SMODS.Joker {
         card.ability.extra.current_xmult = card.ability.extra.current_xmult + (card.ability.extra.added_xmult * count)
         card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.RED})
       end
-      end
+    end
 
-	if context.joker_main and card.ability.extra.current_xmult > 1 then
-		return { xmult = card.ability.extra.current_xmult }
-	end
-	
+	  if context.joker_main and card.ability.extra.current_xmult > 1 then
+		  return { xmult = card.ability.extra.current_xmult }
+	  end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -470,6 +482,9 @@ SMODS.Joker {
         end}))
       return true
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -507,6 +522,9 @@ SMODS.Joker {
         }
       end
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -536,6 +554,9 @@ SMODS.Joker {
         card = card
       }
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -580,6 +601,9 @@ SMODS.Joker {
         end
       }))
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -607,7 +631,10 @@ SMODS.Joker {
 		if G.GAME.current_round.hands_left > 0 then
 			return card.ability.extra.given_money * G.GAME.current_round.hands_left
 		end
-	end
+	end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
 }
 
 SMODS.Joker {
@@ -621,7 +648,7 @@ SMODS.Joker {
       "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
     }
   },
-  config = { extra = { is_contestant = true, added_mult = 3, current_mult = 0 } },
+  config = { extra = { is_contestant = true, added_mult = 2, current_mult = 0 } },
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 2, y = 2 },
@@ -643,6 +670,9 @@ SMODS.Joker {
         colour = G.C.RED
       }
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -667,25 +697,28 @@ SMODS.Joker {
 	blueprint_compat = true,
   calculate = function(self, card, context)
     if context.individual and context.cardarea == 'unscored' and not context.blueprint and context.other_card:get_id() == 14 then
-		card.ability.extra.ace_detected = true
+		  card.ability.extra.ace_detected = true
     end
 	
-	if context.joker_main and card.ability.extra.ace_detected and card.ability.extra.current_uses > 0 then
-		card.ability.extra.ace_detected = false
-		ease_hands_played(card.ability.extra.added_hands)
+	  if context.joker_main and card.ability.extra.ace_detected and card.ability.extra.current_uses > 0 then
+		  card.ability.extra.ace_detected = false
+		  ease_hands_played(card.ability.extra.added_hands)
 		
-		card.ability.extra.current_uses = card.ability.extra.current_uses - 1
+		  card.ability.extra.current_uses = card.ability.extra.current_uses - 1
 		
-		return {
-			message = "+1 Hand",
-			colour = G.C.BLUE,
-			card = card
-		}
-	end
+		  return {
+			  message = "+1 Hand",
+			  colour = G.C.BLUE,
+			  card = card
+		  }
+	  end
 	
-	if context.end_of_round and not context.blueprint and not context.repetition then
-		card.ability.extra.current_uses = card.ability.extra.no_of_uses
-	end
+	  if context.end_of_round and not context.blueprint and not context.repetition then
+		  card.ability.extra.current_uses = card.ability.extra.no_of_uses
+	  end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -724,6 +757,9 @@ SMODS.Joker {
         colour = G.C.RED
       }
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -762,6 +798,9 @@ SMODS.Joker {
   
       playing_card_joker_effects({true})
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -816,6 +855,9 @@ SMODS.Joker {
     if return_value.card then
       return return_value
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -864,6 +906,9 @@ SMODS.Joker {
         }
       end
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -878,7 +923,7 @@ SMODS.Joker {
 	    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
     }
   },
-  config = { extra = { is_contestant = true, added_mult = 4 } },
+  config = { extra = { is_contestant = true, added_mult = 2 } },
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 0, y = 3 },
@@ -891,6 +936,9 @@ SMODS.Joker {
     if context.joker_main and count_enhancements() > 0 then
       return { mult = card.ability.extra.added_mult * count_enhancements() }
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -918,6 +966,9 @@ SMODS.Joker {
     if context.joker_main and #G.playing_cards - G.GAME.starting_deck_size > 0 then
       return { mult = card.ability.extra.added_mult * (#G.playing_cards - G.GAME.starting_deck_size) }
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -963,6 +1014,9 @@ SMODS.Joker {
 
       return outcome
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -1007,6 +1061,9 @@ SMODS.Joker {
 			card = card
 		}
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -1044,6 +1101,9 @@ SMODS.Joker {
         card = card
       }
     end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -1053,7 +1113,7 @@ SMODS.Joker {
     name = 'Speaker Box',
     text = {
       "When {C:attention}Blind{} is selected,",
-      "destroys 1 {C:attention}contestant{} Joker",
+      "destroys 1 {C:attention}Contestant{} Joker",
       "and gains {C:white,X:mult}X#1#{} Mult",
       "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult)"
     }
@@ -1065,6 +1125,7 @@ SMODS.Joker {
   soul_pos = { x = 1, y = 0 },
   cost = 20,
   loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = { set = "Other", key = "contestant_joker" }
     return { vars = { card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
   end,
 	blueprint_compat = true,

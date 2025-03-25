@@ -20,3 +20,29 @@ for i = 1, #allFolders do
         end
     end
 end
+
+G.C.BFDI = {}
+
+G.C.BFDI.MISC_COLOURS = {
+    BFDI_GREEN = HEX("076908"),
+}
+
+local loc_colour_ref = loc_colour
+
+function loc_colour(_c, default)
+    if not G.ARGS.LOC_COLOURS then
+        loc_colour_ref(_c, default)
+    elseif not G.ARGS.LOC_COLOURS.bfdi_colours then
+        G.ARGS.LOC_COLOURS.bfdi_colours = true
+
+        local new_colors = {
+            bfdi_green = G.C.BFDI_GREEN,
+        }
+
+        for k, v in pairs(new_colors) do
+            G.ARGS.LOC_COLOURS[k] = v
+        end
+    end
+
+    return loc_colour_ref(_c, default)
+end
