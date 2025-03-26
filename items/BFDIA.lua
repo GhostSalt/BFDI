@@ -1,9 +1,9 @@
 SMODS.Atlas {
   key = "Puffball",
-  path = "Puffball.png",
+  --[[path = "Puffball.png",]]--
+  path = "BFDIA.png",
   px = 71,
-  py = 95,
-  pos = { x = 0, y = 0 }--[[,
+  py = 95--[[,
   atlas_table = "ANIMATION_ATLAS",
   frames = 19]]--
 }
@@ -14,8 +14,6 @@ SMODS.Atlas {
   px = 71,
   py = 95
 }
-
-SMODS.current_mod.optional_features = { cardareas = { unscored = true } }
 
 SMODS.Sound({
 	key = "bomby",
@@ -37,21 +35,14 @@ SMODS.Sound({
 
 SMODS.Joker {
   key = 'bomby',
-  loc_txt = {
-    name = 'Bomby',
-    text = {
-      "If played hand is a",
-      "{C:attention}High Card{}, destroys all",
-      "cards held in hand",
-      "{C:red,E:2}self destructs{}"
-    }
-  },
   config = { extra = { is_contestant = true, is_destroyed = false } },
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 0, y = 0 },
   cost = 7,
   blueprint_compat = false,
+  eternal_compat = false,
+  perishable_compat = true,
   calculate = function(self, card, context)
     if context.destroy_card and context.cardarea == G.hand and context.scoring_name == "High Card" then
 	    return { remove = true }
@@ -85,21 +76,14 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'book',
-  loc_txt = {
-    name = 'Book',
-    text = {
-      "Gains {C:chips}+#1#{} Chips when",
-      "each played {C:attention}#2#{} is scored,",
-      "rank changes every round",
-      "{C:inactive}(Currently {C:chips}+#3#{C:inactive} Chips){}"
-    }
-  },
   config = { extra = { is_contestant = true, added_chips = 6, current_chips = 0 } },
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 1, y = 0 },
   cost = 7,
   blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = false,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_chips, localize(G.GAME.current_round.book_card.rank, 'ranks'), card.ability.extra.current_chips } }
   end,
@@ -124,21 +108,14 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'donut',
-  loc_txt = {
-    name = 'Donut',
-    text = {
-      "At the end of the round,",
-	  "gains {C:mult}+#1#{} Mult for each",
-	  "{C:attention}seal{} held in hand",
-	  "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
-    }
-  },
   config = { extra = { is_contestant = true, added_mult = 1, current_mult = 0 } },
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 2, y = 0 },
   cost = 7,
   blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = false,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_mult, card.ability.extra.current_mult } }
   end,
@@ -159,21 +136,14 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'dora',
-  loc_txt = {
-    name = 'Dora',
-    text = {
-      "When {C:attention}Blind{} is selected,",
-    "destroys 1 {C:planet}Planet{} card",
-    "and gains {C:white,X:mult}X#1#{} Mult",
-    "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult){}"
-    }
-  },
   config = { extra = { is_contestant = true, added_xmult = 0.25, current_xmult = 1 } },
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 3, y = 0 },
   cost = 7,
   blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = false,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
   end,
@@ -214,22 +184,16 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'fries',
-  loc_txt = {
-    name = 'Fries',
-    text = {
-      "Creates a copy of {C:planet}#1#{} at",
-      "the end of the round, {C:planet}Planet{}",
-      "card changes every {C:red}discard{}",
-      "{C:inactive}(Must have room){}"
-    }
-  },
   config = { extra = { is_contestant = true, chosen_planet_name = "Pluto", chosen_planet = "c_pluto" } },
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 4, y = 0 },
   cost = 7,
   blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
   loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.extra.chosen_planet]
     return { vars = { card.ability.extra.chosen_planet_name } }
   end,
   calculate = function(self, card, context)
@@ -292,14 +256,6 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'gelatin',
-  loc_txt = {
-    name = 'Gelatin',
-    text = {
-      "{C:white,X:mult}X#1#{} Mult for",
-	  "each played hand",
-	  "except the {C:attention}first{}"
-    }
-  },
   config = { extra = { is_contestant = true, given_xmult = 2, duhed = false } },
   rarity = 2,
   atlas = 'BFDIA',
@@ -310,6 +266,8 @@ SMODS.Joker {
     return { vars = { card.ability.extra.given_xmult } }
   end,
 	blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
   calculate = function(self, card, context)
     if context.joker_main and not card.ability.extra.duhed then
 		  return { xmult = card.ability.extra.given_xmult }
@@ -346,14 +304,6 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'nickel',
-  loc_txt = {
-    name = 'Nickel',
-    text = {
-      "Gives {C:attention}$#1#{} when a",
-      "{C:attention}playing card{} is",
-      "added to your deck"
-    }
-  },
   config = { extra = { is_contestant = true, given_money = 5 } },
   rarity = 2,
   atlas = 'BFDIA',
@@ -363,6 +313,8 @@ SMODS.Joker {
     return { vars = { card.ability.extra.given_money } }
   end,
 	blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
   calculate = function(self, card, context)
 	if context.playing_card_added then
     return
@@ -379,23 +331,18 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'puffball',
-  loc_txt = {
-    name = 'Puffball',
-    text = {
-      "{C:white,X:mult}X#1#{} Mult if",
-	  "a {C:attention}Wild{} card",
-	  "is held in hand"
-    }
-  },
   config = { extra = { is_contestant = true, given_xmult = 2, wild_detected = false } },
   rarity = 2,
-  atlas = 'BFDIA',
+  atlas = 'Puffball',
   pos = { x = 7, y = 0 },
   cost = 7,
   loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = G.P_CENTERS.m_wild
     return { vars = { card.ability.extra.given_xmult } }
   end,
 	blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
   calculate = function(self, card, context)
     if context.joker_main and card.ability.extra.wild_detected then
 		  return { xmult = card.ability.extra.given_xmult }
@@ -416,24 +363,18 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'ruby',
-  loc_txt = {
-    name = 'Ruby',
-    text = {
-      "Each played {C:diamonds}Diamond{}",
-      "card has a {C:green}#1# in #2#{}",
-      "chance to become",
-      "{C:attention}Glass{} when scored"
-    }
-  },
   config = { extra = { is_contestant = true, odds = 2 } },
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 0, y = 1 },
   cost = 7,
   loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = G.P_CENTERS.m_glass
     return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
   end,
 	blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
   calculate = function(self, card, context)
     if context.individual and context.cardarea == G.play and context.other_card:is_suit("Diamonds") and pseudorandom('ruby') < G.GAME.probabilities.normal / card.ability.extra.odds then
       local card_temp = context.other_card
@@ -458,19 +399,14 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'yellowface',
-  loc_txt = {
-    name = 'Yellow Face',
-    text = {
-      "Gives {C:money}$#1#{} when a",
-      "consumable is sold"
-    }
-  },
   config = { extra = { is_contestant = true, given_money = 3 } },
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 1, y = 1 },
   cost = 7,
   blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.given_money } }
   end,

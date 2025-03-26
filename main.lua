@@ -7,7 +7,7 @@ SMODS.Atlas {
 
 local allFolders = { "none", "items" }
 
-local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA" } }
+local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA", "Misc", "Legendaries", "Decks" } }
 
 for i = 1, #allFolders do
     if allFolders[i] == "none" then

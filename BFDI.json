@@ -3,12 +3,12 @@
     "name": "BFDI",
     "display_name": "BFDI",
     "author": ["GhostSalt"],
-    "description": "A mod pack with a bunch of BFDI-related Jokers!",
+    "description": "A mod pack with a bunch of BFDI-related Jokers! (BFDI was created by Cary Huang and Michael Huang.)",
     "prefix": "bfdi",
     "main_file": "main.lua",
     "badge_colour": "1C75C3",
     "dependencies": [
         "Steamodded (>=1.0.0~BETA-0319a-STEAMODDED)"
     ],
-    "version": "1.0.0~ALPHA"
+    "version": "1.1.0~ALPHA"
 }
