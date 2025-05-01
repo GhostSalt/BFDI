@@ -1,0 +1,292 @@
+SMODS.Atlas {
+  key = "BFB-TPoT",
+  path = "BFB-TPoT.png",
+  px = 71,
+  py = 95
+}
+
+SMODS.Joker {
+  key = 'basketball',
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 3, y = 0 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = G.P_CENTERS.m_steel
+    return { }
+  end,
+	blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.repetition and context.cardarea == G.play and context.other_card.ability.name == 'Steel Card' then
+      return {
+        message = localize("k_again_ex"),
+        repetitions = 1,
+        card = card
+      }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'bottle',
+  config = { extra = { is_contestant = true, given_xmult = 1.5 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 6, y = 0 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = G.P_CENTERS.m_glass
+    return { vars = { card.ability.extra.given_xmult } }
+  end,
+	blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  bfdi_shatters = true,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play and context.other_card.ability.name == 'Glass Card' then
+      return {
+        xmult = card.ability.extra.given_xmult,
+        card = card
+      }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'cloudy',
+  config = { extra = { is_contestant = true, added_xmult = 0.1, current_xmult = 1 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 2, y = 1 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
+  end,
+	blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = false,
+  calculate = function(self, card, context)
+    if context.joker_main and card.ability.extra.current_xmult > 1 then return { xmult = card.ability.extra.current_xmult } end
+
+    if context.before and not context.blueprint then
+      local found_no_enhancement = false
+      for i = 1, #G.hand.cards do
+        if not next(SMODS.get_enhancements(G.hand.cards[i])) then found_no_enhancement = true end
+      end
+
+      if not found_no_enhancement then
+        card.ability.extra.current_xmult = card.ability.extra.current_xmult + card.ability.extra.added_xmult
+        return { message = localize("k_upgrade_ex"), colour = G.C.FILTER, card = card }
+      end
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'fireyjr',
+  config = { extra = { is_contestant = true, ace_detected = false } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 5, y = 1 },
+  display_size = { w = 0.75 * 71, h = 0.75 * 95 },
+  cost = 7,
+	blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play and context.other_card:get_id() == 14 then
+      card.ability.extra.ace_detected = true
+    end
+
+    if context.individual and context.cardarea == G.hand and not context.end_of_round and card.ability.extra.ace_detected then
+      local temp_ID = 15
+      local fireyjr_card = nil
+      for i=1, #G.hand.cards do
+        if not SMODS.has_no_rank(G.hand.cards[i]) and temp_ID >= G.hand.cards[i]:get_id() then
+          temp_ID = G.hand.cards[i]:get_id()
+          fireyjr_card = G.hand.cards[i]
+        end
+      end
+
+      if context.other_card == fireyjr_card then
+        card.ability.extra.ace_detected = false
+        context.other_card.fireyjr_marked_for_death = true
+      end
+    end
+
+    if context.destroy_card and context.cardarea == G.hand and context.destroy_card.fireyjr_marked_for_death then
+      context.destroy_card.fireyjr_marked_for_death = false
+      return true
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'gaty',
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 7, y = 1 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
+    return { }
+  end,
+	blueprint_compat = false,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.cardarea == G.jokers and context.before and G.GAME.current_round.hands_left == 0 then
+      G.E_MANAGER:add_event(Event({
+        func = function()
+          context.full_hand[1]:set_edition('e_polychrome', true, true)
+          context.full_hand[1]:juice_up()
+          return true
+        end}))
+      return { message = localize("created_polychrome"), colour = G.C.FILTER, card = card }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'lightning',
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 1, y = 2 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = G.P_CENTERS.m_gold
+    return { }
+  end,
+	blueprint_compat = false,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.destroy_card and context.cardarea == G.play and context.destroying_card.ability.name == 'Gold Card' then return true end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'roboty',
+  config = { extra = { is_contestant = true, added_mult = 1, current_mult = 0 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 3, y = 3 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.added_mult, card.ability.extra.current_mult } }
+  end,
+	blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = false,
+  calculate = function(self, card, context)
+    if context.joker_main and card.ability.extra.current_mult > 0 then
+      return { mult = card.ability.extra.current_mult }
+    end
+
+    if context.individual and context.cardarea == G.play and context.other_card:get_id() == 10 and not context.blueprint then
+	  	card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.added_mult
+  		return { message = localize('k_upgrade_ex'), colour = G.C.FILTER, card = card }
+	  end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'tree',
+  config = { extra = { is_contestant = true, added_chips = 6, current_chips = 0 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 7, y = 3 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.added_chips, card.ability.extra.current_chips } }
+  end,
+	blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = false,
+  calculate = function(self, card, context)
+    if context.joker_main and card.ability.extra.current_chips > 0 then
+      return { chips = card.ability.extra.current_chips }
+    end
+
+    if context.cardarea == G.jokers and context.end_of_round and G.GAME.current_round.discards_left > 0 and not context.repetition and not context.repetition_only and not context.blueprint then
+	  	card.ability.extra.current_chips = card.ability.extra.current_chips + (card.ability.extra.added_chips * G.GAME.current_round.discards_left)
+  		return { message = localize('k_upgrade_ex'), colour = G.C.FILTER, card = card }
+	  end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'pricetag',
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 0, y = 5 },
+  cost = 7,
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = G.P_CENTERS.tag_voucher
+    return { }
+  end,
+	blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.end_of_round and not context.individual and not context.repetition and G.GAME.last_blind and G.GAME.last_blind.boss then
+      G.E_MANAGER:add_event(Event({
+          func = (function()
+              add_tag(Tag('tag_voucher'))
+              play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+              play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+              card:juice_up()
+              return true
+          end)
+      }))
+      return { message = localize('created_voucher_tag'), colour = G.C.RED, card = card }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end,
+  set_sprites = function(self, card, front)
+    if not self.discovered and not card.params.bypass_discovery_center then
+      return
+    end
+    local c = card or {}
+    c.ability = c.ability or {}
+    c.ability.price_tag_x = c.ability.price_tag_x or pseudorandom(pseudoseed("pricetagx"), 0, 7)
+    if card and card.children and card.children.center and card.children.center.set_sprite_pos then
+        card.children.center:set_sprite_pos({
+            x = c.ability.price_tag_x,
+            y = c.config.center.pos.y
+        })
+    end
+end
+}

@@ -76,7 +76,7 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'bagofboogers',
-  config = { extra = { given_mult = 20 } },
+  config = { extra = { given_mult = 10 } },
   rarity = 1,
   atlas = 'Misc',
   pos = { x = 6, y = 3 },
@@ -127,6 +127,40 @@ SMODS.Joker {
           card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = "+Bubble", colour = G.C.FILTER})                       
         return true
       end)}))
+    end
+  end
+}
+
+SMODS.Joker {
+  key = 'magicaldieofjudgment',
+  config = { extra = { reroll_seen = false } },
+  rarity = 1,
+  atlas = 'Misc',
+  pos = { x = 0, y = 4 },
+  cost = 4,
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue+1] = G.P_CENTERS.tag_d_six
+    return { }
+  end,
+	blueprint_compat = false,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.reroll_shop then card.ability.extra.reroll_seen = true end
+
+    if context.ending_shop then
+      if not card.ability.extra.reroll_seen then
+        G.E_MANAGER:add_event(Event({
+            func = (function()
+                add_tag(Tag('tag_d_six'))
+                play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                card:juice_up()
+                return true
+            end)
+        }))
+        return { message = localize('created_d6_tag'), colour = G.C.GREEN, card = card }
+      end
+      card.ability.extra.reroll_seen = false
     end
   end
 }

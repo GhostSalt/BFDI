@@ -136,7 +136,7 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'dora',
-  config = { extra = { is_contestant = true, added_xmult = 0.25, current_xmult = 1 } },
+  config = { extra = { is_contestant = true, added_xmult = 0.2, current_xmult = 1 } },
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 3, y = 0 },
@@ -319,7 +319,7 @@ SMODS.Joker {
 	if context.playing_card_added then
     return
 		{
-			dollars = card.ability.extra.given_money,
+			dollars = #context.cards*card.ability.extra.given_money,
 			card = card
 		}
     end

@@ -384,6 +384,7 @@ SMODS.Joker {
 	blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = true,
+  bfdi_shatters = true,
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.before and G.GAME.current_round.hands_left == 0 and not (context.blueprint_card or card).getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
       G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1

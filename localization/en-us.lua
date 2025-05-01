@@ -66,8 +66,8 @@ return {
                 text = {
                     "If played hand has",
                     "exactly {C:attention}1{} card, and it",
-                    "is a {C:attention}face{} card, destroy",
-                    "it and create a {C:attention}Wild Ace{}"
+                    "is a {C:attention}face{} card, destroys",
+                    "it and creates a {C:attention}Wild Ace{}"
                 }
 			},
 			j_bfdi_flower = {
@@ -282,6 +282,81 @@ return {
                     "consumable is sold"
                 }
 			},
+			j_bfdi_basketball = {
+                name = 'Basketball',
+                text = {
+                    "Retriggers all",
+                    "played and scored",
+                    "{C:attention}Steel{} cards"
+                }
+			},
+			j_bfdi_bottle = {
+                name = 'Bottle',
+                text = {
+                    "Played {C:attention}Glass{} cards",
+                    "give {C:white,X:mult}X#1#{} Mult",
+                    "when scored"
+                }
+			},
+			j_bfdi_cloudy = {
+                name = 'Cloudy',
+                text = {
+                    "Gains {C:white,X:mult}X#1#{} Mult when hand",
+                    "is played if all cards",
+                    "held in hand are {C:attention}enhanced{}",
+                    "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult)"
+                }
+			},
+			j_bfdi_fireyjr = {
+                name = 'Firey Jr.',
+                text = {
+                    "If played hand contains",
+                    "a scoring {C:attention}Ace{}, {C:red}destroys{}",
+                    "the {C:attention}lowest{} ranked card",
+                    "held in hand"
+                }
+			},
+			j_bfdi_gaty = {
+                name = 'Gaty',
+                text = {
+                    "On {C:attention}final hand{} of",
+                    "round, adds {C:dark_edition}Polychrome{}",
+                    "to the {C:attention}first{} scored card"
+                }
+			},
+			j_bfdi_lightning = {
+                name = 'Lightning',
+                text = {
+                    "Destroys all",
+                    "played and scored",
+                    "{C:attention}Gold{} cards"
+                }
+			},
+			j_bfdi_roboty = {
+                name = 'Roboty',
+                text = {
+                    "Gains {C:mult}+#1#{} Mult when",
+                    "each played {C:attention}10{} is scored",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
+                }
+			},
+			j_bfdi_tree = {
+                name = 'Tree',
+                text = {
+                    "Gains {C:chips}+#1#{} Chips for",
+                    "each unused {C:red}discard{} at",
+                    "the end of the {C:attention}round{}",
+                    "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips){}"
+                }
+			},
+			j_bfdi_pricetag = {
+                name = 'Price Tag',
+                text = {
+                    "When {C:attention}Boss Blind{} is",
+                    "defeated, creates a",
+                    "{C:attention}Voucher{} Tag"
+                }
+			},
 			j_bfdi_yoylecake = {
                 name = 'Yoylecake',
                 text = {
@@ -303,6 +378,14 @@ return {
                     "When {C:attention}Blind{} is selected,",
                     "creates a copy of {C:attention}Bubble{}",
                     "if you don't have one"
+                }
+			},
+			j_bfdi_magicaldieofjudgment = {
+                name = 'Magical Die of Judgment',
+                text = {
+                    "Creates a {C:attention}D6{} Tag",
+                    "at the end of the {C:attention}shop{}",
+                    "if you didn't {C:green}reroll{}"
                 }
 			},
 			j_bfdi_speakerbox = {
@@ -355,7 +438,10 @@ return {
 	},
 	misc = {
 		dictionary = {
-			contestant_joker_badge = "Contestant"
+			contestant_joker_badge = "Contestant",
+			created_polychrome = "Polychrome",
+            created_voucher_tag = "+Voucher Tag",
+            created_d6_tag = "+D6 Tag"
 		}
 	}
 }

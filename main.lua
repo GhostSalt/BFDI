@@ -7,7 +7,7 @@ SMODS.Atlas {
 
 local allFolders = { "none", "items" }
 
-local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA", "Misc", "Legendaries", "Decks" } }
+local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA", "BFB-TPoT", "Misc", "Legendaries", "Decks" } }
 
 for i = 1, #allFolders do
     if allFolders[i] == "none" then
@@ -45,4 +45,13 @@ function loc_colour(_c, default)
     end
 
     return loc_colour_ref(_c, default)
+end
+
+local ref = Card.start_dissolve
+function Card:start_dissolve()
+    if self.config.center.bfdi_shatters then
+        return self:shatter()
+    else
+        return ref(self)
+    end
 end
