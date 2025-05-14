@@ -58,6 +58,8 @@ function count_enhancements()
 	return enhancement_tally
 end
 
+to_big = to_big or function(x) return x end
+
 SMODS.Joker {
   key = 'blocky',
   config = { extra = { is_contestant = true, will_play_sound = true } },
@@ -315,7 +317,7 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'flower',
-  config = { extra = { is_contestant = true, given_chips = 100 } },
+  config = { extra = { is_contestant = true, given_chips = 75 } },
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 6, y = 1 },

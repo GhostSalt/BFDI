@@ -290,6 +290,13 @@ return {
                     "{C:attention}Steel{} cards"
                 }
 			},
+			j_bfdi_blackhole = {
+                name = 'Black Hole',
+                text = {
+                    "{C:attention}+#1#{} to all",
+                    "hand levels"
+                }
+			},
 			j_bfdi_bottle = {
                 name = 'Bottle',
                 text = {
@@ -332,6 +339,14 @@ return {
                     "{C:attention}Gold{} cards"
                 }
 			},
+			j_bfdi_loser = {
+                name = 'Loser',
+                text = {
+                    "Score cannot exceed",
+                    "{C:attention}Blind{} requirements until",
+                    "{C:attention}final hand{} of round"
+                }
+			},
 			j_bfdi_roboty = {
                 name = 'Roboty',
                 text = {
@@ -349,12 +364,29 @@ return {
                     "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips){}"
                 }
 			},
+			j_bfdi_tv = {
+                name = 'TV',
+                text = {
+                    "Other {C:attention}Contestant{}",
+                    "Jokers each give",
+                    "{C:white,X:mult}X#1#{} Mult"
+                }
+			},
 			j_bfdi_pricetag = {
                 name = 'Price Tag',
                 text = {
                     "When {C:attention}Boss Blind{} is",
                     "defeated, creates a",
                     "{C:attention}Voucher{} Tag"
+                }
+			},
+			j_bfdi_winner = {
+                name = 'Winner',
+                text = {
+                    "Gains {C:white,X:mult}X#1#{} Mult",
+                    "when playing {C:attention}final{}",
+                    "{C:attention}hand{} of round",
+                    "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult){}"
                 }
 			},
 			j_bfdi_yoylecake = {

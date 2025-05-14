@@ -5,6 +5,8 @@ SMODS.Atlas {
   py = 95
 }
 
+to_big = to_big or function(x) return x end
+
 SMODS.Back {
   key = 'goiky',
   atlas = 'Decks',

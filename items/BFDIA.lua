@@ -33,6 +33,8 @@ SMODS.Sound({
   replace = true
 })
 
+to_big = to_big or function(x) return x end
+
 SMODS.Joker {
   key = 'bomby',
   config = { extra = { is_contestant = true, is_destroyed = false } },

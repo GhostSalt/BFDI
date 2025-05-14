@@ -11,6 +11,8 @@ SMODS.Sound({
   replace = true
 })
 
+to_big = to_big or function(x) return x end
+
 SMODS.Joker {
   key = 'yoylecake',
   config = { extra = { cards_left = 4 } },
