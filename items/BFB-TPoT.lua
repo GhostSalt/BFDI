@@ -403,7 +403,7 @@ SMODS.Joker {
   eternal_compat = true,
   perishable_compat = true,
   calculate = function(self, card, context)
-    if context.other_joker and context.other_joker.ability and context.other_joker.ability.extra and context.other_joker.ability.extra.is_contestant and card ~= context.other_joker then
+    if context.other_joker and context.other_joker.ability and context.other_joker.ability.extra and type(context.other_joker.ability.extra) == "table" and context.other_joker.ability.extra.is_contestant and card ~= context.other_joker then
       G.E_MANAGER:add_event(Event({
         func = function()
           context.other_joker:juice_up(0.5, 0.5)
