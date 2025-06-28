@@ -55,3 +55,31 @@ function Card:start_dissolve()
         return ref(self)
     end
 end
+
+local igo = Game.init_game_object
+function Game:init_game_object()
+  local ret = igo(self)
+  ret.current_round.book_card = { rank = "Ace", id = 14 }
+  ret.current_round.fanny_card = { rank = "Ace", id = 14 }
+  return ret
+end
+
+function SMODS.current_mod.reset_game_globals(run_start)
+  G.GAME.current_round.book_card = { rank = "Ace", id = 14 }
+  G.GAME.current_round.fanny_card = { rank = "Ace", id = 14 }
+  local valid_cards = {}
+  for i, j in ipairs(G.playing_cards) do
+    if not SMODS.has_no_rank(j) then
+      valid_cards[#valid_cards + 1] = j
+    end
+  end
+  if valid_cards[1] then 
+    local book_chosen_card = pseudorandom_element(valid_cards, pseudoseed('book'..G.GAME.round_resets.ante))
+    G.GAME.current_round.book_card.rank = book_chosen_card.base.value
+    G.GAME.current_round.book_card.id = book_chosen_card.base.id
+    
+    local fanny_chosen_card = pseudorandom_element(valid_cards, pseudoseed('fanny'..G.GAME.round_resets.ante))
+    G.GAME.current_round.fanny_card.rank = fanny_chosen_card.base.value
+    G.GAME.current_round.fanny_card.id = fanny_chosen_card.base.id
+  end
+end

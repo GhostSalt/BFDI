@@ -41,7 +41,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 0, y = 0 },
-  cost = 7,
+  cost = 6,
   blueprint_compat = false,
   eternal_compat = false,
   perishable_compat = true,
@@ -50,7 +50,7 @@ SMODS.Joker {
 	    return { remove = true }
 	  end
 	
-	  if context.destroy_card and not card.ability.extra.is_destroyed then
+	  if context.destroy_card and context.scoring_name == "High Card" and not card.ability.extra.is_destroyed then
       card.ability.extra.is_destroyed = true
 	    G.E_MANAGER:add_event(Event({
         func = function()
@@ -82,7 +82,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 1, y = 0 },
-  cost = 7,
+  cost = 6,
   blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = false,
@@ -114,7 +114,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 2, y = 0 },
-  cost = 7,
+  cost = 6,
   blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = false,
@@ -142,7 +142,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 3, y = 0 },
-  cost = 7,
+  cost = 6,
   blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = false,
@@ -190,7 +190,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 4, y = 0 },
-  cost = 7,
+  cost = 6,
   blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = true,
@@ -263,7 +263,7 @@ SMODS.Joker {
   atlas = 'BFDIA',
   pos = { x = 5, y = 0 },
   duh_pos = { x = 2, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.given_xmult } }
   end,
@@ -310,7 +310,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 6, y = 0 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.given_money } }
   end,
@@ -337,7 +337,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'Puffball',
   pos = { x = 7, y = 0 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue+1] = G.P_CENTERS.m_wild
     return { vars = { card.ability.extra.given_xmult } }
@@ -369,7 +369,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 0, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue+1] = G.P_CENTERS.m_glass
     return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
@@ -405,7 +405,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 1, y = 1 },
-  cost = 7,
+  cost = 6,
   blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = true,
@@ -422,25 +422,3 @@ SMODS.Joker {
     badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
-
-local igo = Game.init_game_object
-function Game:init_game_object()
-  local ret = igo(self)
-  ret.current_round.book_card = { rank = "Ace" }
-  return ret
-end
-
-function SMODS.current_mod.reset_game_globals(run_start)
-  G.GAME.current_round.book_card = { rank = "Ace" }
-  local valid_cards = {}
-  for i, j in ipairs(G.playing_cards) do
-    if not SMODS.has_no_rank(j) then
-      valid_cards[#valid_cards + 1] = j
-    end
-  end
-  if valid_cards[1] then 
-    local chosen_card = pseudorandom_element(valid_cards, pseudoseed('book'..G.GAME.round_resets.ante))
-    G.GAME.current_round.book_card.rank = chosen_card.base.value
-    G.GAME.current_round.book_card.id = chosen_card.base.id
-  end
-end

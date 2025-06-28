@@ -13,7 +13,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 3, y = 0 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
     return {}
@@ -41,7 +41,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 5, y = 0 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.levels } }
   end,
@@ -155,7 +155,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 6, y = 0 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue + 1] = G.P_CENTERS.m_glass
     return { vars = { card.ability.extra.given_xmult } }
@@ -179,11 +179,11 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'cloudy',
-  config = { extra = { is_contestant = true, added_xmult = 0.1, current_xmult = 1 } },
+  config = { extra = { is_contestant = true, added_xmult = 0.2, current_xmult = 1 } },
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 2, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
   end,
@@ -191,8 +191,12 @@ SMODS.Joker {
   eternal_compat = true,
   perishable_compat = false,
   calculate = function(self, card, context)
-    if context.joker_main and card.ability.extra.current_xmult > 1 then return { xmult = card.ability.extra
-      .current_xmult } end
+    if context.joker_main and card.ability.extra.current_xmult > 1 then
+      return {
+        xmult = card.ability.extra
+            .current_xmult
+      }
+    end
 
     if context.before and not context.blueprint then
       local found_no_enhancement = false
@@ -212,13 +216,53 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'fanny',
+  config = { extra = { is_contestant = true, given_xmult = 3, quipped = false } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 4, y = 1 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.given_xmult, localize(G.GAME.current_round.fanny_card.rank, 'ranks') } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play and not card.ability.extra.quipped and context.other_card:get_id() == G.GAME.current_round.fanny_card.id then
+      card.ability.extra.quipped = true
+      return {
+        message = localize { type = 'variable', key = 'bfdi_i_hate', vars = { localize(G.GAME.current_round.fanny_card.rank, 'ranks') } },
+        colour =
+            G.C.RED,
+        card = card
+      }
+    end
+
+    if context.joker_main then
+      card.ability.extra.quipped = false
+      local banned_rank = false
+      for i = 1, #context.scoring_hand do
+        if context.scoring_hand[i]:get_id() == G.GAME.current_round.fanny_card.id then banned_rank = true end
+      end
+      if not banned_rank then
+        return { xmult = card.ability.extra.given_xmult }
+      end
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
   key = 'fireyjr',
   config = { extra = { is_contestant = true, ace_detected = false } },
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 5, y = 1 },
   display_size = { w = 0.75 * 71, h = 0.75 * 95 },
-  cost = 7,
+  cost = 6,
   blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = true,
@@ -259,7 +303,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 7, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue + 1] = G.P_CENTERS.e_polychrome
     return {}
@@ -286,20 +330,46 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'lightning',
-  config = { extra = { is_contestant = true } },
+  config = { extra = { is_contestant = true, triggered = false } },
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 1, y = 2 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue + 1] = G.P_CENTERS.m_gold
     return {}
   end,
-  blueprint_compat = false,
+  blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = true,
   calculate = function(self, card, context)
-    if context.destroy_card and context.cardarea == G.play and context.destroying_card.ability.name == 'Gold Card' then return true end
+    if context.destroy_card and not context.blueprint and context.cardarea == G.play and context.destroying_card.ability.name == 'Gold Card' then
+      card.ability.extra.triggered = true
+      return { remove = true }
+    end
+
+    if context.remove_playing_cards and card.ability.extra.triggered then
+      card.ability.extra.triggered = false
+      G.E_MANAGER:add_event(Event({
+        func = function()
+          local _card = create_playing_card(
+            { front = pseudorandom_element(G.P_CARDS, pseudoseed('lightningra')), center = G.P_CENTERS.m_gold }, G.hand,
+            nil,
+            nil, { G.C.SECONDARY_SET.Enhanced })
+
+          G.GAME.blind:debuff_card(_card)
+          G.hand:sort()
+          if context.blueprint_card then
+            context.blueprint_card:juice_up()
+          else
+            card:juice_up()
+          end
+          return true
+        end
+      }))
+
+      playing_card_joker_effects({ true })
+    end
   end,
   set_badges = function(self, card, badges)
     badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
@@ -313,7 +383,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 4, y = 2 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
   end,
@@ -337,7 +407,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 3, y = 3 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_mult, card.ability.extra.current_mult } }
   end,
@@ -365,7 +435,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 7, y = 3 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_chips, card.ability.extra.current_chips } }
   end,
@@ -379,7 +449,7 @@ SMODS.Joker {
 
     if context.cardarea == G.jokers and context.end_of_round and G.GAME.current_round.discards_left > 0 and not context.repetition and not context.repetition_only and not context.blueprint then
       card.ability.extra.current_chips = card.ability.extra.current_chips +
-      (card.ability.extra.added_chips * G.GAME.current_round.discards_left)
+          (card.ability.extra.added_chips * G.GAME.current_round.discards_left)
       return { message = localize('k_upgrade_ex'), colour = G.C.FILTER, card = card }
     end
   end,
@@ -394,7 +464,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 0, y = 4 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue + 1] = { set = "Other", key = "contestant_joker" }
     return { vars = { card.ability.extra.given_xmult } }
@@ -438,9 +508,9 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 0, y = 5 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue + 1] = G.P_CENTERS.tag_voucher
+    info_queue[#info_queue + 1] = G.P_TAGS.tag_voucher
     return {}
   end,
   blueprint_compat = true,
@@ -485,7 +555,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 0, y = 6 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
   end,
@@ -493,8 +563,12 @@ SMODS.Joker {
   eternal_compat = true,
   perishable_compat = false,
   calculate = function(self, card, context)
-    if context.joker_main and card.ability.extra.current_xmult > 1 then return { xmult = card.ability.extra
-      .current_xmult } end
+    if context.joker_main and card.ability.extra.current_xmult > 1 then
+      return {
+        xmult = card.ability.extra
+            .current_xmult
+      }
+    end
 
     if context.before and G.GAME.current_round.hands_left == 0 then
       card.ability.extra.current_xmult = card.ability.extra.current_xmult + card.ability.extra.added_xmult

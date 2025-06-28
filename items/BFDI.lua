@@ -66,7 +66,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 0, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue+1] = G.P_CENTERS.m_glass
     return {  }
@@ -127,7 +127,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 1, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.given_xmult, card.ability.extra.rounds_remaining, (function () if card.ability.extra.rounds_remaining == 1 then return "" else return "s" end end )() } }
   end,
@@ -182,7 +182,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 2, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.given_money } }
   end,
@@ -209,7 +209,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 3, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
   end,
@@ -249,7 +249,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 4, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_xmult, card.ability.extra.current_xmult } }
   end,
@@ -284,7 +284,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 5, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue+1] = G.P_CENTERS.m_wild
     return {  }
@@ -321,7 +321,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 6, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.given_chips } }
   end,
@@ -355,7 +355,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 7, y = 1 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue+1] = G.P_CENTERS.m_steel
     return { vars = { card.ability.extra.given_xmult } }
@@ -382,7 +382,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 0, y = 2 },
-  cost = 7,
+  cost = 6,
 	blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = true,
@@ -423,7 +423,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 1, y = 2 },
-  cost = 7,
+  cost = 6,
 	blueprint_compat = false,
   eternal_compat = true,
   perishable_compat = true,
@@ -446,7 +446,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 2, y = 2 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue+1] = G.P_CENTERS.m_wild
     return { vars = { card.ability.extra.added_mult, card.ability.extra.current_mult } }
@@ -478,7 +478,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 3, y = 2 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_hands, card.ability.extra.no_of_uses, card.ability.extra.current_uses } }
   end,
@@ -518,7 +518,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 4, y = 2 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.money_loss, card.ability.extra.added_mult, card.ability.extra.current_mult } }
   end,
@@ -552,7 +552,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 5, y = 2 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue+1] = G.P_CENTERS.m_wild
     return {  }
@@ -590,7 +590,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 6, y = 2 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.given_mult, card.ability.extra.given_xmult } }
   end,
@@ -640,7 +640,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 7, y = 2 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
     return {  }
@@ -689,7 +689,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 0, y = 3 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_mult, card.ability.extra.added_mult * count_enhancements() } }
   end,
@@ -712,7 +712,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 1, y = 3 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.added_mult, G.GAME.starting_deck_size, math.max(0, card.ability.extra.added_mult * (G.playing_cards and (#G.playing_cards - G.GAME.starting_deck_size) or 0)) } }
   end,
@@ -735,7 +735,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 2, y = 3 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     return { vars = { card.ability.extra.given_mult, card.ability.extra.given_xmult, card.ability.extra.given_chips, card.ability.extra.given_money, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
   end,
@@ -777,7 +777,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 3, y = 3 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue+1] = G.P_CENTERS.m_steel
     return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
@@ -819,7 +819,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 4, y = 3 },
-  cost = 7,
+  cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue+1] = G.P_CENTERS.m_stone
     return { vars = { card.ability.extra.added_chips, card.ability.extra.current_chips } }

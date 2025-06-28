@@ -314,6 +314,14 @@ return {
                     "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult)"
                 }
 			},
+			j_bfdi_fanny = {
+                name = 'Fanny',
+                text = {
+                    "{C:white,X:mult}X#1#{} if played hand",
+                    "has no {C:attention}#2#s{}, rank",
+                    "changes each round"
+                }
+			},
 			j_bfdi_fireyjr = {
                 name = 'Firey Jr.',
                 text = {
@@ -334,9 +342,10 @@ return {
 			j_bfdi_lightning = {
                 name = 'Lightning',
                 text = {
-                    "Destroys all",
-                    "played and scored",
-                    "{C:attention}Gold{} cards"
+                    "{C:red}Destroys{} all played and",
+                    "scored {C:attention}Gold{} cards, adds",
+                    "a random {C:attention}Gold{} card to",
+                    "your hand if successful"
                 }
 			},
 			j_bfdi_loser = {
@@ -473,7 +482,10 @@ return {
 			contestant_joker_badge = "Contestant",
 			created_polychrome = "Polychrome",
             created_voucher_tag = "+Voucher Tag",
-            created_d6_tag = "+D6 Tag"
-		}
+            created_d6_tag = "+D6 Tag",
+		},
+        v_dictionary = {
+            bfdi_i_hate = "I HATE #1#s!"
+        }
 	}
 }
