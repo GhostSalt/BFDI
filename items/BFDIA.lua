@@ -1,14 +1,4 @@
 SMODS.Atlas {
-  key = "Puffball",
-  --[[path = "Puffball.png",]]--
-  path = "BFDIA.png",
-  px = 71,
-  py = 95--[[,
-  atlas_table = "ANIMATION_ATLAS",
-  frames = 19]]--
-}
-
-SMODS.Atlas {
   key = "BFDIA",
   path = "BFDIA.png",
   px = 71,
@@ -335,8 +325,29 @@ SMODS.Joker {
   key = 'puffball',
   config = { extra = { is_contestant = true, given_xmult = 2, wild_detected = false } },
   rarity = 2,
-  atlas = 'Puffball',
+  atlas = 'BFDIA',
   pos = { x = 7, y = 0 },
+  bfdi_anim = {
+    { x = 0, y = 2, t = 0.06 },
+    { x = 1, y = 2, t = 0.06 },
+    { x = 2, y = 2, t = 0.06 },
+    { x = 3, y = 2, t = 0.06 },
+    { x = 4, y = 2, t = 0.06 },
+    { x = 5, y = 2, t = 0.06 },
+    { x = 6, y = 2, t = 0.06 },
+    { x = 7, y = 2, t = 0.06 },
+    { x = 0, y = 3, t = 0.06 },
+    { x = 1, y = 3, t = 0.06 },
+    { x = 2, y = 3, t = 0.06 },
+    { x = 3, y = 3, t = 0.06 },
+    { x = 4, y = 3, t = 0.06 },
+    { x = 5, y = 3, t = 0.06 },
+    { x = 6, y = 3, t = 0.06 },
+    { x = 7, y = 3, t = 0.06 },
+    { x = 0, y = 4, t = 0.06 },
+    { x = 1, y = 4, t = 0.06 },
+    { x = 2, y = 4, t = 0.06 }
+  },
   cost = 6,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue+1] = G.P_CENTERS.m_wild

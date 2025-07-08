@@ -83,3 +83,31 @@ function SMODS.current_mod.reset_game_globals(run_start)
     G.GAME.current_round.fanny_card.id = fanny_chosen_card.base.id
   end
 end
+
+local update_ref = Game.update
+function Game:update(dt)
+  for k, v in pairs(G.P_CENTERS) do
+    if v.bfdi_anim then
+      if not v.bfdi_anim.t then v.bfdi_anim.t = 0 end
+      if not v.bfdi_anim.length then
+        v.bfdi_anim.length = 0
+        for _, frame in ipairs(v.bfdi_anim) do
+          v.bfdi_anim.length = v.bfdi_anim.length + (frame.t or 0)
+        end
+      end
+      v.bfdi_anim.t = (v.bfdi_anim.t + dt) % v.bfdi_anim.length
+      local ix = 0
+      local t_tally = 0
+      for _, frame in ipairs(v.bfdi_anim) do
+        ix = ix + 1
+        t_tally = t_tally + frame.t
+        if t_tally > v.bfdi_anim.t then break end
+      end
+      v.pos.x = v.bfdi_anim[ix].x
+      v.pos.y = v.bfdi_anim[ix].y
+    end
+  end
+
+
+  return update_ref(self, dt)
+end
