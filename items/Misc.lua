@@ -1,6 +1,13 @@
 SMODS.Atlas {
-  key = "Misc",
+  key = "MiscBFDI",
   path = "BFDI.png",
+  px = 71,
+  py = 95
+}
+
+SMODS.Atlas {
+  key = "MiscBFDIA",
+  path = "BFDIA.png",
   px = 71,
   py = 95
 }
@@ -17,7 +24,7 @@ SMODS.Joker {
   key = 'yoylecake',
   config = { extra = { cards_left = 4 } },
   rarity = 2,
-  atlas = 'Misc',
+  atlas = 'MiscBFDI',
   pos = { x = 5, y = 3 },
   cost = 6,
   loc_vars = function(self, info_queue, card)
@@ -80,7 +87,7 @@ SMODS.Joker {
   key = 'bagofboogers',
   config = { extra = { given_mult = 10 } },
   rarity = 1,
-  atlas = 'Misc',
+  atlas = 'MiscBFDI',
   pos = { x = 6, y = 3 },
   cost = 4,
   loc_vars = function(self, info_queue, card)
@@ -103,7 +110,7 @@ SMODS.Joker {
 SMODS.Joker {
   key = 'bubblerecoverycenter',
   rarity = 2,
-  atlas = 'Misc',
+  atlas = 'MiscBFDI',
   pos = { x = 7, y = 3 },
   cost = 6,
   loc_vars = function(self, info_queue, card)
@@ -137,7 +144,7 @@ SMODS.Joker {
   key = 'magicaldieofjudgment',
   config = { extra = { reroll_seen = false } },
   rarity = 1,
-  atlas = 'Misc',
+  atlas = 'MiscBFDI',
   pos = { x = 0, y = 4 },
   cost = 4,
   loc_vars = function(self, info_queue, card)
@@ -164,5 +171,43 @@ SMODS.Joker {
       end
       card.ability.extra.reroll_seen = false
     end
+  end
+}
+
+SMODS.Joker {
+  key = 'yoylite',
+  config = { extra = { current_antes = 0, antes_required = 2, antes_backwards = 1 } },
+  rarity = 2,
+  atlas = 'MiscBFDIA',
+  pos = { x = 0, y = 5 },
+  cost = 6,
+  blueprint_compat = false,
+  eternal_compat = false,
+  perishable_compat = true,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.current_antes, card.ability.extra.antes_required, card.ability.extra.antes_backwards } }
+  end,
+  calculate = function(self, card, context)
+    if context.end_of_round and G.GAME.last_blind and G.GAME.last_blind.boss and not context.individual and not context.repetition and not context.blueprint then
+      card.ability.extra.current_antes = card.ability.extra.current_antes + 1
+      if card.ability.extra.current_antes == card.ability.extra.antes_required then
+        local eval = function(card) return not card.REMOVED end
+        juice_card_until(card, eval, true)
+      end
+      return {
+        message = (card.ability.extra.current_antes < card.ability.extra.antes_required) and
+            (card.ability.extra.current_antes .. '/' .. card.ability.extra.antes_required) or localize('k_active_ex'),
+        colour = G.C.FILTER
+      }
+    end
+
+    if context.selling_self then
+      ease_ante(-card.ability.extra.antes_backwards)
+      if card.ability.extra.antes_backwards == 1 then return { message = localize { type = 'variable', key = 's_ante', vars = { card.ability.extra.antes_backwards } } } end
+      return { message = localize { type = 'variable', key = 's_antes', vars = { card.ability.extra.antes_backwards } } }
+    end
+  end,
+  set_ability = function(self, card, initial, delay_sprites)
+    card.ability.extra.current_antes = 0
   end
 }

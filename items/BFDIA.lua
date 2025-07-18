@@ -128,7 +128,7 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'dora',
-  config = { extra = { is_contestant = true, added_xmult = 0.2, current_xmult = 1 } },
+  config = { extra = { is_contestant = true, added_xmult = 0.25, current_xmult = 1 } },
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 3, y = 0 },

@@ -442,7 +442,7 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'match',
-  config = { extra = { is_contestant = true, added_mult = 2, current_mult = 0 } },
+  config = { extra = { is_contestant = true, added_mult = 1, current_mult = 0 } },
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 2, y = 2 },
