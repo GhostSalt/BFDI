@@ -201,7 +201,7 @@ SMODS.Joker {
       }
     end
 
-    if context.selling_self then
+    if context.selling_self and card.ability.extra.current_antes >= card.ability.extra.antes_required then
       ease_ante(-card.ability.extra.antes_backwards)
       if card.ability.extra.antes_backwards == 1 then return { message = localize { type = 'variable', key = 's_ante', vars = { card.ability.extra.antes_backwards } } } end
       return { message = localize { type = 'variable', key = 's_antes', vars = { card.ability.extra.antes_backwards } } }

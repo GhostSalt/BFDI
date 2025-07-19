@@ -178,6 +178,44 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'clock',
+  config = { extra = { is_contestant = true, xmult = 3, current_antes = 0, antes_required = 2 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 1, y = 1 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return {
+      vars = { card.ability.extra.xmult, card.ability.extra.antes_required,
+        (card.ability.extra.current_antes < card.ability.extra.antes_required)
+        and (card.ability.extra.current_antes .. '/' .. card.ability.extra.antes_required) or localize('bfdi_active') }
+    }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = false,
+  calculate = function(self, card, context)
+    if context.end_of_round and G.GAME.last_blind and G.GAME.last_blind.boss and not context.individual and not context.repetition and not context.blueprint then
+      card.ability.extra.current_antes = card.ability.extra.current_antes + 1
+      if card.ability.extra.current_antes <= card.ability.extra.antes_required then
+        return {
+          message = (card.ability.extra.current_antes < card.ability.extra.antes_required) and
+              (card.ability.extra.current_antes .. '/' .. card.ability.extra.antes_required) or localize('k_active_ex'),
+          colour = G.C.FILTER
+        }
+      end
+    end
+
+    if context.joker_main and card.ability.extra.current_antes >= card.ability.extra.antes_required then
+      return { xmult = card.ability.extra.xmult }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
   key = 'cloudy',
   config = { extra = { is_contestant = true, added_xmult = 0.2, current_xmult = 1 } },
   rarity = 2,
@@ -216,14 +254,38 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'eggy',
+  config = { extra = { is_contestant = true, target_rounding = 10 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 3, y = 1 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.target_rounding } }
+  end,
+  blueprint_compat = false,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.cardarea == G.jokers and context.end_of_round and G.GAME.current_round.discards_left > 0 and not context.repetition and not context.repetition_only and not context.blueprint then
+      if G.GAME.dollars < 0 then return { dollars = -(G.GAME.dollars % card.ability.extra.target_rounding) }
+      else return { dollars = card.ability.extra.target_rounding - (G.GAME.dollars % card.ability.extra.target_rounding) } end
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
   key = 'fanny',
-  config = { extra = { is_contestant = true, given_xmult = 3, quipped = false } },
+  config = { extra = { is_contestant = true, xmult = 3, quipped = false } },
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 4, y = 1 },
   cost = 6,
   loc_vars = function(self, info_queue, card)
-    return { vars = { card.ability.extra.given_xmult, localize(G.GAME.current_round.fanny_card.rank, 'ranks') } }
+    return { vars = { card.ability.extra.xmult, localize(G.GAME.current_round.fanny_card.rank, 'ranks') } }
   end,
   blueprint_compat = true,
   eternal_compat = true,
@@ -246,7 +308,7 @@ SMODS.Joker {
         if context.scoring_hand[i]:get_id() == G.GAME.current_round.fanny_card.id then banned_rank = true end
       end
       if not banned_rank then
-        return { xmult = card.ability.extra.given_xmult }
+        return { xmult = card.ability.extra.xmult }
       end
     end
   end,
@@ -430,8 +492,57 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'taco',
+  config = { extra = { is_contestant = true, added_mult = 2, current_mult = 0, required_suits = 4 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 6, y = 3 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.added_mult, card.ability.extra.current_mult, card.ability.extra.required_suits } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = false,
+  calculate = function(self, card, context)
+    if context.joker_main and card.ability.extra.current_mult > 0 then
+      return { mult = card.ability.extra.current_mult }
+    end
+
+    if not context.blueprint and context.pre_discard then card.ability.extra.active = true end
+
+    if not context.blueprint and context.hand_drawn and card.ability.extra.active then
+      card.ability.extra.active = false
+
+      local detected_suits = {}
+      local wilds = 0
+      for i = 1, #G.hand.cards do
+        if G.hand.cards[i].ability.name ~= 'Wild Card' then
+          local is_new = true
+          local current_suit = G.hand.cards[i].base.suit
+          for _, suit in ipairs(detected_suits) do
+            if suit == current_suit then is_new = false end
+          end
+          if is_new then detected_suits[#detected_suits + 1] = current_suit end
+        end
+      end
+
+      for i = 1, #G.hand.cards do if G.hand.cards[i].ability.name == 'Wild Card' then wilds = wilds + 1 end end
+
+      if #detected_suits + wilds >= card.ability.extra.required_suits then
+        card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.added_mult
+        return { message = localize('k_upgrade_ex'), colour = G.C.FILTER, card = card }
+      end
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
   key = 'tree',
-  config = { extra = { is_contestant = true, added_chips = 6, current_chips = 0 } },
+  config = { extra = { is_contestant = true, added_chips = 7, current_chips = 0 } },
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 7, y = 3 },

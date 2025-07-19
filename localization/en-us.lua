@@ -306,6 +306,14 @@ return {
                     "when scored"
                 }
             },
+            j_bfdi_clock                = {
+                name = 'Clock',
+                text = {
+                    "{C:white,X:mult}X#1#{} Mult after",
+                    "{C:attention}#2#{} Antes",
+                    "{C:inactive}(Currently #3#){}"
+                }
+            },
             j_bfdi_cloudy               = {
                 name = 'Cloudy',
                 text = {
@@ -313,6 +321,15 @@ return {
                     "is played if all cards",
                     "held in hand are {C:attention}enhanced{}",
                     "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult)"
+                }
+            },
+            j_bfdi_eggy                 = {
+                name = 'Eggy',
+                text = {
+                    "At the end of",
+                    "the round, {C:attention}rounds{}",
+                    "your {C:money}money{} up to",
+                    "the nearest {C:money}$#1#{}"
                 }
             },
             j_bfdi_fanny                = {
@@ -362,6 +379,15 @@ return {
                 text = {
                     "Gains {C:mult}+#1#{} Mult when",
                     "each played {C:attention}10{} is scored",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
+                }
+            },
+            j_bfdi_taco                 = {
+                name = 'Taco',
+                text = {
+                    "After {C:red}discarding{}, gains",
+                    "{C:mult}+#1#{} Mult if your hand",
+                    "contains at least {C:attention}#3# suits{}",
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
                 }
             },
@@ -430,7 +456,7 @@ return {
                     "if you didn't {C:green}reroll{}"
                 }
             },
-            j_bfdi_yoylite       = {
+            j_bfdi_yoylite              = {
                 name = 'Yoylite',
                 text = {
                     "After {C:attention}#2#{} Antes, sell",
@@ -493,6 +519,8 @@ return {
             created_polychrome = "Polychrome",
             created_voucher_tag = "+Voucher Tag",
             created_d6_tag = "+D6 Tag",
+            bfdi_active = "active",
+            bfdi_inactive = "inactive"
         },
         v_dictionary = {
             bfdi_i_hate = "I HATE #1#s!",
