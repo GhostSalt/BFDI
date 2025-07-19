@@ -318,7 +318,7 @@ return {
             j_bfdi_fanny                = {
                 name = 'Fanny',
                 text = {
-                    "{C:white,X:mult}X#1#{} if played hand",
+                    "{C:white,X:mult}X#1#{} Mult if played hand",
                     "has no {C:attention}#2#s{}, rank",
                     "changes each round"
                 }
