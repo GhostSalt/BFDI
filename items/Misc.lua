@@ -12,9 +12,16 @@ SMODS.Atlas {
   py = 95
 }
 
+SMODS.Atlas {
+  key = "BFDITags",
+  path = "BFDITags.png",
+  px = 34,
+  py = 34
+}
+
 SMODS.Sound({
-	key = "yoylecake",
-	path = "bfdi_yoylecake.ogg",
+  key = "yoylecake",
+  path = "bfdi_yoylecake.ogg",
   replace = true
 })
 
@@ -28,10 +35,19 @@ SMODS.Joker {
   pos = { x = 5, y = 3 },
   cost = 6,
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue+1] = G.P_CENTERS.m_steel
-    return { vars = { card.ability.extra.cards_left, (function () if card.ability.extra.cards_left == 1 then return "" else return "s" end end )(), (function () if card.ability.extra.cards_left == 1 then return "s" else return "" end end )() } }
+    info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
+    return {
+      vars = { card.ability.extra.cards_left, (function()
+        if card.ability.extra.cards_left == 1 then
+          return ""
+        else
+          return
+          "s"
+        end
+      end)(), (function() if card.ability.extra.cards_left == 1 then return "s" else return "" end end)() }
+    }
   end,
-	blueprint_compat = false,
+  blueprint_compat = false,
   eternal_compat = false,
   perishable_compat = true,
   calculate = function(self, card, context)
@@ -43,43 +59,48 @@ SMODS.Joker {
           target:juice_up()
           return true
         end
-      })) 
-    G.E_MANAGER:add_event(Event({
-      func = function()
-        play_sound("bfdi_yoylecake", 1, 0.5)
-        return true
-      end
-    }))
-    card.ability.extra.cards_left = card.ability.extra.cards_left - 1
-    if card.ability.extra.cards_left > 0 then
-    return {
-      message = card.ability.extra.cards_left.."",
-      colour = G.C.RED,
-      card = card
-    }
-  else
-    G.E_MANAGER:add_event(Event({
-      func = function()
-          play_sound('tarot1')
-          card.T.r = -0.2
-          card:juice_up(0.3, 0.4)
-          card.states.drag.is = true
-          card.children.center.pinch.x = true
-          G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-              func = function()
-                      G.jokers:remove_card(card)
-                      card:remove()
-                      card = nil
-                  return true; end})) 
+      }))
+      G.E_MANAGER:add_event(Event({
+        func = function()
+          play_sound("bfdi_yoylecake", 1, 0.5)
           return true
+        end
+      }))
+      card.ability.extra.cards_left = card.ability.extra.cards_left - 1
+      if card.ability.extra.cards_left > 0 then
+        return {
+          message = card.ability.extra.cards_left .. "",
+          colour = G.C.RED,
+          card = card
+        }
+      else
+        G.E_MANAGER:add_event(Event({
+          func = function()
+            play_sound('tarot1')
+            card.T.r = -0.2
+            card:juice_up(0.3, 0.4)
+            card.states.drag.is = true
+            card.children.center.pinch.x = true
+            G.E_MANAGER:add_event(Event({
+              trigger = 'after',
+              delay = 0.3,
+              blockable = false,
+              func = function()
+                G.jokers:remove_card(card)
+                card:remove()
+                card = nil
+                return true;
+              end
+            }))
+            return true
+          end
+        }))
+        return {
+          message = localize('k_eaten_ex'),
+          colour = G.C.FILTER
+        }
       end
-  })) 
-  return {
-      message = localize('k_eaten_ex'),
-      colour = G.C.FILTER
-  }
     end
-  end
   end
 }
 
@@ -91,10 +112,10 @@ SMODS.Joker {
   pos = { x = 6, y = 3 },
   cost = 4,
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
+    info_queue[#info_queue + 1] = G.P_CENTERS.m_lucky
     return { vars = { card.ability.extra.given_mult } }
   end,
-	blueprint_compat = true,
+  blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = true,
   calculate = function(self, card, context)
@@ -114,10 +135,10 @@ SMODS.Joker {
   pos = { x = 7, y = 3 },
   cost = 6,
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue+1] = G.P_CENTERS.j_bfdi_bubble
-    return { }
+    info_queue[#info_queue + 1] = G.P_CENTERS.j_bfdi_bubble
+    return {}
   end,
-	blueprint_compat = false,
+  blueprint_compat = false,
   eternal_compat = true,
   perishable_compat = true,
   calculate = function(self, card, context)
@@ -126,16 +147,19 @@ SMODS.Joker {
       G.E_MANAGER:add_event(Event({
         func = (function()
           G.E_MANAGER:add_event(Event({
-            func = function() 
+            func = function()
               local joker = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_bfdi_bubble", "bubblerecoverycenter")
               G.jokers:emplace(joker)
               joker:start_materialize()
               G.GAME.joker_buffer = 0
               return true
-            end}))   
-          card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = "+Bubble", colour = G.C.FILTER})                       
-        return true
-      end)}))
+            end
+          }))
+          card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil,
+            { message = "+Bubble", colour = G.C.FILTER })
+          return true
+        end)
+      }))
     end
   end
 }
@@ -148,10 +172,10 @@ SMODS.Joker {
   pos = { x = 0, y = 4 },
   cost = 4,
   loc_vars = function(self, info_queue, card)
-    info_queue[#info_queue+1] = G.P_CENTERS.tag_d_six
-    return { }
+    info_queue[#info_queue + 1] = G.P_CENTERS.tag_d_six
+    return {}
   end,
-	blueprint_compat = false,
+  blueprint_compat = false,
   eternal_compat = true,
   perishable_compat = true,
   calculate = function(self, card, context)
@@ -160,12 +184,12 @@ SMODS.Joker {
     if context.ending_shop then
       if not card.ability.extra.reroll_seen then
         G.E_MANAGER:add_event(Event({
-            func = (function()
-                add_tag(Tag('tag_d_six'))
-                play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
-                card:juice_up()
-                return true
-            end)
+          func = (function()
+            add_tag(Tag('tag_d_six'))
+            play_sound('holo1', 1.2 + math.random() * 0.1, 0.4)
+            card:juice_up()
+            return true
+          end)
         }))
         return { message = localize('created_d6_tag'), colour = G.C.GREEN, card = card }
       end
@@ -209,5 +233,50 @@ SMODS.Joker {
   end,
   set_ability = function(self, card, initial, delay_sprites)
     card.ability.extra.current_antes = 0
+  end
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SMODS.Tag {
+  key = "contestant",
+  atlas = "BFDITags",
+  pos = { x = 0, y = 0 },
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue + 1] = { set = "Other", key = "contestant_joker" }
+    return {}
+  end,
+  apply = function(self, tag, context)
+    if context.type == 'store_joker_create' then
+      local candidates = {}
+      for i, v in pairs(G.P_CENTER_POOLS.Joker) do
+        if v.config and v.config.extra and type(v.config.extra) == "table" and v.config.extra.is_contestant then
+          candidates[#candidates + 1] = v.key
+        end
+      end
+      local card_to_create = pseudorandom_element(candidates, pseudoseed("randomcontestant")) or "j_joker"
+      local card = SMODS.create_card({set="Joker", area=context.area, key=card_to_create, key_append="contestanttag"})
+      create_shop_card_ui(card, 'Joker', context.area)
+      card.states.visible = false
+      tag:yep('+', G.C.GREEN, function()
+        card:start_materialize()
+        card.ability.couponed = true
+        card:set_cost()
+        return true
+      end)
+      tag.triggered = true
+      return card
+    end
   end
 }

@@ -8,6 +8,39 @@ SMODS.Atlas {
 to_big = to_big or function(x) return x end
 
 SMODS.Joker {
+  key = 'eightball',
+  config = { extra = { added_xmult = 0.8, current_xmult = 1, is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 0, y = 0 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.added_xmult } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.individual and not context.blueprint and context.cardarea == G.play and context.other_card:get_id() == 8 then
+      card.ability.extra.current_xmult = card.ability.extra.current_xmult + card.ability.extra.added_xmult
+      return { message = localize("k_upgrade_ex"), colour = G.C.FILTER, card = card }
+    end
+    
+    if context.joker_main and card.ability.extra.current_xmult > 1 then
+      return { xmult = card.ability.extra.current_xmult }
+    end
+
+    if context.after and not context.blueprint and card.ability.extra.current_xmult > 1 then
+      card.ability.extra.current_xmult = 1
+      return { message = localize("k_reset"), colour = G.C.RED, card = card }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
   key = 'basketball',
   config = { extra = { is_contestant = true } },
   rarity = 2,
@@ -268,8 +301,7 @@ SMODS.Joker {
   perishable_compat = true,
   calculate = function(self, card, context)
     if context.cardarea == G.jokers and context.end_of_round and G.GAME.current_round.discards_left > 0 and not context.repetition and not context.repetition_only and not context.blueprint then
-      if G.GAME.dollars < 0 then return { dollars = -(G.GAME.dollars % card.ability.extra.target_rounding) }
-      else return { dollars = card.ability.extra.target_rounding - (G.GAME.dollars % card.ability.extra.target_rounding) } end
+      return { dollars = card.ability.extra.target_rounding - (G.GAME.dollars % card.ability.extra.target_rounding) }
     end
   end,
   set_badges = function(self, card, badges)
@@ -464,6 +496,39 @@ SMODS.Joker {
 ]] --
 
 SMODS.Joker {
+  key = 'pillow',
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 0, y = 3 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue + 1] = G.P_TAGS.tag_phanta_contestant
+    return {}
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if G.GAME.blind and context.selling_card and context.card.config.center.rarity == 1 then
+      G.E_MANAGER:add_event(Event({
+        func = (function()
+          add_tag(Tag('tag_bfdi_contestant'))
+          play_sound('generic1', 0.9 + math.random() * 0.1, 0.8)
+          play_sound('holo1', 1.2 + math.random() * 0.1, 0.4)
+          card:juice_up()
+          return true
+        end)
+      }))
+      return { message = localize('created_contestant_tag'), colour = G.C.FILTER, card = card }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
   key = 'roboty',
   config = { extra = { is_contestant = true, added_mult = 1, current_mult = 0 } },
   rarity = 2,
@@ -484,6 +549,58 @@ SMODS.Joker {
     if context.individual and context.cardarea == G.play and context.other_card:get_id() == 10 and not context.blueprint then
       card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.added_mult
       return { message = localize('k_upgrade_ex'), colour = G.C.FILTER, card = card }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'saw',
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 4, y = 3 },
+  cost = 6,
+  blueprint_compat = false,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.before then
+      contains_eight = false
+      for _, v in ipairs(context.scoring_hand) do
+        if not SMODS.has_no_rank(v) and v:get_id() == 8 then contains_eight = true end
+      end
+
+      if contains_eight then context.scoring_hand[#context.scoring_hand].bfdi_saw_marked_for_death = true end
+    end
+
+    if context.destroying_card and context.destroying_card.bfdi_saw_marked_for_death then
+      return { remove = true }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'stapy',
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 5, y = 3 },
+  cost = 6,
+  blueprint_compat = false,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.evaluate_poker_hand and context.scoring_name == "High Card" then
+      return { replace_scoring_name = "Pair" }
+    end
+    if context.evaluate_poker_hand and context.scoring_name == "Three of a Kind" then
+      return { replace_scoring_name = "Four of a Kind" }
     end
   end,
   set_badges = function(self, card, badges)
@@ -517,7 +634,7 @@ SMODS.Joker {
       local detected_suits = {}
       local wilds = 0
       for i = 1, #G.hand.cards do
-        if G.hand.cards[i].ability.name ~= 'Wild Card' then
+        if G.hand.cards[i].ability.name ~= 'Wild Card' and not SMODS.has_no_suit(G.hand.cards[i]) then
           local is_new = true
           local current_suit = G.hand.cards[i].base.suit
           for _, suit in ipairs(detected_suits) do

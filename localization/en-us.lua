@@ -283,6 +283,14 @@ return {
                     "consumable is sold"
                 }
             },
+            j_bfdi_eightball           = {
+                name = '8-Ball',
+                text = {
+                    "Each hand, gives",
+                    "{C:white,X:mult}X#1#{} Mult for each",
+                    "played and scored {C:attention}8{}"
+                }
+            },
             j_bfdi_basketball           = {
                 name = 'Basketball',
                 text = {
@@ -374,12 +382,37 @@ return {
                     "{C:attention}final hand{} of round"
                 }
             },
+            j_bfdi_pillow             = {
+                name = 'Pillow',
+                text = {
+                    "During a round, sell",
+                    "a {C:blue}Common{} Joker to",
+                    "create a {C:attention}Contestant Tag{}"
+                }
+            },
             j_bfdi_roboty               = {
                 name = 'Roboty',
                 text = {
                     "Gains {C:mult}+#1#{} Mult when",
                     "each played {C:attention}10{} is scored",
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
+                }
+            },
+            j_bfdi_saw                = {
+                name = 'Saw',
+                text = {
+                    "If played hand",
+                    "contains an {C:attention}8{},",
+                    "{C:red}destroys{} the {C:attention}rightmost{}",
+                    "played and scored card"
+                }
+            },
+            j_bfdi_stapy                = {
+                name = 'Stapy',
+                text = {
+                    "{C:attention}High Cards{} count as",
+                    "{C:attention}Pairs{}, {C:attention}Three of a Kinds{}",
+                    "count as {C:attention}Four of a Kinds{}"
                 }
             },
             j_bfdi_taco                 = {
@@ -501,6 +534,15 @@ return {
                 }
             },
         },
+        Tag = {
+            tag_bfdi_contestant = {
+                name = "Contestant Tag",
+                text = {
+                    "Shop has a free",
+                    "{C:green}Contestant Joker{}",
+                },
+            }
+        },
         Other = {
             contestant_joker = {
                 name = 'Contestant Joker',
@@ -519,6 +561,7 @@ return {
             created_polychrome = "Polychrome",
             created_voucher_tag = "+Voucher Tag",
             created_d6_tag = "+D6 Tag",
+            created_contestant_tag = "+Contestant Tag",
             bfdi_active = "active",
             bfdi_inactive = "inactive"
         },
