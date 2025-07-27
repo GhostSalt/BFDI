@@ -283,7 +283,7 @@ return {
                     "consumable is sold"
                 }
             },
-            j_bfdi_eightball           = {
+            j_bfdi_eightball            = {
                 name = '8-Ball',
                 text = {
                     "Each hand, gives",
@@ -357,6 +357,15 @@ return {
                     "held in hand"
                 }
             },
+            j_bfdi_foldy                = {
+                name = 'Foldy',
+                text = {
+                    "Gains {C:mult}+#1#{} Mult",
+                    "every {C:attention}#2#{} {C:inactive}[#3#]{} played",
+                    "and scored cards",
+                    "{C:inactive}(Currently {C:mult}+#4#{C:inactive} Mult){}"
+                }
+            },
             j_bfdi_gaty                 = {
                 name = 'Gaty',
                 text = {
@@ -382,7 +391,17 @@ return {
                     "{C:attention}final hand{} of round"
                 }
             },
-            j_bfdi_pillow             = {
+            j_bfdi_marker               = {
+                name = 'Marker',
+                text = {
+                    "After first {C:green}reroll{},",
+                    "creates a {C:tarot}Tarot{} card",
+                    "After second {C:green}reroll{},",
+                    "creates a {C:planet}Planet{} card",
+                    "{C:inactive}(Must have room){}"
+                }
+            },
+            j_bfdi_pillow               = {
                 name = 'Pillow',
                 text = {
                     "During a round, sell",
@@ -398,7 +417,7 @@ return {
                     "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
                 }
             },
-            j_bfdi_saw                = {
+            j_bfdi_saw                  = {
                 name = 'Saw',
                 text = {
                     "If played hand",

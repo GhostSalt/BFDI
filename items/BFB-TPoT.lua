@@ -25,7 +25,7 @@ SMODS.Joker {
       card.ability.extra.current_xmult = card.ability.extra.current_xmult + card.ability.extra.added_xmult
       return { message = localize("k_upgrade_ex"), colour = G.C.FILTER, card = card }
     end
-    
+
     if context.joker_main and card.ability.extra.current_xmult > 1 then
       return { xmult = card.ability.extra.current_xmult }
     end
@@ -392,6 +392,36 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'foldy',
+  config = { extra = { is_contestant = true, added_mult = 5, current_mult = 0, scored_cards = 0, scored_card_target = 12 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 6, y = 1 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.added_mult, card.ability.extra.scored_card_target, card.ability.extra.scored_card_target - card.ability.extra.scored_cards, card.ability.extra.current_mult } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = false,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play then
+      card.ability.extra.scored_cards = card.ability.extra.scored_cards + 1
+      if card.ability.extra.scored_cards >= card.ability.extra.scored_card_target then
+        card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.added_mult
+        card.ability.extra.scored_cards = 0
+        return { message = localize("k_upgrade_ex"), colour = G.C.FILTER, card = card }
+      end
+    end
+
+    if context.joker_main and card.ability.extra.current_mult > 0 then return { mult = card.ability.extra.current_mult } end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
   key = 'gaty',
   config = { extra = { is_contestant = true } },
   rarity = 2,
@@ -494,6 +524,73 @@ SMODS.Joker {
   end
 }
 ]] --
+
+SMODS.Joker {
+  key = 'marker',
+  config = { extra = { is_contestant = true, counted_rerolls = 0 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 5, y = 2 },
+  cost = 6,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.reroll_shop then
+      if not context.blueprint then card.ability.extra.counted_rerolls = card.ability.extra.counted_rerolls + 1 end
+      if card.ability.extra.counted_rerolls < 3 and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+        local rerolls = card.ability.extra.counted_rerolls
+        return {
+          extra = {
+            focus = card,
+            message = localize(rerolls == 1 and 'k_plus_tarot' or 'k_plus_planet'),
+            func = function()
+              G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                delay = 0.0,
+                func = function()
+                  play_sound("timpani")
+                  local new_card = create_card(rerolls == 1 and "Tarot" or "Planet", G.consumables, nil, nil, nil, nil,
+                    nil, "marker")
+                  new_card:add_to_deck()
+                  G.consumeables:emplace(new_card)
+                  G.GAME.consumeable_buffer = 0
+                  new_card:juice_up(0.3, 0.5)
+                  return true
+                end
+              }))
+            end
+          },
+          colour = rerolls == 1 and G.C.SECONDARY_SET.Tarot or G.C.SECONDARY_SET.Planet,
+          card = card
+        }
+      end
+    end
+
+    if context.ending_shop and not context.blueprint then
+      card.ability.extra.counted_rerolls = 0
+    end
+  end,
+  add_to_deck = function(self, card, from_debuff)
+    if not G.PROFILES[G.SETTINGS.profile].bfdi_marker_no_of_encounters then G.PROFILES[G.SETTINGS.profile].bfdi_marker_no_of_encounters = 0 end
+    G.PROFILES[G.SETTINGS.profile].bfdi_marker_no_of_encounters = G.PROFILES[G.SETTINGS.profile]
+        .bfdi_marker_no_of_encounters + 1
+    G:save_settings()
+  end,
+  set_sprites = function(self, card, front)
+    local no_encounters = G.PROFILES[G.SETTINGS.profile].bfdi_marker_no_of_encounters
+    if no_encounters and no_encounters >= 3 then
+      card.children.center:set_sprite_pos({
+        x = 1,
+        y = 6
+      })
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
 
 SMODS.Joker {
   key = 'pillow',
