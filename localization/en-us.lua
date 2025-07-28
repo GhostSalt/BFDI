@@ -377,10 +377,10 @@ return {
             j_bfdi_lightning            = {
                 name = 'Lightning',
                 text = {
-                    "{C:red}Destroys{} all played and",
-                    "scored {C:attention}Gold{} cards, adds",
-                    "a random {C:attention}Gold{} card to",
-                    "your hand if successful"
+                    "Discarding a {C:attention}single{}",
+                    "card will {C:red}destroy{}",
+                    "it if a {C:attention}Gold{} card",
+                    "is held in hand"
                 }
             },
             j_bfdi_loser                = {

@@ -467,32 +467,13 @@ SMODS.Joker {
   eternal_compat = true,
   perishable_compat = true,
   calculate = function(self, card, context)
-    if context.destroy_card and not context.blueprint and context.cardarea == G.play and context.destroying_card.ability.name == 'Gold Card' then
-      card.ability.extra.triggered = true
-      return { remove = true }
-    end
-
-    if context.remove_playing_cards and card.ability.extra.triggered then
-      card.ability.extra.triggered = false
-      G.E_MANAGER:add_event(Event({
-        func = function()
-          local _card = create_playing_card(
-            { front = pseudorandom_element(G.P_CARDS, pseudoseed('lightningra')), center = G.P_CENTERS.m_gold }, G.hand,
-            nil,
-            nil, { G.C.SECONDARY_SET.Enhanced })
-
-          G.GAME.blind:debuff_card(_card)
-          G.hand:sort()
-          if context.blueprint_card then
-            context.blueprint_card:juice_up()
-          else
-            card:juice_up()
-          end
-          return true
+    if context.discard and #context.full_hand == 1 then
+      for i = 1, #G.hand.cards do
+        if G.hand.cards[i].ability.name == 'Gold Card' then
+          card:juice_up()
+          return { remove = true }
         end
-      }))
-
-      playing_card_joker_effects({ true })
+      end
     end
   end,
   set_badges = function(self, card, badges)
