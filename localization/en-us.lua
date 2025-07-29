@@ -566,10 +566,10 @@ return {
             contestant_joker = {
                 name = 'Contestant Joker',
                 text = {
-                    "A Joker depicting",
-                    "a character who",
-                    "competed in {C:green}BF{C:blue}DI{},",
-                    "{C:money}BF{C:attention}DI{C:inactive}A{}, {C:blue}BFB{} or {C:green}TPoT{}"
+                    "A Joker depicting a",
+                    "character who competed in",
+                    "{C:green}BF{C:blue}DI{}, {C:money}BF{C:attention}DI{C:inactive}A{}, {C:blue}BFB{}, {C:green}TPoT{}",
+                    "or other {C:attention}object shows{}"
                 }
             }
         }
