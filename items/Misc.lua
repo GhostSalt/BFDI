@@ -19,6 +19,13 @@ SMODS.Atlas {
   py = 34
 }
 
+SMODS.Atlas {
+  key = "BFDIEnhancements",
+  path = "BFDIEnhancements.png",
+  px = 71,
+  py = 95
+}
+
 SMODS.Sound({
   key = "yoylecake",
   path = "bfdi_yoylecake.ogg",
@@ -130,10 +137,10 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'bubblerecoverycenter',
-  rarity = 2,
+  rarity = 3,
   atlas = 'MiscBFDI',
   pos = { x = 7, y = 3 },
-  cost = 6,
+  cost = 8,
   loc_vars = function(self, info_queue, card)
     info_queue[#info_queue + 1] = G.P_CENTERS.j_bfdi_bubble
     return {}
@@ -175,11 +182,11 @@ SMODS.Joker {
     info_queue[#info_queue + 1] = G.P_CENTERS.tag_d_six
     return {}
   end,
-  blueprint_compat = false,
+  blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = true,
   calculate = function(self, card, context)
-    if context.reroll_shop then card.ability.extra.reroll_seen = true end
+    if context.reroll_shop and not context.blueprint then card.ability.extra.reroll_seen = true end
 
     if context.ending_shop then
       if not card.ability.extra.reroll_seen then
@@ -266,7 +273,13 @@ SMODS.Tag {
         end
       end
       local card_to_create = pseudorandom_element(candidates, pseudoseed("randomcontestant")) or "j_joker"
-      local card = SMODS.create_card({set="Joker", area=context.area, key=card_to_create, key_append="contestanttag"})
+      local card = SMODS.create_card({
+        set = "Joker",
+        area = context.area,
+        key = card_to_create,
+        key_append =
+        "contestanttag"
+      })
       create_shop_card_ui(card, 'Joker', context.area)
       card.states.visible = false
       tag:yep('+', G.C.GREEN, function()
@@ -279,4 +292,27 @@ SMODS.Tag {
       return card
     end
   end
+}
+
+SMODS.Seal {
+  key = "naily",
+  loc_txt = {
+    name = 'Naily Seal',
+    text = {
+      "{X:mult,C:white}X#1#{} Mult",
+      "while this card",
+      "stays in hand",
+    }
+  },
+  badge_colour = HEX("929292"),
+  atlas = "BFDIEnhancements",
+  pos = { x = 0, y = 0 },
+  config = { extra = { h_x_mult = 1.5 } },
+  loc_vars = function(self, info_queue, center)
+    return { vars = { self.config.extra.h_x_mult } }
+  end,
+  calculate = function(self, card, context)
+    if context.main_scoring and context.cardarea == G.hand then return { xmult = self.config.extra.h_x_mult } end
+  end,
+  in_pool = function() return false end
 }

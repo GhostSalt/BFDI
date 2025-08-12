@@ -291,6 +291,15 @@ return {
                     "played and scored {C:attention}8{}"
                 }
             },
+            j_bfdi_barfbag              = {
+                name = 'Barf Bag',
+                text = {
+                    "Creates a {C:tarot}Tarot{} card",
+                    "if all played cards",
+                    "are {C:attention}Lucky{} cards",
+                    "{C:inactive}(Must have room){}"
+                }
+            },
             j_bfdi_basketball           = {
                 name = 'Basketball',
                 text = {
@@ -312,6 +321,15 @@ return {
                     "Played {C:attention}Glass{} cards",
                     "give {C:white,X:mult}X#1#{} Mult",
                     "when scored"
+                }
+            },
+            j_bfdi_cake                 = {
+                name = 'Cake',
+                text = {
+                    "When your {C:attention}third{}",
+                    "hand is played,",
+                    "{C:attention}upgrades{} it by",
+                    "{C:attention}1{} level"
                 }
             },
             j_bfdi_clock                = {
@@ -401,12 +419,29 @@ return {
                     "{C:inactive}(Must have room){}"
                 }
             },
+            j_bfdi_naily                = {
+                name = 'Naily',
+                text = {
+                    "If first hand of",
+                    "round is a single",
+                    "card, gives it a",
+                    "{C:attention}Naily{} Seal"
+                }
+            },
             j_bfdi_pillow               = {
                 name = 'Pillow',
                 text = {
                     "During a round, sell",
                     "a {C:blue}Common{} Joker to",
                     "create a {C:attention}Contestant Tag{}"
+                }
+            },
+            j_bfdi_robotflower          = {
+                name = 'Robot Flower',
+                text = {
+                    "{C:attention}Steel cards{} held in hand",
+                    "or played and scored",
+                    "give {C:chips}+#1#{} Chips"
                 }
             },
             j_bfdi_roboty               = {
@@ -583,6 +618,9 @@ return {
             created_contestant_tag = "+Contestant Tag",
             bfdi_active = "active",
             bfdi_inactive = "inactive"
+        },
+        labels = {
+            bfdi_naily_seal = "Naily Seal",
         },
         v_dictionary = {
             bfdi_i_hate = "I HATE #1#s!",

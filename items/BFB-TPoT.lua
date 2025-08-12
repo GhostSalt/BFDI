@@ -41,6 +41,59 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'barfbag',
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 2, y = 0 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue + 1] = G.P_CENTERS.m_lucky
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.before then
+      local valid = true
+      for i = 1, #G.play.cards do
+        if G.play.cards[i].ability.name ~= 'Lucky Card' then valid = false end
+      end
+
+      if valid and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+        return {
+          extra = {
+            focus = card,
+            message = localize('k_plus_tarot'),
+            func = function()
+              G.E_MANAGER:add_event(Event({
+                trigger = 'before',
+                delay = 0.0,
+                func = function()
+                  play_sound("timpani")
+                  local new_card = create_card("Tarot", G.consumables, nil, nil, nil, nil, nil, "marker")
+                  new_card:add_to_deck()
+                  G.consumeables:emplace(new_card)
+                  G.GAME.consumeable_buffer = 0
+                  new_card:juice_up(0.3, 0.5)
+                  return true
+                end
+              }))
+            end
+          },
+          colour = G.C.SECONDARY_SET.Tarot,
+          card = card
+        }
+      end
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
   key = 'basketball',
   config = { extra = { is_contestant = true } },
   rarity = 2,
@@ -203,6 +256,35 @@ SMODS.Joker {
         xmult = card.ability.extra.given_xmult,
         card = card
       }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'cake',
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 0, y = 1 },
+  cost = 6,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.before and G.GAME.current_round.hands_played == 2 then
+      return {
+        message = localize('k_level_up_ex'),
+        card = card,
+        level_up = true
+      }
+    end
+
+    if context.after and G.GAME.current_round.hands_played == 1 then
+      local eval = function() return G.GAME.current_round.hands_played == 1 end
+      juice_card_until(card, eval, true)
     end
   end,
   set_badges = function(self, card, badges)
@@ -481,8 +563,7 @@ SMODS.Joker {
   end
 }
 
---[[
-SMODS.Joker {
+--[[SMODS.Joker {
   key = 'loser',
   config = { extra = { added_xmult = 0.25, current_xmult = 1, is_contestant = true } },
   rarity = 2,
@@ -503,8 +584,7 @@ SMODS.Joker {
   set_badges = function(self, card, badges)
     badges[#badges+1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
-}
-]] --
+}]] --
 
 SMODS.Joker {
   key = 'marker',
@@ -574,6 +654,42 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'naily',
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 6, y = 2 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue + 1] = { set = "Other", key = "bfdi_naily_seal", vars = {} }
+    return {}
+  end,
+  blueprint_compat = false,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.first_hand_drawn then
+      local eval = function() return G.GAME.current_round.hands_played == 0 end
+      juice_card_until(card, eval, true)
+    end
+
+    if context.cardarea == G.jokers and context.before and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 then
+      G.E_MANAGER:add_event(Event({
+        func = function()
+          context.full_hand[1]:set_seal("bfdi_naily")
+          context.full_hand[1]:juice_up()
+          return true
+        end
+      }))
+      return { message = "Naily Seal", colour = G.C.FILTER, card = card }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
   key = 'pillow',
   config = { extra = { is_contestant = true } },
   rarity = 2,
@@ -599,6 +715,41 @@ SMODS.Joker {
         end)
       }))
       return { message = localize('created_contestant_tag'), colour = G.C.FILTER, card = card }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'robotflower',
+  config = { extra = { is_contestant = true, given_chips = 101 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 2, y = 3 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    info_queue[#info_queue + 1] = G.P_CENTERS.m_steel
+    return { vars = { card.ability.extra.given_chips } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.individual and (context.cardarea == G.play or (context.cardarea == G.hand and not context.end_of_round)) and context.other_card.ability.name == 'Steel Card' then
+      if context.other_card.debuff then
+        return {
+          message = localize('k_debuffed'),
+          colour = G.C.RED,
+          card = card,
+        }
+      else
+        return {
+          chips = card.ability.extra.given_chips,
+          card = card
+        }
+      end
     end
   end,
   set_badges = function(self, card, badges)
