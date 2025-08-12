@@ -129,8 +129,16 @@ SMODS.Joker {
   pos = { x = 1, y = 1 },
   cost = 6,
   loc_vars = function(self, info_queue, card)
-    return { vars = { card.ability.extra.given_xmult, card.ability.extra.rounds_remaining, (function() if card.ability.extra.rounds_remaining == 1 then return
-        "" else return "s" end end)() } }
+    return {
+      vars = { card.ability.extra.given_xmult, card.ability.extra.rounds_remaining, (function()
+        if card.ability.extra.rounds_remaining == 1 then
+          return
+          ""
+        else
+          return "s"
+        end
+      end)() }
+    }
   end,
   blueprint_compat = true,
   eternal_compat = false,
@@ -301,28 +309,32 @@ SMODS.Joker {
     info_queue[#info_queue + 1] = G.P_CENTERS.m_wild
     return {}
   end,
-  blueprint_compat = false,
+  blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = true,
   calculate = function(self, card, context)
-    if context.destroying_card and #context.full_hand == 1 and context.full_hand[1]:is_face() then
+    if context.first_hand_drawn and not context.blueprint then
+      local eval = function() return G.GAME.current_round.hands_played == 0 end
+      juice_card_until(card, eval, true)
+    end
+    if context.destroying_card and #context.full_hand == 1 and G.GAME.current_round.hands_played == 0 and context.full_hand[1]:is_face() then
+
+      local _card = context.blueprint_card or card
       G.E_MANAGER:add_event(Event({
         func = function()
-          local _card = create_playing_card(
-          { front = G.P_CARDS[pseudorandom_element({ 'S', 'H', 'D', 'C' }, pseudoseed('fireysu')) .. "_A"], center = G
-          .P_CENTERS.m_wild }, G.hand, nil, nil, { G.C.SECONDARY_SET.Enhanced })
+          local new_card = create_playing_card(
+            {
+              front = G.P_CARDS[pseudorandom_element({ 'S', 'H', 'D', 'C' }, pseudoseed('fireysu')) .. "_A"],
+              center = G.P_CENTERS.m_wild
+            }, G.hand, nil, nil, { G.C.SECONDARY_SET.Enhanced })
 
-          G.GAME.blind:debuff_card(_card)
+          G.GAME.blind:debuff_card(new_card)
           G.hand:sort()
-          if context.blueprint_card then
-            context.blueprint_card:juice_up()
-          else
-            card:juice_up()
-          end
+          _card:juice_up()
           return true
         end
       }))
-      return true
+      return { remove = true }
     end
   end,
   set_badges = function(self, card, badges)
@@ -552,9 +564,11 @@ SMODS.Joker {
       card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.added_mult
       ease_dollars(-card.ability.extra.money_loss)
       G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) - card.ability.extra.money_loss
-      G.E_MANAGER:add_event(Event({ func = (function()
-        G.GAME.dollar_buffer = 0; return true
-      end) }))
+      G.E_MANAGER:add_event(Event({
+        func = (function()
+          G.GAME.dollar_buffer = 0; return true
+        end)
+      }))
       return {
         message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.current_mult } },
         colour = G.C.RED
@@ -585,7 +599,7 @@ SMODS.Joker {
       G.E_MANAGER:add_event(Event({
         func = function()
           local _card = create_playing_card(
-          { front = pseudorandom_element(G.P_CARDS, pseudoseed('pencilra')), center = G.P_CENTERS.m_wild }, G.hand, nil,
+            { front = pseudorandom_element(G.P_CARDS, pseudoseed('pencilra')), center = G.P_CENTERS.m_wild }, G.hand, nil,
             nil, { G.C.SECONDARY_SET.Enhanced })
 
           G.GAME.blind:debuff_card(_card)

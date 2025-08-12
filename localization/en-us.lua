@@ -64,8 +64,8 @@ return {
             j_bfdi_firey                = {
                 name = 'Firey',
                 text = {
-                    "If played hand has",
-                    "exactly {C:attention}1{} card, and it",
+                    "If first hand of round",
+                    "is exactly {C:attention}1{} card, and it",
                     "is a {C:attention}face{} card, destroys",
                     "it and creates a {C:attention}Wild Ace{}"
                 }
