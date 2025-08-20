@@ -65,9 +65,6 @@ SMODS.Joker {
       }))
       card_eval_status_text(card, 'extra', nil, nil, nil, { message = "Kaboom!", colour = G.C.RED, card = card })
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -97,9 +94,6 @@ SMODS.Joker {
         card = card
       }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -125,9 +119,6 @@ SMODS.Joker {
       card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.added_mult
       return { message = localize('k_upgrade_ex'), colour = G.C.FILTER, card = card }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -174,9 +165,6 @@ SMODS.Joker {
         return nil, true
       end
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -251,9 +239,6 @@ SMODS.Joker {
     { key = "c_pluto", name = "Pluto" }
     card.ability.extra.chosen_planet = selected_card.key
     card.ability.extra.chosen_planet_name = selected_card.name
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -302,9 +287,6 @@ SMODS.Joker {
     else
       card.children.center:set_sprite_pos(self.pos)
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -329,9 +311,6 @@ SMODS.Joker {
         card = card
       }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -382,9 +361,6 @@ SMODS.Joker {
     if context.cardarea == G.jokers and context.before then
       card.ability.extra.wild_detected = false
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -419,9 +395,6 @@ SMODS.Joker {
         card = card
       }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -443,8 +416,5 @@ SMODS.Joker {
       play_sound("bfdi_yellow_face", 1, 0.5)
       return { dollars = card.ability.extra.given_money }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }

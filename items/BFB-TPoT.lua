@@ -34,9 +34,6 @@ SMODS.Joker {
       card.ability.extra.current_xmult = 1
       return { message = localize("k_reset"), colour = G.C.RED, card = card }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -87,9 +84,6 @@ SMODS.Joker {
         }
       end
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -115,9 +109,6 @@ SMODS.Joker {
         card = card
       }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -150,9 +141,6 @@ SMODS.Joker {
     if context.end_of_round and G.GAME.last_blind and not G.GAME.last_blind.boss and not context.individual and not context.repetition and not context.blueprint then
       card.ability.extra.seen_straights = 0
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -264,9 +252,6 @@ SMODS.Joker {
         return true
       end
     }))
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -292,9 +277,6 @@ SMODS.Joker {
         card = card
       }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -321,9 +303,6 @@ SMODS.Joker {
       local eval = function() return G.GAME.current_round.hands_played == 1 end
       juice_card_until(card, eval, true)
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -359,9 +338,6 @@ SMODS.Joker {
     if context.joker_main and card.ability.extra.current_antes >= card.ability.extra.antes_required then
       return { xmult = card.ability.extra.xmult }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -397,9 +373,6 @@ SMODS.Joker {
         return { message = localize("k_upgrade_ex"), colour = G.C.FILTER, card = card }
       end
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -420,9 +393,6 @@ SMODS.Joker {
     if context.cardarea == G.jokers and context.end_of_round and G.GAME.current_round.discards_left > 0 and not context.repetition and not context.repetition_only and not context.blueprint then
       return { dollars = card.ability.extra.target_rounding - (G.GAME.dollars % card.ability.extra.target_rounding) }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -460,9 +430,6 @@ SMODS.Joker {
         return { xmult = card.ability.extra.xmult }
       end
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -502,9 +469,6 @@ SMODS.Joker {
       context.destroy_card.fireyjr_marked_for_death = false
       return true
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -532,9 +496,6 @@ SMODS.Joker {
     end
 
     if context.joker_main and card.ability.extra.current_mult > 0 then return { mult = card.ability.extra.current_mult } end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -563,9 +524,6 @@ SMODS.Joker {
       }))
       return { message = localize("created_polychrome"), colour = G.C.FILTER, card = card }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -589,9 +547,6 @@ SMODS.Joker {
         return { xmult = xmult }
       end
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -618,9 +573,6 @@ SMODS.Joker {
         end
       end
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -708,9 +660,6 @@ SMODS.Joker {
         y = 6
       })
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -744,9 +693,6 @@ SMODS.Joker {
       }))
       return { message = "Naily Seal", colour = G.C.FILTER, card = card }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -777,15 +723,12 @@ SMODS.Joker {
       }))
       return { message = localize('created_contestant_tag'), colour = G.C.FILTER, card = card }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
 SMODS.Joker {
   key = 'robotflower',
-  config = { extra = { is_contestant = true, given_chips = 101 } },
+  config = { extra = { is_contestant = true, given_chips = 101, bfj_mechanical_mind = true } },
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 2, y = 3 },
@@ -812,15 +755,12 @@ SMODS.Joker {
         }
       end
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
 SMODS.Joker {
   key = 'roboty',
-  config = { extra = { is_contestant = true, added_mult = 1, current_mult = 0 } },
+  config = { extra = { is_contestant = true, added_mult = 1, current_mult = 0, bfj_mechanical_mind = true } },
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 3, y = 3 },
@@ -840,9 +780,6 @@ SMODS.Joker {
       card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.added_mult
       return { message = localize('k_upgrade_ex'), colour = G.C.FILTER, card = card }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -869,9 +806,6 @@ SMODS.Joker {
     if context.destroying_card and context.destroying_card.bfdi_saw_marked_for_death then
       return { remove = true }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -892,9 +826,6 @@ SMODS.Joker {
     if context.evaluate_poker_hand and context.scoring_name == "Three of a Kind" then
       return { replace_scoring_name = "Four of a Kind" }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -941,9 +872,6 @@ SMODS.Joker {
         return { message = localize('k_upgrade_ex'), colour = G.C.FILTER, card = card }
       end
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
@@ -970,15 +898,12 @@ SMODS.Joker {
           (card.ability.extra.added_chips * G.GAME.current_round.discards_left)
       return { message = localize('k_upgrade_ex'), colour = G.C.FILTER, card = card }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
 
 SMODS.Joker {
   key = 'tv',
-  config = { extra = { given_xmult = 1.5, is_contestant = true } },
+  config = { extra = { is_contestant = true, given_xmult = 1.5, bfj_mechanical_mind = true } },
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 0, y = 4 },
@@ -1000,9 +925,6 @@ SMODS.Joker {
       }))
       return { xmult = card.ability.extra.given_xmult }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end,
   set_sprites = function(self, card, front)
     if not self.discovered and not card.params.bypass_discovery_center then
@@ -1048,9 +970,6 @@ SMODS.Joker {
       return { message = localize('created_voucher_tag'), colour = G.C.RED, card = card }
     end
   end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
-  end,
   set_sprites = function(self, card, front)
     if not self.discovered and not card.params.bypass_discovery_center then
       return
@@ -1092,8 +1011,5 @@ SMODS.Joker {
       card.ability.extra.current_xmult = card.ability.extra.current_xmult + card.ability.extra.added_xmult
       return { message = localize("k_upgrade_ex"), colour = G.C.FILTER }
     end
-  end,
-  set_badges = function(self, card, badges)
-    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
   end
 }
