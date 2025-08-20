@@ -401,6 +401,14 @@ return {
                     "to the {C:attention}first{} scored card"
                 }
             },
+            j_bfdi_grassy = {
+                name = 'Grassy',
+                text = {
+                    "{C:white,X:mult}X#1#{} Mult for each",
+                    "level in {C:attention}Full House{}",
+                    "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult){}"
+                }
+            },
             j_bfdi_lightning            = {
                 name = 'Lightning',
                 text = {

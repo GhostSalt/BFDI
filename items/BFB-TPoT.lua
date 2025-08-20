@@ -139,9 +139,11 @@ SMODS.Joker {
       card.ability.extra.seen_straights = card.ability.extra.seen_straights + 1
       if card.ability.extra.seen_straights >= card.ability.extra.required_straights then
         G.GAME.round_resets.blind_choices["Boss"] = get_new_boss()
-        return { message = localize { type = "name_text", key = G.GAME.round_resets.blind_choices["Boss"], set = "Blind" }, colour = G.P_BLINDS[G.GAME.round_resets.blind_choices["Boss"]].boss_colour }
+        return { message = localize { type = "name_text", key = G.GAME.round_resets.blind_choices["Boss"], set = "Blind" }, colour =
+        G.P_BLINDS[G.GAME.round_resets.blind_choices["Boss"]].boss_colour }
       else
-        return { message = card.ability.extra.seen_straights .. '/' .. card.ability.extra.required_straights, colour = G.C.FILTER }
+        return { message = card.ability.extra.seen_straights .. '/' .. card.ability.extra.required_straights, colour = G
+        .C.FILTER }
       end
     end
 
@@ -560,6 +562,32 @@ SMODS.Joker {
         end
       }))
       return { message = localize("created_polychrome"), colour = G.C.FILTER, card = card }
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
+  key = 'grassy',
+  config = { extra = { is_contestant = true, xmult_per_full_house = 0.2 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 0, y = 2 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.xmult_per_full_house, 1 + to_number(G.GAME.hands["Full House"].level * card.ability.extra.xmult_per_full_house) } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.joker_main then
+      local xmult = 1 + to_number(G.GAME.hands["Full House"].level * card.ability.extra.xmult_per_full_house)
+      if xmult > 1 then
+        return { xmult = xmult }
+      end
     end
   end,
   set_badges = function(self, card, badges)

@@ -5,6 +5,9 @@ SMODS.Atlas {
   py = 34
 }
 
+to_big = to_big or function(x) return x end
+to_number = to_number or function(x) return x end
+
 local allFolders = { "none", "items" }
 
 local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA", "BFB-TPoT", "Misc", "Legendaries", "Decks" } }
