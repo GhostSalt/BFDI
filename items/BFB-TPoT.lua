@@ -122,6 +122,39 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'bell',
+  config = { extra = { is_contestant = true, seen_straights = 0, required_straights = 2 } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 4, y = 0 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.required_straights, card.ability.extra.seen_straights } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.before and G.GAME.blind and (G.GAME.blind:get_type() == 'Small' or G.GAME.blind:get_type() == 'Big') and context.scoring_name == "Straight" and not context.blueprint and card.ability.extra.seen_straights < card.ability.extra.required_straights then
+      card.ability.extra.seen_straights = card.ability.extra.seen_straights + 1
+      if card.ability.extra.seen_straights >= card.ability.extra.required_straights then
+        G.GAME.round_resets.blind_choices["Boss"] = get_new_boss()
+        return { message = localize { type = "name_text", key = G.GAME.round_resets.blind_choices["Boss"], set = "Blind" }, colour = G.P_BLINDS[G.GAME.round_resets.blind_choices["Boss"]].boss_colour }
+      else
+        return { message = card.ability.extra.seen_straights .. '/' .. card.ability.extra.required_straights, colour = G.C.FILTER }
+      end
+    end
+
+    if context.end_of_round and G.GAME.last_blind and not G.GAME.last_blind.boss and not context.individual and not context.repetition and not context.blueprint then
+      card.ability.extra.seen_straights = 0
+    end
+  end,
+  set_badges = function(self, card, badges)
+    badges[#badges + 1] = create_badge(localize('contestant_joker_badge'), G.C.BFDI.MISC_COLOURS.BFDI_GREEN, G.C.WHITE, 1)
+  end
+}
+
+SMODS.Joker {
   key = 'blackhole',
   config = { extra = { levels = 3, is_contestant = true } },
   rarity = 2,

@@ -308,6 +308,15 @@ return {
                     "{C:attention}Steel{} cards"
                 }
             },
+            j_bfdi_bell           = {
+                name = 'Bell',
+                text = {
+                    "During the {C:attention}Small Blind{}",
+                    "or {C:attention}Big Blind{}, play",
+                    "{C:attention}2 Straights{} to",
+                    "reroll the {C:attention}Boss Blind{}"
+                }
+            },
             j_bfdi_blackhole            = {
                 name = 'Black Hole',
                 text = {
