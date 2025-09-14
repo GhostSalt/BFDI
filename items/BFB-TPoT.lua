@@ -114,31 +114,36 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'bell',
-  config = { extra = { is_contestant = true, seen_straights = 0, required_straights = 2 } },
+  config = { extra = { is_contestant = true, seen_straights = 0, required_straights = 2, current_xmult = 1, added_xmult = 0.25 } },
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 4, y = 0 },
   cost = 6,
   loc_vars = function(self, info_queue, card)
-    return { vars = { card.ability.extra.required_straights, card.ability.extra.seen_straights } }
+    return { vars = { card.ability.extra.required_straights, card.ability.extra.required_straights - card.ability.extra.seen_straights, card.ability.extra.current_xmult, card.ability.extra.added_xmult } }
   end,
   blueprint_compat = true,
   eternal_compat = true,
   perishable_compat = true,
   calculate = function(self, card, context)
-    if context.before and G.GAME.blind and (G.GAME.blind:get_type() == 'Small' or G.GAME.blind:get_type() == 'Big') and context.scoring_name == "Straight" and not context.blueprint and card.ability.extra.seen_straights < card.ability.extra.required_straights then
+    if context.joker_main and card.ability.extra.current_xmult > 1 then
+      return { xmult = card.ability.extra.current_xmult }
+    end
+  
+    if context.before and G.GAME.blind and context.scoring_name == "Straight" and not context.blueprint and card.ability.extra.seen_straights < card.ability.extra.required_straights then
       card.ability.extra.seen_straights = card.ability.extra.seen_straights + 1
       if card.ability.extra.seen_straights >= card.ability.extra.required_straights then
-        G.GAME.round_resets.blind_choices["Boss"] = get_new_boss()
-        return { message = localize { type = "name_text", key = G.GAME.round_resets.blind_choices["Boss"], set = "Blind" }, colour =
-        G.P_BLINDS[G.GAME.round_resets.blind_choices["Boss"]].boss_colour }
+        card.ability.extra.seen_straights = 0
+        return { message = localize("k_upgrade_ex"), colour = G.C.FILTER, card = card }
       else
-        return { message = card.ability.extra.seen_straights .. '/' .. card.ability.extra.required_straights, colour = G
-        .C.FILTER }
+        return {
+          message = card.ability.extra.seen_straights .. '/' .. card.ability.extra.required_straights,
+          colour = G.C.FILTER
+        }
       end
     end
 
-    if context.end_of_round and G.GAME.last_blind and not G.GAME.last_blind.boss and not context.individual and not context.repetition and not context.blueprint then
+    if context.end_of_round and not context.individual and not context.repetition and not context.blueprint then
       card.ability.extra.seen_straights = 0
     end
   end
@@ -378,13 +383,13 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'eggy',
-  config = { extra = { is_contestant = true, target_rounding = 10 } },
+  config = { extra = { is_contestant = true, target_rounding = 8 } },
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 3, y = 1 },
   cost = 6,
   loc_vars = function(self, info_queue, card)
-    return { vars = { card.ability.extra.target_rounding } }
+    return { vars = { card.ability.extra.target_rounding, G.GAME.dollars + card.ability.extra.target_rounding - (G.GAME.dollars % card.ability.extra.target_rounding) } }
   end,
   blueprint_compat = false,
   eternal_compat = true,
@@ -722,6 +727,29 @@ SMODS.Joker {
         end)
       }))
       return { message = localize('created_contestant_tag'), colour = G.C.FILTER, card = card }
+    end
+  end
+}
+
+SMODS.Joker {
+  key = 'remote',
+  config = { extra = { is_contestant = true, gained_chips = 10, bfj_mechanical_mind = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 1, y = 3 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.gained_chips } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.discard and context.other_card:get_id() <= 10 and
+        context.other_card:get_id() >= 0 and
+        context.other_card:get_id() % 2 == 0 then
+      context.other_card.ability.perma_bonus = (context.other_card.ability.perma_bonus or 0) + card.ability.extra.gained_chips
+      return { message = localize('k_upgrade_ex'), colour = G.C.CHIPS }
     end
   end
 }

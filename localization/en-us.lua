@@ -311,10 +311,10 @@ return {
             j_bfdi_bell           = {
                 name = 'Bell',
                 text = {
-                    "During the {C:attention}Small Blind{}",
-                    "or {C:attention}Big Blind{}, play",
-                    "{C:attention}2 Straights{} to",
-                    "reroll the {C:attention}Boss Blind{}"
+                    "Gains {C:white,X:mult}X#3#{} Mult if",
+                    "{C:attention}1{} {C:inactive}[#2#]{} {C:attention}Straights{} are",
+                    "played in a round",
+                    "{C:inactive}(Currently {C:white,X:mult}X#4#{C:inactive} Mult){}"
                 }
             },
             j_bfdi_blackhole            = {
@@ -364,7 +364,8 @@ return {
                     "At the end of",
                     "the round, {C:attention}rounds{}",
                     "your {C:money}money{} up to",
-                    "the nearest {C:money}$#1#{}"
+                    "the nearest {C:money}$#1#{}",
+                    "{C:inactive}(Will round to {C:money}$#2#{C:inactive}){}"
                 }
             },
             j_bfdi_fanny                = {
@@ -451,6 +452,15 @@ return {
                     "During a round, sell",
                     "a {C:blue}Common{} Joker to",
                     "create a {C:attention}Contestant Tag{}"
+                }
+            },
+            j_bfdi_remote               = {
+                name = 'Remote',
+                text = {
+                    "Cards with {C:attention}even{}",
+                    "rank permanently",
+                    "gain {C:chips}+#1#{} Chips",
+                    "when {C:red}discarded{}"
                 }
             },
             j_bfdi_robotflower          = {
