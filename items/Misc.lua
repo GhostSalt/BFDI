@@ -153,7 +153,8 @@ SMODS.Joker {
         card = card
       }
     end
-  end
+  end,
+  enhancement_gate = "m_lucky"
 }
 
 SMODS.Joker {
