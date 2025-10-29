@@ -376,7 +376,8 @@ SMODS.Joker {
         card = card
       }
     end
-  end
+  end,
+  enhancement_gate = "m_steel"
 }
 
 SMODS.Joker {
@@ -466,7 +467,8 @@ SMODS.Joker {
         colour = G.C.RED
       }
     end
-  end
+  end,
+  enhancement_gate = "m_wild"
 }
 
 SMODS.Joker {
@@ -714,7 +716,7 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'teardrop',
-  config = { extra = { given_mult = 30, given_xmult = 2, given_chips = 100, given_money = 6, odds = 3 } },
+  config = { extra = { is_contestant = true, given_mult = 30, given_xmult = 2, given_chips = 100, given_money = 6, odds = 3 } },
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 2, y = 3 },
@@ -820,5 +822,6 @@ SMODS.Joker {
         card = card
       }
     end
-  end
+  end,
+  enhancement_gate = "m_stone"
 }

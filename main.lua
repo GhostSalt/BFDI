@@ -64,12 +64,14 @@ function Game:init_game_object()
   local ret = igo(self)
   ret.current_round.book_card = { rank = "Ace", id = 14 }
   ret.current_round.fanny_card = { rank = "Ace", id = 14 }
+  ret.current_round.bracelety_card = { rank = "Ace", id = 14 }
   return ret
 end
 
 function SMODS.current_mod.reset_game_globals(run_start)
   G.GAME.current_round.book_card = { rank = "Ace", id = 14 }
   G.GAME.current_round.fanny_card = { rank = "Ace", id = 14 }
+  G.GAME.current_round.bracelety_card = { rank = "Ace", id = 14 }
   local valid_cards = {}
   for i, j in ipairs(G.playing_cards) do
     if not SMODS.has_no_rank(j) then
@@ -84,6 +86,10 @@ function SMODS.current_mod.reset_game_globals(run_start)
     local fanny_chosen_card = pseudorandom_element(valid_cards, pseudoseed('fanny' .. G.GAME.round_resets.ante))
     G.GAME.current_round.fanny_card.rank = fanny_chosen_card.base.value
     G.GAME.current_round.fanny_card.id = fanny_chosen_card.base.id
+
+    local bracelety_chosen_card = pseudorandom_element(valid_cards, pseudoseed('bracelety' .. G.GAME.round_resets.ante))
+    G.GAME.current_round.bracelety_card.rank = bracelety_chosen_card.base.value
+    G.GAME.current_round.bracelety_card.id = bracelety_chosen_card.base.id
   end
 end
 

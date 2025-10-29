@@ -312,7 +312,7 @@ return {
                 name = 'Bell',
                 text = {
                     "Gains {C:white,X:mult}X#3#{} Mult if",
-                    "{C:attention}1{} {C:inactive}[#2#]{} {C:attention}Straights{} are",
+                    "{C:attention}#1#{} {C:inactive}[#2#]{} {C:attention}Straights{} are",
                     "played in a round",
                     "{C:inactive}(Currently {C:white,X:mult}X#4#{C:inactive} Mult){}"
                 }
@@ -328,8 +328,16 @@ return {
                 name = 'Bottle',
                 text = {
                     "Played {C:attention}Glass{} cards",
-                    "give {C:white,X:mult}X#1#{} Mult",
-                    "when scored"
+                    "give an extra",
+                    "{C:white,X:mult}X#1#{} Mult when scored"
+                }
+            },
+            j_bfdi_bracelety                = {
+                name = 'Bracelety',
+                text = {
+                    "{C:white,X:mult}X#1#{} Mult if played hand",
+                    "has any {C:attention}#2#s{}, rank",
+                    "changes each round"
                 }
             },
             j_bfdi_cake                 = {
@@ -419,11 +427,18 @@ return {
                     "is held in hand"
                 }
             },
+            j_bfdi_lollipop                = {
+                name = 'Lollipop',
+                text = {
+                    "Gains {C:mult}+#1#{} Mult when",
+                    "selling a {C:attention}consumable{}",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult){}"
+                }
+            },
             j_bfdi_loser                = {
                 name = 'Loser',
                 text = {
-                    "Score cannot exceed",
-                    "{C:attention}Blind{} requirements until",
+                    "Round only {C:attention}ends{} after",
                     "{C:attention}final hand{} of round"
                 }
             },
@@ -651,6 +666,7 @@ return {
         },
         v_dictionary = {
             bfdi_i_hate = "I HATE #1#s!",
+            bfdi_i_love = "I LOVE #1#s!",
             s_ante = "-#1# Ante",
             s_antes = "-#1# Antes"
         }

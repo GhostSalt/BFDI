@@ -119,6 +119,12 @@ SMODS.Joker {
       card.ability.extra.current_mult = card.ability.extra.current_mult + card.ability.extra.added_mult
       return { message = localize('k_upgrade_ex'), colour = G.C.FILTER, card = card }
     end
+  end,
+  in_pool = function()
+    for _, v in ipairs(G.playing_cards) do
+      if v.seal then return true end
+    end
+    return false
   end
 }
 
@@ -361,7 +367,8 @@ SMODS.Joker {
     if context.cardarea == G.jokers and context.before then
       card.ability.extra.wild_detected = false
     end
-  end
+  end,
+  enhancement_gate = "m_wild"
 }
 
 SMODS.Joker {
