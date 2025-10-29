@@ -562,6 +562,14 @@ return {
                     "when scored"
                 }
             },
+            j_bfdi_scoreboard         = {
+                name = 'Scoreboard',
+                text = {
+                    "Played {C:attention}2s{}-{C:attention}5s{}",
+                    "give {C:chips}+#1#{} Chips",
+                    "when scored"
+                }
+            },
             j_bfdi_bagofboogers         = {
                 name = 'Bag of Boogers',
                 text = {

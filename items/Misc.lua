@@ -112,6 +112,27 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'scoreboard',
+  config = { extra = { given_chips = 30 } },
+  rarity = 1,
+  atlas = 'MiscBFDI',
+  pos = { x = 1, y = 4 },
+  cost = 4,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.given_chips } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play and
+    (context.other_card:get_id() == 2 or context.other_card:get_id() == 3 or context.other_card:get_id() == 4 or context.other_card:get_id() == 5) then
+      return { chips = card.ability.extra.given_chips }
+    end
+  end
+}
+
+SMODS.Joker {
   key = 'bagofboogers',
   config = { extra = { given_mult = 10 } },
   rarity = 1,
