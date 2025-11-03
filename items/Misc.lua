@@ -32,6 +32,12 @@ SMODS.Sound({
   replace = true
 })
 
+SMODS.Sound({
+  key = "maroon_ball",
+  path = "bfdi_maroon_ball.ogg",
+  replace = true
+})
+
 to_big = to_big or function(x) return x end
 
 SMODS.Joker {
@@ -126,9 +132,52 @@ SMODS.Joker {
   perishable_compat = true,
   calculate = function(self, card, context)
     if context.individual and context.cardarea == G.play and
-    (context.other_card:get_id() == 2 or context.other_card:get_id() == 3 or context.other_card:get_id() == 4 or context.other_card:get_id() == 5) then
+        (context.other_card:get_id() == 2 or context.other_card:get_id() == 3 or context.other_card:get_id() == 4 or context.other_card:get_id() == 5) then
       return { chips = card.ability.extra.given_chips }
     end
+  end
+}
+
+SMODS.Joker {
+  key = 'redball',
+  config = { extra = { given_money = 15 } },
+  rarity = 1,
+  atlas = 'MiscBFDI',
+  pos = { x = 5, y = 4 },
+  cost = 5,
+  loc_vars = function(self, info_queue, card)
+    local key = self.key
+    if not (card.area and (card.area == G.jokers or (G.your_collection and (card.area == G.your_collection[1] or card.area == G.your_collection[2] or card.area == G.your_collection[3])))) then key = "j_bfdi_unknownball" end
+    return { key = key, vars = { card.ability.extra.given_money } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.selling_self then
+      return { dollars = card.ability.extra.given_money }
+    end
+  end
+}
+
+SMODS.Joker {
+  key = 'maroonball',
+  config = { extra = { given_money = 15 } },
+  rarity = 1,
+  atlas = 'MiscBFDI',
+  pos = { x = 6, y = 4 },
+  cost = 5,
+  loc_vars = function(self, info_queue, card)
+    local key = self.key
+    if not (card.area and (card.area == G.jokers or (G.your_collection and (card.area == G.your_collection[1] or card.area == G.your_collection[2] or card.area == G.your_collection[3])))) then key = "j_bfdi_unknownball" end
+    return { key = key, vars = { card.ability.extra.given_money } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  add_to_deck = function(self, card, from_debuff)
+    card.sell_cost = 0
+    play_sound("bfdi_maroon_ball", 1, 1)
   end
 }
 

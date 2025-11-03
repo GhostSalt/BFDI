@@ -154,7 +154,7 @@ SMODS.Joker {
         end
       end
       local planet_to_destroy = #destructable_planet > 0 and
-      pseudorandom_element(destructable_planet, pseudoseed("dora")) or nil
+          pseudorandom_element(destructable_planet, pseudoseed("dora")) or nil
 
       if planet_to_destroy then
         planet_to_destroy.getting_sliced = true
@@ -221,7 +221,7 @@ SMODS.Joker {
       end
 
       local selected_card = (candidates and pseudorandom_element(candidates, pseudoseed("friesrandomplanet"))) or
-      { key = "c_pluto", name = "Pluto" }
+          { key = "c_pluto", name = "Pluto" }
       card.ability.extra.chosen_planet = selected_card.key
       card.ability.extra.chosen_planet_name = selected_card.name
 
@@ -242,7 +242,7 @@ SMODS.Joker {
     end
 
     local selected_card = (candidates and pseudorandom_element(candidates, pseudoseed("friesrandomplanet"))) or
-    { key = "c_pluto", name = "Pluto" }
+        { key = "c_pluto", name = "Pluto" }
     card.ability.extra.chosen_planet = selected_card.key
     card.ability.extra.chosen_planet_name = selected_card.name
   end
@@ -268,20 +268,63 @@ SMODS.Joker {
     end
 
     if context.setting_blind and not context.blueprint and not (context.blueprint_card or card).getting_sliced then
-      card.ability.extra.duhed = true
-      card.children.center:set_sprite_pos(self.duh_pos)
-      card_eval_status_text(card, 'extra', nil, nil, nil, { message = "...", colour = G.C.GREEN, card = card })
-    end
-
-    if context.cardarea == G.jokers and context.after and not context.blueprint and card.ability.extra.duhed then
-      card.ability.extra.duhed = false
       G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.15,
         func = function()
-          card.children.center:set_sprite_pos(self.pos)
-          card_eval_status_text(card, 'extra', nil, nil, nil, { message = "Oh yeah.", colour = G.C.GREEN, card = card })
+          card:flip(); play_sound('card1', 1); card:juice_up(0.3, 0.3); return true
+        end
+      }))
+      delay(0.2)
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.1,
+        func = function()
+          card.ability.extra.duhed = true
+          card.children.center:set_sprite_pos(self.duh_pos)
           return true
         end
       }))
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.15,
+        func = function()
+          card:flip()
+          play_sound('tarot2', 1, 0.6)
+          return true
+        end
+      }))
+      return { message = "...", colour = G.C.GREEN, message_card = card }
+    end
+
+    if context.cardarea == G.jokers and context.after and not context.blueprint and card.ability.extra.duhed then
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.15,
+        func = function()
+          card:flip(); play_sound('card1', 1); card:juice_up(0.3, 0.3); return true
+        end
+      }))
+      delay(0.2)
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.1,
+        func = function()
+          card.ability.extra.duhed = false
+          card.children.center:set_sprite_pos(self.pos)
+          return true
+        end
+      }))
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.15,
+        func = function()
+          card:flip()
+          play_sound('tarot2', 1, 0.6)
+          return true
+        end
+      }))
+      return { message = "Oh yeah.", colour = G.C.GREEN, message_card = card }
     end
   end,
   set_sprites = function(self, card, front)

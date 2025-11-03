@@ -291,6 +291,15 @@ return {
                     "played and scored {C:attention}8{}"
                 }
             },
+            j_bfdi_balloony             = {
+                name = 'Balloony',
+                text = {
+                    "At the end of the {C:attention}round{},",
+                    "creates a {C:planet}Planet{} card",
+                    "for each unused {C:red}discard{}",
+                    "{C:inactive}(Must have room){}"
+                }
+            },
             j_bfdi_barfbag              = {
                 name = 'Barf Bag',
                 text = {
@@ -308,7 +317,7 @@ return {
                     "{C:attention}Steel{} cards"
                 }
             },
-            j_bfdi_bell           = {
+            j_bfdi_bell                 = {
                 name = 'Bell',
                 text = {
                     "Gains {C:white,X:mult}X#3#{} Mult if",
@@ -332,7 +341,7 @@ return {
                     "{C:white,X:mult}X#1#{} Mult when scored"
                 }
             },
-            j_bfdi_bracelety                = {
+            j_bfdi_bracelety            = {
                 name = 'Bracelety',
                 text = {
                     "{C:white,X:mult}X#1#{} Mult if played hand",
@@ -410,7 +419,7 @@ return {
                     "to the {C:attention}first{} scored card"
                 }
             },
-            j_bfdi_grassy = {
+            j_bfdi_grassy               = {
                 name = 'Grassy',
                 text = {
                     "{C:white,X:mult}X#1#{} Mult for each",
@@ -427,7 +436,15 @@ return {
                     "is held in hand"
                 }
             },
-            j_bfdi_lollipop                = {
+            j_bfdi_liy                  = {
+                name = 'Liy',
+                text = {
+                    "{C:money}Sell{} a consumable for",
+                    "{C:white,X:mult}X#1#{} Mult next hand",
+                    "{C:inactive}(Currently #2#){}"
+                }
+            },
+            j_bfdi_lollipop             = {
                 name = 'Lollipop',
                 text = {
                     "Gains {C:mult}+#1#{} Mult when",
@@ -459,6 +476,14 @@ return {
                     "round is a single",
                     "card, gives it a",
                     "{C:attention}Naily{} Seal"
+                }
+            },
+            j_bfdi_pie                  = {
+                name = 'Pie',
+                text = {
+                    "Cards with {C:attention}seals{}",
+                    "give {C:white,X:mult}X#1#{} Mult",
+                    "when scored"
                 }
             },
             j_bfdi_pillow               = {
@@ -562,12 +587,35 @@ return {
                     "when scored"
                 }
             },
-            j_bfdi_scoreboard         = {
+            j_bfdi_scoreboard           = {
                 name = 'Scoreboard',
                 text = {
                     "Played {C:attention}2s{}-{C:attention}5s{}",
                     "give {C:chips}+#1#{} Chips",
                     "when scored"
+                }
+            },
+            j_bfdi_redball           = {
+                name = 'Red Ball',
+                text = {
+                    "Sell this Joker",
+                    "to earn {C:money}$#1#{}"
+                }
+            },
+            j_bfdi_maroonball           = {
+                name = 'Maroon Ball',
+                text = {
+                    "This is {C:red}not{}",
+                    "a red ball,",
+                    "no {C:attention}ability{} and",
+                    "no {C:money}sell value{}"
+                }
+            },
+            j_bfdi_unknownball           = {
+                name = 'Red Ball?',
+                text = {
+                    "Sell this Joker",
+                    "to earn {C:attention}$#1#{}"
                 }
             },
             j_bfdi_bagofboogers         = {
@@ -676,7 +724,9 @@ return {
             bfdi_i_hate = "I HATE #1#s!",
             bfdi_i_love = "I LOVE #1#s!",
             s_ante = "-#1# Ante",
-            s_antes = "-#1# Antes"
+            s_antes = "-#1# Antes",
+            a_planet = "+#1# Planet",
+            a_planets = "+#1# Planets"
         }
     }
 }

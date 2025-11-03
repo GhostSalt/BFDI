@@ -38,6 +38,46 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'balloony',
+  config = { extra = { is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 1, y = 0 },
+  cost = 6,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.end_of_round and not context.individual and not context.repetition and G.GAME.current_round.discards_left > 0 and count_consumables() < G.consumeables.config.card_limit then
+      local successes = 0
+      for i = 1, G.GAME.current_round.discards_left do
+        if count_consumables() < G.consumeables.config.card_limit then
+          G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+          successes = successes + 1
+          G.E_MANAGER:add_event(Event({
+            delay = 0.3,
+            blockable = false,
+            func = function()
+              play_sound("timpani")
+              local new_card = create_card("Planet", G.consumables, nil, nil, nil, nil, nil, "balloony")
+              new_card:add_to_deck()
+              G.consumeables:emplace(new_card)
+              G.GAME.consumeable_buffer = 0
+              new_card:juice_up(0.3, 0.5)
+              return true
+            end
+          }))
+        end
+      end
+      return {
+        message = localize { type = 'variable', key = successes == 1 and 'a_planet' or 'a_planets', vars = { successes } },
+        colour = G.C.SECONDARY_SET.Planet
+      }
+    end
+  end
+}
+
+SMODS.Joker {
   key = 'barfbag',
   config = { extra = { is_contestant = true } },
   rarity = 2,
@@ -131,7 +171,7 @@ SMODS.Joker {
     if context.joker_main and card.ability.extra.current_xmult > 1 then
       return { xmult = card.ability.extra.current_xmult }
     end
-  
+
     if context.before and G.GAME.blind and context.scoring_name == "Straight" and not context.blueprint and card.ability.extra.seen_straights < card.ability.extra.required_straights then
       card.ability.extra.seen_straights = card.ability.extra.seen_straights + 1
       if card.ability.extra.seen_straights >= card.ability.extra.required_straights then
@@ -622,6 +662,98 @@ SMODS.Joker {
 }
 
 SMODS.Joker {
+  key = 'liy',
+  config = { extra = { is_contestant = true, given_xmult = 2, active = false } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 2, y = 2 },
+  super_pos = { x = 2, y = 6 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.given_xmult, card.ability.extra.active and localize("bfdi_active") or localize("bfdi_inactive") } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.joker_main and card.ability.extra.active then
+      return { xmult = card.ability.extra.given_xmult }
+    end
+
+    if context.selling_card and context.card.config.center.set ~= "Joker" and not card.ability.extra.active and not context.blueprint then
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.15,
+        func = function()
+          card:flip(); play_sound('card1', 1); card:juice_up(0.3, 0.3); return true
+        end
+      }))
+      delay(0.2)
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.1,
+        func = function()
+          card.ability.extra.active = true
+          card.children.center:set_sprite_pos(self.super_pos)
+          return true
+        end
+      }))
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.15,
+        func = function()
+          card:flip()
+          play_sound('tarot2', 1, 0.6)
+          local eval = function() return context.before end
+          juice_card_until(card, eval, true)
+          return true
+        end
+      }))
+      return { message = localize("k_active_ex"), colour = G.C.BLUE, message_card = card }
+    end
+
+    if context.cardarea == G.jokers and context.after and not context.blueprint then
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.15,
+        func = function()
+          card:flip(); play_sound('card1', 1); card:juice_up(0.3, 0.3); return true
+        end
+      }))
+      delay(0.2)
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.1,
+        func = function()
+          card.ability.extra.active = false
+          card.children.center:set_sprite_pos(self.pos)
+          return true
+        end
+      }))
+      G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay = 0.15,
+        func = function()
+          card:flip()
+          play_sound('tarot2', 1, 0.6)
+          return true
+        end
+      }))
+    end
+  end,
+  set_sprites = function(self, card, front)
+    if not self.discovered and not card.params.bypass_discovery_center then
+      return
+    end
+    if card and card.children and card.children.center and card.children.center.set_sprite_pos and card.ability and card.ability.extra and card.ability.extra.active then
+      card.children.center:set_sprite_pos(self.super_pos)
+    else
+      card.children.center:set_sprite_pos(self.pos)
+    end
+  end
+}
+
+SMODS.Joker {
   key = 'lollipop',
   config = { extra = { is_contestant = true, added_mult = 1, current_mult = 0 } },
   rarity = 2,
@@ -651,11 +783,11 @@ SMODS.Joker {
   atlas = 'BFB-TPoT',
   pos = { x = 4, y = 2 },
   cost = 6,
-	blueprint_compat = false,
+  blueprint_compat = false,
   eternal_compat = true,
   perishable_compat = true,
   in_pool = function()
-    return not next(SMODS.find_mod('NotJustYet'))   -- If you have NotJustYet, this Joker is useless.
+    return not next(SMODS.find_mod('NotJustYet')) -- If you have NotJustYet, this Joker is useless.
   end
 }
 
@@ -753,6 +885,32 @@ SMODS.Joker {
       }))
       return { message = "Naily Seal", colour = G.C.FILTER, card = card }
     end
+  end
+}
+
+SMODS.Joker {
+  key = 'pie',
+  config = { extra = { xmult = 1.5, is_contestant = true } },
+  rarity = 2,
+  atlas = 'BFB-TPoT',
+  pos = { x = 7, y = 2 },
+  cost = 6,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.xmult } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play and context.other_card.seal and not context.repetition then
+      return { xmult = card.ability.extra.xmult }
+    end
+  end,
+  in_pool = function()
+    for _, v in ipairs(G.playing_cards) do
+      if v.seal then return true end
+    end
+    return false
   end
 }
 
