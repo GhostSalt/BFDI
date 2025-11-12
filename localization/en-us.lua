@@ -650,6 +650,15 @@ return {
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#){}"
                 }
             },
+            j_bfdi_profily                  = {
+                name = 'Profily',
+                text = {
+                    "{C:white,X:mult}X#1#{} Mult if Jokers",
+                    "to the left and",
+                    "right are both",
+                    "{C:attention}Contestant{} Jokers"
+                }
+            },
             j_bfdi_speakerbox           = {
                 name = 'Speaker Box',
                 text = {
@@ -676,6 +685,13 @@ return {
                     "played hand is a",
                     "{C:attention}Two Pair{}",
                     "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive}} Mult){}"
+                }
+            },
+            j_bfdi_three                  = {
+                name = 'Three',
+                text = {
+                    "Played cards change",
+                    "{C:attention}rank{} if {C:attention}unscored{}"
                 }
             },
             j_bfdi_four                 = {

@@ -5,12 +5,14 @@ SMODS.Atlas {
   py = 34
 }
 
+SMODS.current_mod.optional_features = { cardareas = { unscored = true } }
+
 to_big = to_big or function(x) return x end
 to_number = to_number or function(x) return x end
 
 local allFolders = { "none", "items" }
 
-local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA", "BFB-TPoT", "Misc", "Legendaries", "Decks" } }
+local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA", "BFB-TPoT", "OtherCharacters", "Misc", "Decks" } }
 
 for i = 1, #allFolders do
   if allFolders[i] == "none" then

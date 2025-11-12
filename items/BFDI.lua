@@ -5,8 +5,6 @@ SMODS.Atlas {
   py = 95
 }
 
-SMODS.current_mod.optional_features = { cardareas = { unscored = true } }
-
 SMODS.Sound({
   key = "blocky",
   path = "bfdi_blocky.ogg",
