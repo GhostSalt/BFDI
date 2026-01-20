@@ -10,9 +10,21 @@ SMODS.current_mod.optional_features = { cardareas = { unscored = true } }
 to_big = to_big or function(x) return x end
 to_number = to_number or function(x) return x end
 
+function count_tarots()
+  local tarot_counter = 0
+  if G.consumeables then
+    for _, card in pairs(G.consumeables.cards) do
+      if card.ability.set == "Tarot" then
+        tarot_counter = tarot_counter + 1
+      end
+    end
+  end
+  return tarot_counter
+end
+
 local allFolders = { "none", "items" }
 
-local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA", "BFB-TPoT", "OtherCharacters", "Misc", "Decks" } }
+local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA", "BFB-TPoT",  "BFDIE", "OtherCharacters", "Misc", "Decks" } }
 
 for i = 1, #allFolders do
   if allFolders[i] == "none" then
@@ -30,6 +42,8 @@ G.C.BFDI = {}
 
 G.C.BFDI.MISC_COLOURS = {
   BFDI_GREEN = HEX("076908"),
+  BFDIE_ORANGE = HEX("E45D3B"),
+  BFDIE_LIME = HEX("D5E857")
 }
 
 local loc_colour_ref = loc_colour
@@ -42,6 +56,8 @@ function loc_colour(_c, default)
 
     local new_colors = {
       bfdi_green = G.C.BFDI_GREEN,
+      bfdi_orange = G.C.BFDIE_ORANGE,
+      bfdi_lime = G.C.BFDIE_LIME,
     }
 
     for k, v in pairs(new_colors) do

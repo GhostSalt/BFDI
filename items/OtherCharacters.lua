@@ -26,11 +26,13 @@ SMODS.Joker {
       local left_joker = nil
       local right_joker = nil
       for i = 1, #G.jokers.cards do
-        if G.jokers.cards[i] == card then left_joker = G.jokers.cards[i - 1]; right_joker = G.jokers.cards[i + 1]; end
+        if G.jokers.cards[i] == card then
+          left_joker = G.jokers.cards[i - 1]; right_joker = G.jokers.cards[i + 1];
+        end
       end
       if left_joker and left_joker ~= card and right_joker and right_joker ~= card then
         if left_joker.ability and left_joker.ability.extra and type(left_joker.ability.extra) == "table" and left_joker.ability.extra.is_contestant
-        and right_joker.ability and right_joker.ability.extra and type(right_joker.ability.extra) == "table" and right_joker.ability.extra.is_contestant then
+            and right_joker.ability and right_joker.ability.extra and type(right_joker.ability.extra) == "table" and right_joker.ability.extra.is_contestant then
           return { xmult = card.ability.extra.given_xmult }
         end
       end
@@ -264,5 +266,38 @@ SMODS.Joker {
     G.hand:change_size(-card.ability.extra.added_hand_size)
     G.GAME.round_resets.hands = G.GAME.round_resets.hands - card.ability.extra.added_hands
     ease_hands_played(-card.ability.extra.added_hands)
+  end
+}
+
+SMODS.Joker {
+  key = 'x',
+  config = { extra = { chosen_rank = 2, xmult = 2 } },
+  rarity = 3,
+  atlas = 'BFB-TPoT',
+  pos = { x = 5, y = 6 },
+  cost = 10,
+  loc_vars = function(self, info_queue, card)
+    return { vars = { card.ability.extra.xmult } }
+  end,
+  blueprint_compat = true,
+  eternal_compat = true,
+  perishable_compat = true,
+  calculate = function(self, card, context)
+    if context.individual and context.cardarea == G.play and context.other_card:get_id() == card.ability.extra.chosen_rank then
+      return { xmult = card.ability.extra.xmult }
+    end
+  end,
+  set_ability = function(self, card, initial, delay_sprites)
+    local valid_cards = {}
+    if G.playing_cards then
+      for i, j in ipairs(G.playing_cards) do
+        if not SMODS.has_no_rank(j) then
+          valid_cards[#valid_cards + 1] = j
+        end
+      end
+    end
+    if valid_cards[1] then
+      card.ability.extra.chosen_rank = pseudorandom_element(valid_cards, pseudoseed("xrank")):get_id()
+    end
   end
 }

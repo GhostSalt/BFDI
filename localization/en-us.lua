@@ -229,7 +229,7 @@ return {
                 name = 'Dora',
                 text = {
                     "When {C:attention}Blind{} is selected,",
-                    "destroys 1 {C:planet}Planet{} card",
+                    "{C:red}destroys{} 1 {C:planet}Planet{} card",
                     "and gains {C:white,X:mult}X#1#{} Mult",
                     "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult){}"
                 }
@@ -579,6 +579,104 @@ return {
                     "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult){}"
                 }
             },
+            j_bfdi_beachball            = {
+                name = 'Beach Ball',
+                text = {
+                    "{C:white,X:mult}X#1#{} Mult,",
+                    "{C:red,E:2}self destructs{} if",
+                    "scoring hand contains",
+                    "a {C:attention}non-Wild{} {C:spades}Spade{}"
+                }
+            },
+            j_bfdi_fern                 = {
+                name = 'Fern',
+                text = {
+                    "Earn {C:money}$#1#{} at the end",
+                    "of the {C:attention}round{} if",
+                    "exactly {C:blue}#2#{} hand and",
+                    "{C:red}#3#{} discard were used"
+                }
+            },
+            j_bfdi_hotdog               = {
+                name = 'Hot Dog',
+                text = {
+                    "During any {C:attention}Boss Blind{},",
+                    "gains {C:white,X:mult}X#1#{} Mult if a",
+                    "single card is {C:red}discarded{}",
+                    "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult){}"
+                }
+            },
+            j_bfdi_jammy                = {
+                name = 'Jammy',
+                text = {
+                    "All cards added",
+                    "to your deck",
+                    "become {C:attention}Glass{}"
+                }
+            },
+            j_bfdi_money                = {
+                name = 'Money',
+                text = {
+                    "If played hand has",
+                    "{C:attention}#1#{} scoring cards,",
+                    "each earns {C:money}$#2#{}",
+                    "when scored"
+                }
+            },
+            j_bfdi_needy                = {
+                name = 'Needy',
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "gain {C:blue}+#1#{} hand for",
+                    "each held {C:tarot}Tarot{} card",
+                    "{C:inactive}(Max of {C:blue}+#2#{C:inactive} hands){}"
+                }
+            },
+            j_bfdi_rose                 = {
+                name = 'Rose',
+                text = {
+                    "Retriggers all played",
+                    "and scored cards",
+                    "if {C:red}no discards{} were",
+                    "used this round"
+                }
+            },
+            j_bfdi_ruler                = {
+                name = 'Ruler',
+                text = {
+                    "If played hand contains",
+                    "a {C:attention}Straight{}, all other",
+                    "{C:attention}Contestant{} Jokers",
+                    "give {C:mult}+#1#{} Mult"
+                }
+            },
+            j_bfdi_sidewalky            = {
+                name = 'Sidewalky',
+                text = {
+                    "Gives {X:mult,C:white}X#1#{} Mult",
+                    "for each {C:attention}Stone Card{}",
+                    "in your {C:attention}full deck{}",
+                    "{C:inactive}(Currently {X:mult,C:white}X#2#{C:inactive} Mult){}",
+                }
+            },
+            j_bfdi_sticker              = {
+                name = 'Sticker',
+                text = {
+                    "When {C:attention}round{} begins,",
+                    "adds a {C:attention}Sticker Sticker{} to",
+                    "one random card in",
+                    "your hand without one"
+                }
+            },
+            j_bfdi_toothpaste           = {
+                name = 'Toothpaste',
+                text = {
+                    "Gains {C:chips}+#1#{} Chips for",
+                    "each destroyed card",
+                    "with {C:attention}no enhancement{}",
+                    "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips){}"
+                }
+            },
             j_bfdi_yoylecake            = {
                 name = 'Yoylecake',
                 text = {
@@ -595,7 +693,7 @@ return {
                     "when scored"
                 }
             },
-            j_bfdi_redball           = {
+            j_bfdi_redball              = {
                 name = 'Red Ball',
                 text = {
                     "Sell this Joker",
@@ -611,7 +709,7 @@ return {
                     "no {C:money}sell value{}"
                 }
             },
-            j_bfdi_unknownball           = {
+            j_bfdi_unknownball          = {
                 name = 'Red Ball?',
                 text = {
                     "Sell this Joker",
@@ -650,7 +748,7 @@ return {
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#){}"
                 }
             },
-            j_bfdi_profily                  = {
+            j_bfdi_profily              = {
                 name = 'Profily',
                 text = {
                     "{C:white,X:mult}X#1#{} Mult if Jokers",
@@ -660,7 +758,7 @@ return {
                 }
             },
             j_bfdi_speakerbox           = {
-                name = 'Speaker Box',
+                name = 'Announcer',
                 text = {
                     "When {C:attention}Blind{} is selected,",
                     "destroys 1 {C:attention}Contestant{} Joker",
@@ -687,7 +785,7 @@ return {
                     "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive}} Mult){}"
                 }
             },
-            j_bfdi_three                  = {
+            j_bfdi_three                = {
                 name = 'Three',
                 text = {
                     "Played cards change",
@@ -701,6 +799,15 @@ return {
                     "{C:blue}+#2#{} hands"
                 }
             },
+            j_bfdi_x                    = {
+                name = 'X',
+                text = {
+                    "Played {C:attention}X{}s give",
+                    "{C:white,X:mult}X#1#{} Mult when scored,",
+                    "{C:attention}X{} is a secret",
+                    "unchanging {C:attention}rank{}"
+                }
+            },
         },
         Tag = {
             tag_bfdi_contestant = {
@@ -712,12 +819,21 @@ return {
             }
         },
         Other = {
+            bfdi_stickersticker = {
+                name = "Sticker",
+                text = {
+                    "Earn {C:money}$1{} when this",
+                    "card is played",
+                    "and scores"
+                }
+            },
             contestant_joker = {
                 name = 'Contestant Joker',
                 text = {
                     "A Joker depicting a",
                     "character who competed in",
-                    "{C:green}BF{C:blue}DI{}, {C:money}BF{C:attention}DI{C:inactive}A{}, {C:blue}BFB{}, {C:green}TPoT{}",
+                    "{C:bfdi_green}BF{C:blue}DI{}, {C:money}BF{C:attention}DI{C:inactive}A{}, {C:blue}BFB{},",
+                    "{C:green}TPoT{}, {C:bfdie_orange}BF{C:bfdie_lime}DI{C:bfdie_orange}E{}",
                     "or other {C:attention}object shows{}"
                 }
             }
@@ -735,6 +851,7 @@ return {
         },
         labels = {
             bfdi_naily_seal = "Naily Seal",
+            bfdi_stickersticker = "Sticker"
         },
         v_dictionary = {
             bfdi_i_hate = "I HATE #1#s!",
@@ -742,7 +859,8 @@ return {
             s_ante = "-#1# Ante",
             s_antes = "-#1# Antes",
             a_planet = "+#1# Planet",
-            a_planets = "+#1# Planets"
+            a_planets = "+#1# Planets",
+            a_hand = "+#1# Hand"
         }
     }
 }

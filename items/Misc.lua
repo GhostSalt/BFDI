@@ -387,3 +387,18 @@ SMODS.Seal {
   end,
   in_pool = function() return false end
 }
+
+SMODS.Sticker({
+  key = "stickersticker",
+  badge_colour = HEX("555555"),
+  atlas = "BFDIEnhancements",
+  pos = { x = 1, y = 0 },
+  sets = {
+    Default = true,
+    Enhanced = true
+  },
+  calculate = function(self, card, context)
+    if context.main_scoring and context.cardarea == G.play then return { dollars = 1 } end
+  end,
+  in_pool = function() return false end
+})
