@@ -10,6 +10,16 @@ SMODS.current_mod.optional_features = { cardareas = { unscored = true } }
 to_big = to_big or function(x) return x end
 to_number = to_number or function(x) return x end
 
+if not count_consumables then
+  count_consumables = function()
+    if G.consumeables.get_total_count then
+      return G.consumeables:get_total_count()
+    else
+      return #G.consumeables.cards + G.GAME.consumeable_buffer
+    end
+  end
+end
+
 function count_tarots()
   local tarot_counter = 0
   if G.consumeables then
@@ -24,7 +34,7 @@ end
 
 local allFolders = { "none", "items" }
 
-local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA", "BFB-TPoT",  "BFDIE", "OtherCharacters", "Misc", "Decks" } }
+local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA", "BFB-TPoT", "BFDIE", "OtherCharacters", "Misc", "Decks" } }
 
 for i = 1, #allFolders do
   if allFolders[i] == "none" then
