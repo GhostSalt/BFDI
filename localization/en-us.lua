@@ -452,8 +452,9 @@ return {
                 name = 'Dora',
                 text = {
                     "When {C:attention}Blind{} is selected,",
-                    "{C:red}destroys{} 1 {C:planet}Planet{} card",
-                    "and gains {C:white,X:mult}X#1#{} Mult",
+                    "{C:red}destroys{} {C:attention}1{} {C:planet}Planet{} card",
+                    "Gains {C:white,X:mult}X#1#{} Mult",
+                    "if successful",
                     "{C:inactive}(Currently {C:white,X:mult}X#2#{C:inactive} Mult){}"
                 }
             },
@@ -1013,7 +1014,7 @@ return {
             j_bfdi_profily              = {
                 name = 'Profily',
                 text = {
-                    "{C:white,X:mult}X#1#{} Mult if Jokers",
+                    "{C:white,X:mult}X#1#{} Mult if {C:attention}Jokers{}",
                     "to the left and",
                     "right are both",
                     "{C:attention}Contestant{} Jokers"
