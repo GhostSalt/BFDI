@@ -19,6 +19,230 @@ return {
                 }
             }
         },
+        bfdi_Token = {
+            c_bfdi_token_win = {
+                name = "Win Token",
+                text = {
+                    {
+                        "Reduces {C:attention}Blind{}",
+                        "requirement by {C:attention}50%{}"
+                    },
+                    {
+                        "Play {C:attention}#1#{} {C:inactive}[#2#]{} {C:attention}High Cards{}",
+                        "to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_swap = {
+                name = "Swap Token",
+                text = {
+                    {
+                        "During a round, swaps",
+                        "{C:blue}hands{} and {C:red}discards{}",
+                        "{C:inactive}(Must have at{}",
+                        "{C:inactive}least 1 discard){}"
+                    },
+                    {
+                        "Play a hand containing",
+                        "{C:attention}#1#{} scoring cards",
+                        "to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_disbandment = {
+                name = "Disbandment Token",
+                text = {
+                    {
+                        "Destroys up to",
+                        "{C:attention}#1#{} selected cards"
+                    },
+                    {
+                        "Add a playing card to",
+                        "your deck to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_postpone = {
+                name = "Postpone Token",
+                text = {
+                    {
+                        "Gain {C:blue}+#1#{} hands"
+                    },
+                    {
+                        "Play {C:attention}final hand{} of",
+                        "round to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_gratitude = {
+                name = "Gratitude Token",
+                text = {
+                    {
+                        "Lose {C:red}$#1#{}, creates a",
+                        "free {C:money}Investment Tag{}"
+                    },
+                    {
+                        "Earn {C:money}$#2#{} {C:inactive}[$#3#]{} in total",
+                        "to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_immunity = {
+                name = "Immunity Token",
+                text = {
+                    {
+                        "Disables the current",
+                        "{C:attention}Boss Blind{}"
+                    },
+                    {
+                        "Spend {C:money}money{} until",
+                        "you have less than",
+                        "{C:money}$#1#{} to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_yellow = {
+                name = "Yellow Token",
+                text = {
+                    {
+                        "Enhances {C:attention}#1#{} selected",
+                        "card into a {C:attention}Gold{} card"
+                    },
+                    {
+                        "Sell {C:attention}#2#{} {C:inactive}[#3#]{} {C:attention}Jokers{}",
+                        "to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_yoyle = {
+                name = "Yoyle Token",
+                text = {
+                    {
+                        "Enhances {C:attention}#1#{} selected",
+                        "card into a {C:attention}Steel{} card"
+                    },
+                    {
+                        "Sell {C:attention}#2#{} {C:inactive}[#3#]{} {C:attention}consumables{}",
+                        "to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_acquire = {
+                name = "Acquire Token",
+                text = {
+                    {
+                        "Creates a random",
+                        "{C:tarot}Tarot{} card",
+                        "{C:inactive}(Must have room){}"
+                    },
+                    {
+                        "Discard {C:red}#1#{} {C:inactive}[#2#]{} {C:attention}cards{}",
+                        "to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_cooperation = {
+                name = "Cooperation Token",
+                text = {
+                    {
+                        "Select {C:attention}#1#{} cards,",
+                        "convert the {C:attention}left{} card",
+                        "into the {C:attention}right{} card",
+                        "{C:inactive}(Drag to rearrange){}"
+                    },
+                    {
+                        "Use {C:attention}#2#{} {C:inactive}[#3#]{} consumables",
+                        "to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_first = {
+                name = "First Token",
+                text = {
+                    {
+                        "Leftmost {C:attention}Joker{} gains",
+                        "{C:money}$#1#{} of sell value",
+                        "{C:inactive}(Drag to rearrange){}"
+                    },
+                    {
+                        "Play a {C:attention}Full House{} or",
+                        "better to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_guess = {
+                name = "Guess Token",
+                text = {
+                    {
+                        "{C:green}#1# in #2#{} chance to",
+                        "upgrade all {C:attention}poker{}",
+                        "{C:attention}hands{} by {C:attention}#3#{} level"
+                    },
+                    {
+                        "Defeat any {C:attention}Blind{}",
+                        "with {C:red}discards{} remaining",
+                        "to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_multi = {
+                name = "Multi Token",
+                text = {
+                    {
+                        "Currently open",
+                        "{C:attention}Booster Pack{}",
+                        "gains {C:attention}+#1#{} choice"
+                    },
+                    {
+                        "Skip a {C:attention}Booster",
+                        "{C:attention}Pack{} to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_preserve = {
+                name = "Preserve Token",
+                text = {
+                    {
+                        "Earn {C:money}$#1#{} and recharges",
+                        "all held {C:bfdi_token}Tokens{}",
+                        "{C:inactive}(Except Preserve Tokens){}"
+                    },
+                    {
+                        "Defeat any {C:attention}Boss{}",
+                        "{C:attention}Blind{} to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_revenge = {
+                name = "Revenge Token",
+                text = {
+                    {
+                        "Adds a random {C:attention}seal{}",
+                        "to {C:attention}#1#{} selected card,",
+                        "adds a {C:red}debuffed{} {C:attention}Stone{}",
+                        "card to your deck"
+                    },
+                    {
+                        "Play {C:attention}#2#{} {C:inactive}[#3#]{} unscored",
+                        "cards to {C:attention}recharge{}"
+                    }
+                }
+            },
+            c_bfdi_token_theft = {
+                name = "Theft Token",
+                text = {
+                    {
+                        "Creates a",
+                        "random {C:bfdi_token}Token{}",
+                        "{C:inactive}(Must have room){}"
+                    },
+                    {
+                        "Defeat any {C:attention}Blind{}",
+                        "to {C:attention}recharge{}"
+                    }
+                }
+            }
+        },
         Joker = {
             j_bfdi_blocky               = {
                 name = 'Blocky',
@@ -65,9 +289,9 @@ return {
                 name = 'Firey',
                 text = {
                     "If first hand of round",
-                    "is exactly {C:attention}1{} card, and it",
-                    "is a {C:attention}face{} card, destroys",
-                    "it and creates a {C:attention}Wild Ace{}"
+                    "is exactly {C:attention}1{} {C:attention}face{} card,",
+                    "{C:red}destroys{} it and adds a",
+                    "{C:attention}Wild Ace{} to your hand"
                 }
             },
             j_bfdi_flower               = {
@@ -125,8 +349,7 @@ return {
                 name = 'Pen',
                 text = {
                     "When hand is played,",
-                    "lose {C:money}$#1#{},",
-                    "gains {C:mult}+#2#{} Mult",
+                    "lose {C:money}$#1#{}, gains {C:mult}+#2#{} Mult",
                     "{C:inactive}(Currently {C:mult}+#3#{C:inactive} Mult){}"
                 }
             },
@@ -279,8 +502,8 @@ return {
             j_bfdi_yellowface           = {
                 name = 'Yellow Face',
                 text = {
-                    "Gives {C:money}$#1#{} when a",
-                    "consumable is sold"
+                    "Earn {C:money}$#1#{} when a",
+                    "consumable is {C:money}sold{}"
                 }
             },
             j_bfdi_eightball            = {
@@ -288,7 +511,8 @@ return {
                 text = {
                     "Each hand, gives",
                     "{C:white,X:mult}X#1#{} Mult for each",
-                    "played and scored {C:attention}8{}"
+                    "played and scored {C:attention}8{}",
+                    "{C:inactive}(Starts at {C:white,X:mult}X1{C:inactive} Mult){}"
                 }
             },
             j_bfdi_balloony             = {
@@ -352,10 +576,8 @@ return {
             j_bfdi_cake                 = {
                 name = 'Cake',
                 text = {
-                    "When your {C:attention}third{}",
-                    "hand is played,",
-                    "{C:attention}upgrades{} it by",
-                    "{C:attention}1{} level"
+                    "Upgrades {C:attention}third{} hand",
+                    "of round by {C:attention}1{} level"
                 }
             },
             j_bfdi_clock                = {
@@ -723,6 +945,23 @@ return {
                     "{C:mult}+#1#{} Mult when scored"
                 }
             },
+            j_bfdi_199dollarbill         = {
+                name = "$1.99 Bill",
+                text = {
+                    "When {C:attention}Blind{} is selected,",
+                    "creates a random {C:bfdi_token}Token{}",
+                    "if you have less than {C:money}$#1#{}",
+                    "{C:inactive}(Must have room){}"
+                }
+            },
+            j_bfdi_grotatoseedpacket    = {
+                name = 'Grotato Seed Packet',
+                text = {
+                    "Sell this Joker to create up",
+                    "to {C:attention}#1#{} identical {C:tarot}Tarot{} cards",
+                    "{C:inactive}(Must have room){}"
+                }
+            },
             j_bfdi_bubblerecoverycenter = {
                 name = 'Bubble Recovery Center',
                 text = {
@@ -746,6 +985,29 @@ return {
                     "this card to go",
                     "back {C:attention}#3#{} Ante",
                     "{C:inactive}(Currently {C:attention}#1#{C:inactive}/#2#){}"
+                }
+            },
+            j_bfdi_glassroad              = {
+                name = 'Glass Road',
+                text = {
+                    "First {C:red}discarded{} card",
+                    "each round becomes {C:attention}Glass{}"
+                }
+            },
+            j_bfdi_forkrepellent              = {
+                name = 'Fork Repellent',
+                text = {
+                    "Cards with {C:spades}Spades{} suit",
+                    "are drawn {C:attention}last{}"
+                }
+            },
+            j_bfdi_forkattractant              = {
+                name = 'Fork Attractant',
+                text = {
+                    "When hand is played,",
+                    "adds a random {C:attention}Steel{}",
+                    "card with {C:spades}Spades{}",
+                    "suit to your hand"
                 }
             },
             j_bfdi_profily              = {
@@ -836,6 +1098,85 @@ return {
                     "{C:green}TPoT{}, {C:bfdie_orange}BF{C:bfdie_lime}DI{C:bfdie_orange}E{}",
                     "or other {C:attention}object shows{}"
                 }
+            },
+
+            p_bfdi_token_normal1 = {
+                name = "Token Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bfdi_token} Tokens{} to take"
+                }
+            },
+            p_bfdi_token_normal2 = {
+                name = "Token Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bfdi_token} Tokens{} to take"
+                }
+            },
+            p_bfdi_token_normal3 = {
+                name = "Token Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bfdi_token} Tokens{} to take"
+                }
+            },
+            p_bfdi_token_normal4 = {
+                name = "Token Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bfdi_token} Tokens{} to take"
+                }
+            },
+            p_bfdi_token_jumbo1 = {
+                name = "Jumbo Token Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bfdi_token} Tokens{} to take"
+                }
+            },
+            p_bfdi_token_jumbo2 = {
+                name = "Jumbo Token Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bfdi_token} Tokens{} to take"
+                }
+            },
+            p_bfdi_token_mega1 = {
+                name = "Mega Token Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bfdi_token} Tokens{} to take"
+                }
+            },
+            p_bfdi_token_mega2 = {
+                name = "Mega Token Pack",
+                text = {
+                    "Choose {C:attention}#1#{} of up to",
+                    "{C:attention}#2#{C:bfdi_token} Tokens{} to take"
+                }
+            },
+
+
+
+
+            undiscovered_bfdi_token = {
+                name = "Not Discovered",
+                text = {
+                    "Obtain this token in",
+                    "an unseeded run to",
+                    "learn what it does",
+                }
+            },
+
+            flipbook_disabled_headsup = {
+                name = "",
+                text = {
+                    "It is recommended that",
+                    "you install/enable {C:attention}Flipbook{}",
+                    "to allow this mod to display",
+                    "its custom animations."
+                }
             }
         }
     },
@@ -844,10 +1185,23 @@ return {
             contestant_joker_badge = "Contestant",
             created_polychrome = "Polychrome",
             created_voucher_tag = "+Voucher Tag",
+            created_investment_tag = "+Investment Tag",
             created_d6_tag = "+D6 Tag",
             created_contestant_tag = "+Contestant Tag",
             bfdi_active = "active",
-            bfdi_inactive = "inactive"
+            bfdi_inactive = "inactive",
+            k_bfdi_charged_ex = "Charged!",
+
+            b_bfdi_token_cards = "Tokens",
+            k_bfdi_token = "Token",
+            k_bfdi_token_pack = "Token Pack",
+
+            k_bfdi_steel_spade = "+Steel Spade",
+
+
+
+            flipbook_dontshowagain = "Don't show me this again",
+            flipbook_disabled_headsup_link = "https://github.com/GhostSalt/Flipbook"
         },
         labels = {
             bfdi_naily_seal = "Naily Seal",
@@ -858,8 +1212,12 @@ return {
             bfdi_i_love = "I LOVE #1#s!",
             s_ante = "-#1# Ante",
             s_antes = "-#1# Antes",
+            a_tarot = "+#1# Tarot",
+            a_tarots = "+#1# Tarots",
             a_planet = "+#1# Planet",
             a_planets = "+#1# Planets",
+            a_bfdi_token = "+#1# Token",
+            a_bfdi_tokens = "+#1# Tokens",
             a_hand = "+#1# Hand"
         }
     }

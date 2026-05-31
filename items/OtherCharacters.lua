@@ -200,7 +200,7 @@ SMODS.Joker {
         end
       end
       selectable_ranks[_card.base.id] = nil
-      local chosen_rank = (pseudorandom_element(selectable_ranks, pseudoseed('three')) or { key = "Spades" }).key
+      local chosen_rank = (pseudorandom_element(selectable_ranks, pseudoseed('three')) or { key = "3" }).key
 
       G.E_MANAGER:add_event(Event({
         func = function()

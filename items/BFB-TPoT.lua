@@ -156,7 +156,7 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'bell',
-  config = { extra = { is_contestant = true, seen_straights = 0, required_straights = 2, current_xmult = 1, added_xmult = 0.25 } },
+  config = { extra = { is_contestant = true, seen_straights = 0, required_straights = 2, current_xmult = 1, added_xmult = 0.5 } },
   rarity = 2,
   atlas = 'BFB-TPoT',
   pos = { x = 4, y = 0 },
@@ -598,10 +598,10 @@ SMODS.Joker {
   eternal_compat = true,
   perishable_compat = true,
   calculate = function(self, card, context)
-    if context.cardarea == G.jokers and context.before and G.GAME.current_round.hands_left == 0 then
+    if context.before and G.GAME.current_round.hands_left == 0 and context.scoring_hand and not context.blueprint then
+      context.full_hand[1]:set_edition('e_polychrome', true, true)
       G.E_MANAGER:add_event(Event({
         func = function()
-          context.full_hand[1]:set_edition('e_polychrome', true, true)
           context.full_hand[1]:juice_up()
           return true
         end

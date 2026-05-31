@@ -34,7 +34,7 @@ end
 
 local allFolders = { "none", "items" }
 
-local allFiles = { ["none"] = {}, ["items"] = { "BFDI", "BFDIA", "BFB-TPoT", "BFDIE", "OtherCharacters", "Misc", "Decks" } }
+local allFiles = { ["none"] = {}, ["items"] = { "Animation", "BFDI", "BFDIA", "BFB-TPoT",  "BFDIE", "OtherCharacters", "Misc", "Tokens", "Boosters", "Decks" } }
 
 for i = 1, #allFolders do
   if allFolders[i] == "none" then
@@ -53,7 +53,9 @@ G.C.BFDI = {}
 G.C.BFDI.MISC_COLOURS = {
   BFDI_GREEN = HEX("076908"),
   BFDIE_ORANGE = HEX("E45D3B"),
-  BFDIE_LIME = HEX("D5E857")
+  BFDIE_LIME = HEX("D5E857"),
+  TOKEN = HEX("2AAB39"),
+  TOKEN_ALT = HEX("27DB78"),
 }
 
 local loc_colour_ref = loc_colour
@@ -65,9 +67,10 @@ function loc_colour(_c, default)
     G.ARGS.LOC_COLOURS.bfdi_colours = true
 
     local new_colors = {
-      bfdi_green = G.C.BFDI_GREEN,
-      bfdi_orange = G.C.BFDIE_ORANGE,
-      bfdi_lime = G.C.BFDIE_LIME,
+      bfdi_green = G.C.BFDI.MISC_COLOURS.BFDI_GREEN,
+      bfdi_orange = G.C.BFDI.MISC_COLOURS.BFDIE_ORANGE,
+      bfdi_lime = G.C.BFDI.MISC_COLOURS.BFDIE_LIME,
+      bfdi_token = G.C.BFDI.MISC_COLOURS.TOKEN
     }
 
     for k, v in pairs(new_colors) do

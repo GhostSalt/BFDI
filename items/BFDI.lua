@@ -207,7 +207,7 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'david',
-  config = { extra = { is_contestant = true, odds = 4, added_xmult = 0.5, current_xmult = 1 } },
+  config = { extra = { is_contestant = true, odds = 3, added_xmult = 0.5, current_xmult = 1 } },
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 3, y = 1 },
@@ -324,7 +324,7 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'flower',
-  config = { extra = { is_contestant = true, given_chips = 75 } },
+  config = { extra = { is_contestant = true, given_chips = 60 } },
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 6, y = 1 },
@@ -508,7 +508,7 @@ SMODS.Joker {
 
 SMODS.Joker {
   key = 'pen',
-  config = { extra = { is_contestant = true, money_loss = 1, added_mult = 2, current_mult = 0 } },
+  config = { extra = { is_contestant = true, money_loss = 2, added_mult = 2, current_mult = 0 } },
   rarity = 2,
   atlas = 'BFDI',
   pos = { x = 4, y = 2 },

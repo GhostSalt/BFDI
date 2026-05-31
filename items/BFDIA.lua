@@ -369,7 +369,7 @@ SMODS.Joker {
   rarity = 2,
   atlas = 'BFDIA',
   pos = { x = 7, y = 0 },
-  bfdi_anim = {
+  flipbook_anim = {
     { x = 0, y = 2, t = 0.06 },
     { x = 1, y = 2, t = 0.06 },
     { x = 2, y = 2, t = 0.06 },
